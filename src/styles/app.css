@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+  --color-surface: #faf8f6;
+  --color-surface-dim: #e0ddd8;
+  --color-surface-bright: #fdfcfb;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f5f3ef;
+  --color-surface-container: #efece8;
+  --color-surface-container-high: #e9e6e2;
+  --color-surface-container-highest: #e3e0dc;
+  --color-on-surface: #1c1b1a;
+  --color-on-surface-variant: #494845;
+  --color-primary: #4d3a26;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #6b543c;
+  --color-on-primary-container: #f5dcc4;
+  --color-secondary: #8b6f4c;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #ebd0b0;
+  --color-on-secondary-container: #3f2c18;
+  --color-tertiary: #5c6042;
+  --color-accent-gold: #d4a84b;
+  --color-accent-saffron: #f59e3b;
+  --color-error: #ba1a1a;
+  --color-bg: #faf8f6;
+  --color-on-bg: #1c1b1a;
+  --color-outline: #7a7874;
+  --color-outline-variant: #cbc8c3;
+  --font-serif: "Cormorant Garamond", serif;
+  --font-sans: "Inter", sans-serif;
+  --font-devanagari: "Noto Sans Devanagari", sans-serif;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+}
+
+.dark {
+  --color-surface: #1c1b1a;
+  --color-surface-dim: #141312;
+  --color-surface-bright: #31302e;
+  --color-surface-container-lowest: #0f0e0d;
+  --color-surface-container-low: #242322;
+  --color-surface-container: #282725;
+  --color-surface-container-high: #333230;
+  --color-surface-container-highest: #3e3d3b;
+  --color-on-surface: #e3e0dc;
+  --color-on-surface-variant: #cbc8c3;
+  --color-primary: #e7cdb5;
+  --color-primary-container: #6b543c;
+  --color-on-primary-container: #f5dcc4;
+  --color-bg: #1c1b1a;
+  --color-on-bg: #e3e0dc;
+  --color-outline: #7a7874;
+  --color-outline-variant: #494845;
+}

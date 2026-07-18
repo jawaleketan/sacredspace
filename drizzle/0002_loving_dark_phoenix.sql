@@ -1,0 +1,1 @@
+ALTER TABLE `contents` ADD `status` text DEFAULT 'published' NOT NULL;
