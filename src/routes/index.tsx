@@ -5,6 +5,8 @@ import { createServerFn } from "@tanstack/react-start";
 import { db, ensureSeeded } from "~/server/db";
 import { deities } from "~/server/db/schema";
 import { DeityCard } from "~/components/DeityCard";
+import { HomeSkeleton } from "~/components/Skeleton";
+import { getMantraOfDay } from "~/server/functions/daily";
 
 const getDeities = createServerFn({ method: "GET" }).handler(async () => {
   await ensureSeeded();
@@ -13,11 +15,15 @@ const getDeities = createServerFn({ method: "GET" }).handler(async () => {
 
 export const Route = createFileRoute("/")({
   component: HomePage,
-  loader: async () => await getDeities(),
+  loader: async () => {
+    const [deityList, daily] = await Promise.all([getDeities(), getMantraOfDay()]);
+    return { deityList, daily };
+  },
+  pendingComponent: HomeSkeleton,
 });
 
 function HomePage() {
-  const deityList = Route.useLoaderData();
+  const { deityList, daily } = Route.useLoaderData();
   const navigate = useNavigate();
   const searchRef = useRef<HTMLInputElement>(null);
   const [dark, setDark] = useState(false);
@@ -121,6 +127,38 @@ function HomePage() {
             />
           </form>
         </section>
+
+        {daily && daily.content && daily.deity && (
+          <section className="mb-16">
+            <Link
+              to="/mantra/$slug"
+              params={{ slug: daily.content.slug }}
+              className="group block rounded-2xl border border-accent-gold/30 bg-gradient-to-br from-accent-gold/5 via-accent-saffron/[0.02] to-transparent p-6 transition-all hover:border-accent-gold/60 hover:shadow-[0_4px_24px_rgba(212,175,55,0.1)] md:p-8"
+            >
+              <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-accent-gold/30 bg-accent-gold/10 px-3.5 py-1">
+                <span className="text-xs text-accent-gold">&#9733;</span>
+                <span className="text-xs font-medium uppercase tracking-wider text-accent-gold">
+                  Mantra of the Day
+                </span>
+              </div>
+              <h3 className="font-serif text-xl font-semibold text-on-surface group-hover:text-accent-gold transition-colors md:text-2xl">
+                {daily.content.title}
+              </h3>
+              <p className="mt-1 text-sm text-accent-gold/80">
+                {daily.deity.name}
+              </p>
+              {daily.content.description && (
+                <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-on-surface-variant">
+                  {daily.content.description}
+                </p>
+              )}
+              <div className="mt-4 flex items-center gap-1 text-sm font-medium text-accent-gold">
+                Read now
+                <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
+              </div>
+            </Link>
+          </section>
+        )}
 
         <section>
           <div className="mb-8 flex items-center justify-between">

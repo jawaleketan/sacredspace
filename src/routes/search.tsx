@@ -5,6 +5,7 @@ import { db, ensureSeeded } from "~/server/db";
 import { deities, contents } from "~/server/db/schema";
 import { eq, like, and, or } from "drizzle-orm";
 import type { SearchFilters } from "~/server/functions/contents";
+import { SearchSkeleton } from "~/components/Skeleton";
 
 const getAllDeities = createServerFn({ method: "GET" }).handler(async () => {
   await ensureSeeded();
@@ -38,6 +39,7 @@ const doSearch = createServerFn({ method: "GET" })
 
 export const Route = createFileRoute("/search")({
   component: SearchPage,
+  pendingComponent: SearchSkeleton,
   validateSearch: (search: Record<string, string>) => ({
     q: search.q ?? "",
     deity: search.deity ?? "",

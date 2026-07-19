@@ -3,6 +3,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { db, ensureSeeded } from "~/server/db";
 import { deities, contents } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
+import { DeitySkeleton } from "~/components/Skeleton";
 
 const getDeityBySlug = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
@@ -27,6 +28,7 @@ const getContentsForDeity = createServerFn({ method: "GET" })
 
 export const Route = createFileRoute("/deity/$slug")({
   component: DeityPage,
+  pendingComponent: DeitySkeleton,
   loader: async ({ params }) => {
     const deity = await getDeityBySlug({ data: params.slug });
     const contentList = await getContentsForDeity({ data: deity.id });

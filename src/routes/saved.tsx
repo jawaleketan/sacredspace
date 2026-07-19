@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getSavedContents } from "~/server/functions/saved";
+import { SavedSkeleton } from "~/components/Skeleton";
+import { useToast } from "~/components/Toast";
 
 export const Route = createFileRoute("/saved")({
   component: SavedPage,
@@ -20,6 +22,7 @@ function SavedPage() {
   const [items, setItems] = useState<SavedItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [ids, setIds] = useState<number[]>([]);
+  const { toast } = useToast();
 
   useEffect(() => {
     const savedIds: number[] = JSON.parse(localStorage.getItem("saved") || "[]");
@@ -40,6 +43,7 @@ function SavedPage() {
     const next = ids.filter((i) => i !== id);
     setIds(next);
     localStorage.setItem("saved", JSON.stringify(next));
+    toast("Removed from saved", "info");
   }
 
   return (
@@ -57,9 +61,7 @@ function SavedPage() {
           {loading ? "Loading..." : `${items.length} saved item${items.length !== 1 ? "s" : ""}`}
         </p>
 
-        {loading && (
-          <p className="py-16 text-center text-on-surface-variant">Loading...</p>
-        )}
+        {loading && <SavedSkeleton />}
 
         {!loading && items.length === 0 && (
           <div className="py-16 text-center">

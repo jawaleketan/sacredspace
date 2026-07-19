@@ -7,6 +7,7 @@ import {
   createRootRoute,
 } from "@tanstack/react-router";
 import { AudioProvider } from "~/components/AudioProvider";
+import { ToastProvider } from "~/components/Toast";
 import appCss from "~/styles/app.css?url";
 
 const queryClient = new QueryClient();
@@ -42,7 +43,9 @@ function RootComponent() {
         <ClerkProvider>
           <QueryClientProvider client={queryClient}>
             <AudioProvider>
-              <Outlet />
+              <ToastProvider>
+                <Outlet />
+              </ToastProvider>
             </AudioProvider>
             <Scripts />
           </QueryClientProvider>

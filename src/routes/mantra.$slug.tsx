@@ -8,6 +8,8 @@ import { toggleLike, getLikeStatus, getLikeCount } from "~/server/functions/like
 import { useAudio } from "~/components/AudioProvider";
 import { ProseRenderer } from "~/components/ProseRenderer";
 import { generateOgImage } from "~/server/functions/og";
+import { MantraSkeleton } from "~/components/Skeleton";
+import { useToast } from "~/components/Toast";
 
 const getContentBySlug = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
@@ -21,6 +23,7 @@ const getContentBySlug = createServerFn({ method: "GET" })
 
 export const Route = createFileRoute("/mantra/$slug")({
   component: MantraPage,
+  pendingComponent: MantraSkeleton,
   loader: async ({ params }) => {
     const data = await getContentBySlug({ data: params.slug });
     const count = await getLikeCount({ data: data.content.id });
@@ -87,6 +90,7 @@ function MantraPage() {
   const [likeCount, setLikeCount] = useState(initialCount);
   const [saved, setSaved] = useState(false);
   const { play: playAudio, track: currentTrack, isPlaying: audioPlaying } = useAudio();
+  const { toast } = useToast();
   const canShare = typeof navigator !== "undefined" && "share" in navigator;
   const isCurrentTrack = currentTrack?.url === content.audioUrl;
 
@@ -107,6 +111,7 @@ function MantraPage() {
       await navigator.share({ title: content.title, url });
     } else {
       await navigator.clipboard.writeText(url);
+      toast("Link copied to clipboard", "info");
     }
   }, [content.title]);
 
@@ -116,10 +121,12 @@ function MantraPage() {
       const next = savedIds.filter((id) => id !== content.id);
       localStorage.setItem("saved", JSON.stringify(next));
       setSaved(false);
+      toast("Removed from saved", "info");
     } else {
       savedIds.push(content.id);
       localStorage.setItem("saved", JSON.stringify(savedIds));
       setSaved(true);
+      toast("Saved!", "success");
     }
   }, [content.id]);
 
