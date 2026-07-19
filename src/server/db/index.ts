@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
-import { eq, count } from "drizzle-orm";
+import { eq, count, isNull } from "drizzle-orm";
 import * as schema from "./schema";
 import { deities, contents } from "./schema";
 import { seedDeities, seedContents } from "./seed-data";
@@ -67,7 +67,17 @@ async function runSeed() {
   }
 
   const row = await db.select({ c: count() }).from(deities).get();
-  if (row && row.c > 0) return;
+  if (row && row.c > 0) {
+    for (const d of seedDeities) {
+      if (d.imageUrl) {
+        const existing = await db.select().from(deities).where(eq(deities.slug, d.slug)).get();
+        if (existing && !existing.imageUrl) {
+          await db.update(deities).set({ imageUrl: d.imageUrl }).where(eq(deities.slug, d.slug)).run();
+        }
+      }
+    }
+    return;
+  }
 
   const slugToId: Record<string, number> = {};
   for (const d of seedDeities) {

@@ -4,14 +4,14 @@ import type { deities, contents } from "./schema";
 export const seedDeities: Array<{
   name: string; slug: string; description: string; imageUrl: string;
 }> = [
-  { name: "Ganesha", slug: "ganesha", description: "The remover of obstacles, lord of beginnings, and patron of arts and sciences. Invoked before any new undertaking.", imageUrl: "" },
-  { name: "Shiva", slug: "shiva", description: "The auspicious one, destroyer of evil, lord of meditation, arts, and dance. The supreme being in Shaivism.", imageUrl: "" },
-  { name: "Vishnu", slug: "vishnu", description: "The preserver and protector of the universe, maintainer of dharma through his ten avatars.", imageUrl: "" },
-  { name: "Durga", slug: "durga", description: "The invincible divine mother, warrior goddess who destroys evil forces and restores balance.", imageUrl: "" },
-  { name: "Lakshmi", slug: "lakshmi", description: "The goddess of prosperity, wealth, fortune, and abundance. Consort of Vishnu.", imageUrl: "" },
-  { name: "Saraswati", slug: "saraswati", description: "The goddess of knowledge, music, arts, wisdom, and learning. Flowing like a river in creative expression.", imageUrl: "" },
-  { name: "Hanuman", slug: "hanuman", description: "The embodiment of devotion, strength, and selfless service. The mighty vanara who served Rama.", imageUrl: "" },
-  { name: "Krishna", slug: "krishna", description: "The divine cowherd, supreme personality of Godhead, and teacher of the Bhagavad Gita.", imageUrl: "" },
+  { name: "Ganesha", slug: "ganesha", description: "The remover of obstacles, lord of beginnings, and patron of arts and sciences. Invoked before any new undertaking.", imageUrl: "/uploads/ganesha.png" },
+  { name: "Shiva", slug: "shiva", description: "The auspicious one, destroyer of evil, lord of meditation, arts, and dance. The supreme being in Shaivism.", imageUrl: "/uploads/shiva.png" },
+  { name: "Vishnu", slug: "vishnu", description: "The preserver and protector of the universe, maintainer of dharma through his ten avatars.", imageUrl: "/uploads/vishnu.png" },
+  { name: "Durga", slug: "durga", description: "The invincible divine mother, warrior goddess who destroys evil forces and restores balance.", imageUrl: "/uploads/durga.png" },
+  { name: "Lakshmi", slug: "lakshmi", description: "The goddess of prosperity, wealth, fortune, and abundance. Consort of Vishnu.", imageUrl: "/uploads/lakshmi.png" },
+  { name: "Saraswati", slug: "saraswati", description: "The goddess of knowledge, music, arts, wisdom, and learning. Flowing like a river in creative expression.", imageUrl: "/uploads/saraswati.png" },
+  { name: "Hanuman", slug: "hanuman", description: "The embodiment of devotion, strength, and selfless service. The mighty vanara who served Rama.", imageUrl: "/uploads/hanuman.png" },
+  { name: "Krishna", slug: "krishna", description: "The divine cowherd, supreme personality of Godhead, and teacher of the Bhagavad Gita.", imageUrl: "/uploads/krishna.png" },
 ];
 
 export interface ContentSeed {
