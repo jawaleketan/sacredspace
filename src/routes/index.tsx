@@ -7,6 +7,8 @@ import { deities } from "~/server/db/schema";
 import { DeityCard } from "~/components/DeityCard";
 import { HomeSkeleton } from "~/components/Skeleton";
 import { getMantraOfDay } from "~/server/functions/daily";
+import { STORAGE_KEYS } from "~/lib/constants";
+import { RouteErrorFallback } from "~/components/RouteErrorFallback";
 
 const getDeities = createServerFn({ method: "GET" }).handler(async () => {
   await ensureSeeded();
@@ -20,6 +22,7 @@ export const Route = createFileRoute("/")({
     return { deityList, daily };
   },
   pendingComponent: HomeSkeleton,
+  errorComponent: () => <RouteErrorFallback />,
 });
 
 function HomePage() {
@@ -29,11 +32,13 @@ function HomePage() {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("theme");
-    if (stored === "dark") {
-      setDark(true);
-      document.documentElement.classList.add("dark");
-    }
+    try {
+      const stored = localStorage.getItem(STORAGE_KEYS.theme);
+      if (stored === "dark") {
+        setDark(true);
+        document.documentElement.classList.add("dark");
+      }
+    } catch { /* localStorage unavailable */ }
   }, []);
 
   function toggleTheme() {
@@ -41,10 +46,10 @@ function HomePage() {
       const next = !prev;
       if (next) {
         document.documentElement.classList.add("dark");
-        localStorage.setItem("theme", "dark");
+        try { localStorage.setItem(STORAGE_KEYS.theme, "dark"); } catch { /* unavailable */ }
       } else {
         document.documentElement.classList.remove("dark");
-        localStorage.setItem("theme", "light");
+        try { localStorage.setItem(STORAGE_KEYS.theme, "light"); } catch { /* unavailable */ }
       }
       return next;
     });

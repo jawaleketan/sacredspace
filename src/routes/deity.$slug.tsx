@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { db, ensureSeeded } from "~/server/db";
 import { deities, contents } from "~/server/db/schema";
@@ -48,7 +48,6 @@ export const Route = createFileRoute("/deity/$slug")({
 
 function DeityPage() {
   const { deity, contentList } = Route.useLoaderData();
-  const router = useRouter();
   const mantras = contentList.filter((c) => c.type === "mantra");
   const stotras = contentList.filter((c) => c.type === "stotra");
 
@@ -63,9 +62,9 @@ function DeityPage() {
         </Link>
 
         <div className="mb-12">
-          <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl bg-surface-container text-4xl font-serif font-semibold text-primary">
+          <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] text-4xl font-serif font-semibold text-primary">
             {deity.imageUrl ? (
-              <img src={deity.imageUrl} alt={deity.name} className="h-full w-full object-cover" />
+              <img src={deity.imageUrl} alt={deity.name} loading="lazy" decoding="async" className="h-full w-full object-contain p-2" />
             ) : (
               deity.name.charAt(0)
             )}

@@ -1,6 +1,7 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Link, Navigate } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
+import { RouteErrorFallback } from "~/components/RouteErrorFallback";
 
 const checkAuth = createServerFn({ method: "GET" }).handler(async () => {
   const { userId } = await auth();
@@ -10,15 +11,14 @@ const checkAuth = createServerFn({ method: "GET" }).handler(async () => {
 export const Route = createFileRoute("/admin/")({
   component: AdminIndexPage,
   loader: async () => await checkAuth(),
+  errorComponent: () => <RouteErrorFallback title="Access Error" />,
 });
 
 function AdminIndexPage() {
   const { authenticated } = Route.useLoaderData();
-  const router = useRouter();
 
   if (authenticated) {
-    router.navigate({ to: "/admin/dashboard" });
-    return null;
+    return <Navigate to="/admin/dashboard" />;
   }
 
   return (

@@ -10,6 +10,7 @@ import { ProseRenderer } from "~/components/ProseRenderer";
 import { generateOgImage } from "~/server/functions/og";
 import { MantraSkeleton } from "~/components/Skeleton";
 import { useToast } from "~/components/Toast";
+import { SITE_URL, STORAGE_KEYS } from "~/lib/constants";
 
 const getContentBySlug = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
@@ -43,10 +44,10 @@ export const Route = createFileRoute("/mantra/$slug")({
     return { ...data, likeCount: count, liked: status.liked, ogImage };
   },
   head: ({ loaderData }) => {
-    const c = loaderData.content;
-    const d = loaderData.deity;
+    const c = loaderData!.content;
+    const d = loaderData!.deity;
     const title = `${c.title} — ${d?.name ?? ""} | SacredSpace`;
-    const desc = c.description || c.translation?.slice(0, 160) || "";
+    const desc = (c.description || c.translation)?.slice(0, 160) ?? "";
     return {
       meta: [
         { title },
@@ -54,14 +55,14 @@ export const Route = createFileRoute("/mantra/$slug")({
         { property: "og:title", content: `${c.title} — ${d?.name ?? ""}` },
         { property: "og:description", content: desc },
         { property: "og:type", content: "article" },
-        { property: "og:url", content: `https://sacredspace.vercel.app/mantra/${c.slug}` },
-        ...(loaderData.ogImage
+        { property: "og:url", content: `${SITE_URL}/mantra/${c.slug}` },
+        ...(loaderData!.ogImage
           ? [
-              { property: "og:image", content: loaderData.ogImage },
+              { property: "og:image", content: loaderData!.ogImage },
               { name: "twitter:card", content: "summary_large_image" },
               { name: "twitter:title", content: `${c.title} — ${d?.name ?? ""}` },
               { name: "twitter:description", content: desc },
-              { name: "twitter:image", content: loaderData.ogImage },
+              { name: "twitter:image", content: loaderData!.ogImage },
             ]
           : [{ name: "twitter:card", content: "summary" } as const]),
       ],
@@ -95,8 +96,10 @@ function MantraPage() {
   const isCurrentTrack = currentTrack?.url === content.audioUrl;
 
   useEffect(() => {
-    const savedIds = JSON.parse(localStorage.getItem("saved") || "[]");
-    setSaved(savedIds.includes(content.id));
+    try {
+      const savedIds = JSON.parse(localStorage.getItem(STORAGE_KEYS.saved) || "[]");
+      setSaved(savedIds.includes(content.id));
+    } catch { /* localStorage unavailable */ }
   }, [content.id]);
 
   const handleLike = useCallback(async () => {
@@ -107,27 +110,31 @@ function MantraPage() {
 
   const handleShare = useCallback(async () => {
     const url = window.location.href;
-    if (canShare) {
-      await navigator.share({ title: content.title, url });
-    } else {
-      await navigator.clipboard.writeText(url);
-      toast("Link copied to clipboard", "info");
-    }
+    try {
+      if (canShare) {
+        await navigator.share({ title: content.title, url });
+      } else {
+        await navigator.clipboard.writeText(url);
+        toast("Link copied to clipboard", "info");
+      }
+    } catch { /* user cancelled or API unavailable */ }
   }, [content.title]);
 
   const handleSave = useCallback(() => {
-    const savedIds: number[] = JSON.parse(localStorage.getItem("saved") || "[]");
-    if (savedIds.includes(content.id)) {
-      const next = savedIds.filter((id) => id !== content.id);
-      localStorage.setItem("saved", JSON.stringify(next));
-      setSaved(false);
-      toast("Removed from saved", "info");
-    } else {
-      savedIds.push(content.id);
-      localStorage.setItem("saved", JSON.stringify(savedIds));
-      setSaved(true);
-      toast("Saved!", "success");
-    }
+    try {
+      const savedIds: number[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.saved) || "[]");
+      if (savedIds.includes(content.id)) {
+        const next = savedIds.filter((id) => id !== content.id);
+        localStorage.setItem(STORAGE_KEYS.saved, JSON.stringify(next));
+        setSaved(false);
+        toast("Removed from saved", "info");
+      } else {
+        savedIds.push(content.id);
+        localStorage.setItem(STORAGE_KEYS.saved, JSON.stringify(savedIds));
+        setSaved(true);
+        toast("Saved!", "success");
+      }
+    } catch { /* localStorage unavailable */ }
   }, [content.id]);
 
   const bodyText =
@@ -135,7 +142,7 @@ function MantraPage() {
     : view === "translation" ? content.translation || content.description
     : content.body;
 
-  const isHtml = view === "sanskrit" && /<[a-z][\s\S]*>/i.test(bodyText);
+  const isHtml = view === "sanskrit" && /<[a-z][\s\S]*>/i.test(bodyText ?? "");
 
   const bodyClass =
     view === "translation"
@@ -192,7 +199,7 @@ function MantraPage() {
             <button
               onClick={() => {
                 if (isCurrentTrack && audioPlaying) return;
-                playAudio({ url: content.audioUrl, title: content.title, deityName: deity.name });
+                playAudio({ url: content.audioUrl!, title: content.title, deityName: deity.name });
               }}
               className={`flex w-full items-center gap-3 rounded-xl border p-4 text-left transition-all ${
                 isCurrentTrack
@@ -264,7 +271,7 @@ function MantraPage() {
           style={{ fontSize: `${fontSize}%` }}
         >
           {isHtml ? (
-            <ProseRenderer html={bodyText} className={bodyClass} />
+            <ProseRenderer html={bodyText ?? ""} className={bodyClass} />
           ) : (
             <div className={`${bodyClass} whitespace-pre-line`}>
               {bodyText}

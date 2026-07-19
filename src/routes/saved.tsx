@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { getSavedContents } from "~/server/functions/saved";
 import { SavedSkeleton } from "~/components/Skeleton";
 import { useToast } from "~/components/Toast";
+import { STORAGE_KEYS } from "~/lib/constants";
 
 export const Route = createFileRoute("/saved")({
   component: SavedPage,
@@ -25,8 +26,10 @@ function SavedPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    const savedIds: number[] = JSON.parse(localStorage.getItem("saved") || "[]");
-    setIds(savedIds);
+    try {
+      const savedIds: number[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.saved) || "[]");
+      setIds(savedIds);
+    } catch { /* localStorage unavailable */ }
   }, []);
 
   useEffect(() => {
@@ -36,13 +39,15 @@ function SavedPage() {
       return;
     }
     setLoading(true);
-    getSavedContents({ data: ids }).then(setItems).finally(() => setLoading(false));
+    let cancelled = false;
+    getSavedContents({ data: ids }).then((data) => { if (!cancelled) setItems(data); }).catch(() => { if (!cancelled) setItems([]); }).finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
   }, [ids]);
 
   function removeItem(id: number) {
     const next = ids.filter((i) => i !== id);
     setIds(next);
-    localStorage.setItem("saved", JSON.stringify(next));
+    try { localStorage.setItem(STORAGE_KEYS.saved, JSON.stringify(next)); } catch { /* localStorage unavailable */ }
     toast("Removed from saved", "info");
   }
 
@@ -107,6 +112,7 @@ function SavedPage() {
                 <button
                   onClick={() => removeItem(item.id)}
                   className="shrink-0 rounded p-1.5 text-sm text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"
+                  aria-label="Remove from saved"
                   title="Remove from saved"
                 >
                   &#x2715;

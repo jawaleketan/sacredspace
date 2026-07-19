@@ -5,6 +5,8 @@ import { auth } from "@clerk/tanstack-react-start/server";
 import { db, ensureSeeded } from "~/server/db";
 import { deities } from "~/server/db/schema";
 import { updateDeityImage, updateDeity, deleteDeity, createDeity, removeDeityImage } from "~/server/functions/deities";
+import { RouteErrorFallback } from "~/components/RouteErrorFallback";
+import { ConfirmModal } from "~/components/ConfirmModal";
 
 const getDeities = createServerFn({ method: "GET" }).handler(async () => {
   const { userId } = await auth();
@@ -16,6 +18,7 @@ const getDeities = createServerFn({ method: "GET" }).handler(async () => {
 export const Route = createFileRoute("/admin/deities")({
   component: AdminDeitiesPage,
   loader: async () => await getDeities(),
+  errorComponent: () => <RouteErrorFallback title="Access Error" />,
 });
 
 function AdminDeitiesPage() {
@@ -23,7 +26,12 @@ function AdminDeitiesPage() {
   const items = Route.useLoaderData();
   const [editing, setEditing] = useState<number | null>(null);
   const [creating, setCreating] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const [deleting, setDeleting] = useState<{ id: number; name: string } | null>(null);
+  const fileRefs = useRef<Record<number, HTMLInputElement | null>>({});
+
+  function getRef(deityId: number) {
+    return (el: HTMLInputElement | null) => { fileRefs.current[deityId] = el; };
+  }
 
   async function handleUpload(deityId: number, file: File) {
     const toBase64 = (f: File): Promise<string> =>
@@ -36,27 +44,35 @@ function AdminDeitiesPage() {
         r.onerror = reject;
         r.readAsDataURL(f);
       });
-    const imageBase64 = await toBase64(file);
-    await updateDeityImage({ data: { deityId, imageBase64, fileName: file.name } });
-    router.invalidate();
+    try {
+      const imageBase64 = await toBase64(file);
+      await updateDeityImage({ data: { deityId, imageBase64, fileName: file.name } });
+      router.invalidate();
+    } catch (e) { console.error("Upload failed", e); }
   }
 
   async function handleUpdate(id: number, name: string, slug: string, description: string) {
-    await updateDeity({ data: { id, name, slug, description } });
-    setEditing(null);
-    router.invalidate();
+    try {
+      await updateDeity({ data: { id, name, slug, description } });
+      setEditing(null);
+      router.invalidate();
+    } catch (e) { console.error("Update failed", e); }
   }
 
   async function handleDelete(id: number, name: string) {
-    if (!confirm(`Delete "${name}" and all its content?`)) return;
-    await deleteDeity({ data: id });
-    router.invalidate();
+    setDeleting(null);
+    try {
+      await deleteDeity({ data: id });
+      router.invalidate();
+    } catch (e) { console.error("Delete failed", e); }
   }
 
   async function handleCreate(name: string, slug: string, description: string) {
-    await createDeity({ data: { name, slug, description } });
-    setCreating(false);
-    router.invalidate();
+    try {
+      await createDeity({ data: { name, slug, description } });
+      setCreating(false);
+      router.invalidate();
+    } catch (e) { console.error("Create failed", e); }
   }
 
   return (
@@ -103,12 +119,14 @@ function AdminDeitiesPage() {
                 className="group relative rounded-xl border border-outline-variant bg-surface-container-lowest p-5 transition-all hover:border-accent-gold/40"
               >
                 <div className="flex items-start gap-4">
-                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-surface-container">
+                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a]">
                     {deity.imageUrl ? (
                       <img
                         src={deity.imageUrl}
                         alt={deity.name}
-                        className="h-full w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-contain p-1.5"
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-2xl font-serif font-semibold text-primary">
@@ -135,27 +153,29 @@ function AdminDeitiesPage() {
                     Edit
                   </button>
                   <button
-                    onClick={() => fileRef.current?.click()}
+                    onClick={() => fileRefs.current[deity.id]?.click()}
                     className="rounded px-2 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-container hover:text-on-surface"
                   >
                     {deity.imageUrl ? "Change image" : "Upload image"}
                   </button>
                   <input
-                    ref={fileRef}
+                    ref={getRef(deity.id)}
                     type="file"
                     accept="image/*"
                     className="hidden"
                     onChange={(e) => {
                       const file = e.target.files?.[0];
                       if (file) handleUpload(deity.id, file);
-                      e.target.value = "";
+                      if (e.target) e.target.value = "";
                     }}
                   />
                   {deity.imageUrl && (
                     <button
                       onClick={async () => {
-                        await removeDeityImage({ data: deity.id });
-                        router.invalidate();
+                        try {
+                          await removeDeityImage({ data: deity.id });
+                          router.invalidate();
+                        } catch (e) { console.error("Remove image failed", e); }
                       }}
                       className="ml-auto rounded px-2 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"
                     >
@@ -163,7 +183,7 @@ function AdminDeitiesPage() {
                     </button>
                   )}
                   <button
-                    onClick={() => handleDelete(deity.id, deity.name)}
+                    onClick={() => setDeleting({ id: deity.id, name: deity.name })}
                     className="ml-auto rounded px-2 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"
                   >
                     Delete
@@ -174,6 +194,15 @@ function AdminDeitiesPage() {
           )}
         </div>
       </div>
+      <ConfirmModal
+        open={deleting !== null}
+        title="Delete deity"
+        message={`Delete "${deleting?.name ?? ""}" and all its content? This cannot be undone.`}
+        confirmLabel="Delete"
+        variant="danger"
+        onConfirm={() => deleting && handleDelete(deleting.id, deleting.name)}
+        onCancel={() => setDeleting(null)}
+      />
     </main>
   );
 }
@@ -197,6 +226,7 @@ function InlineDeityForm({
         <div>
           <label className="block text-xs font-medium text-on-surface-variant">Name</label>
           <input
+            autoFocus
             value={name}
             onChange={(e) => {
               setName(e.target.value);

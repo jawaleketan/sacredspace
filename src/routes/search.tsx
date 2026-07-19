@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { db, ensureSeeded } from "~/server/db";
-import { deities, contents } from "~/server/db/schema";
+import { deities, contents, type ContentType } from "~/server/db/schema";
 import { eq, like, and, or } from "drizzle-orm";
 import type { SearchFilters } from "~/server/functions/contents";
 import { SearchSkeleton } from "~/components/Skeleton";
+import { RouteErrorFallback } from "~/components/RouteErrorFallback";
 
 const getAllDeities = createServerFn({ method: "GET" }).handler(async () => {
   await ensureSeeded();
@@ -40,6 +41,7 @@ const doSearch = createServerFn({ method: "GET" })
 export const Route = createFileRoute("/search")({
   component: SearchPage,
   pendingComponent: SearchSkeleton,
+  errorComponent: () => <RouteErrorFallback />,
   validateSearch: (search: Record<string, string>) => ({
     q: search.q ?? "",
     deity: search.deity ?? "",
@@ -52,7 +54,7 @@ export const Route = createFileRoute("/search")({
         data: {
           query: deps.q,
           deitySlug: deps.deity || undefined,
-          type: (deps.type as "mantra" | "stotra" | undefined) || undefined,
+          type: (deps.type as ContentType | undefined) || undefined,
         },
       }),
       getAllDeities(),

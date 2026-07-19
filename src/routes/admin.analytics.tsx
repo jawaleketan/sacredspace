@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getAnalytics } from "~/server/functions/analytics";
+import { RouteErrorFallback } from "~/components/RouteErrorFallback";
 
 export const Route = createFileRoute("/admin/analytics")({
   component: AdminAnalytics,
   loader: async () => await getAnalytics(),
+  errorComponent: () => <RouteErrorFallback title="Access Error" />,
 });
 
 const MAX_BAR_WIDTH = 100;

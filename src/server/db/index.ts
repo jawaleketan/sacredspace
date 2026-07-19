@@ -1,6 +1,6 @@
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
-import { eq, count, isNull } from "drizzle-orm";
+import { eq, count } from "drizzle-orm";
 import * as schema from "./schema";
 import { deities, contents } from "./schema";
 import { seedDeities, seedContents } from "./seed-data";
@@ -13,7 +13,7 @@ const client = createClient(
   authToken ? { url, authToken } : { url }
 );
 
-client.execute("PRAGMA journal_mode = WAL").catch(() => {});
+client.execute("PRAGMA journal_mode = WAL").catch((e) => { console.error("WAL pragma failed", e); });
 
 export const db = drizzle(client, { schema });
 
@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS deities (
   updated_at text NOT NULL
 );
 CREATE UNIQUE INDEX IF NOT EXISTS deities_slug_unique ON deities (slug);
+CREATE UNIQUE INDEX IF NOT EXISTS contents_slug_unique ON contents (slug);
 CREATE TABLE IF NOT EXISTS likes (
   id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
   content_id integer NOT NULL,
@@ -51,10 +52,11 @@ CREATE TABLE IF NOT EXISTS likes (
   FOREIGN KEY (content_id) REFERENCES contents(id) ON UPDATE no action ON DELETE no action
 );`;
 
-let seeded: Promise<void> | undefined;
+let seeded: Promise<void> | null = null;
 
 const migrations = [
   "ALTER TABLE contents ADD COLUMN audio_url text",
+  "CREATE UNIQUE INDEX IF NOT EXISTS likes_content_id_session_id_unique ON likes (content_id, session_id)",
 ];
 
 async function runSeed() {
@@ -63,7 +65,7 @@ async function runSeed() {
     await client.execute(stmt + ";");
   }
   for (const m of migrations) {
-    try { await client.execute(m); } catch {}
+    try { await client.execute(m); } catch (e) { console.error("Migration failed", m, e); }
   }
 
   const row = await db.select({ c: count() }).from(deities).get();
@@ -96,8 +98,11 @@ async function runSeed() {
 }
 
 export function ensureSeeded() {
-  if (!seeded) seeded = runSeed();
+  if (!seeded) {
+    seeded = runSeed().catch((e) => {
+      seeded = null;
+      throw e;
+    });
+  }
   return seeded;
 }
-
-if (isVercel && !process.env.TURSO_DATABASE_URL) ensureSeeded();

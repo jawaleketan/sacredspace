@@ -1,8 +1,10 @@
-export function Skeleton({ className = "" }: { className?: string }) {
-  return <div className={`animate-pulse rounded-lg bg-surface-container-highest ${className}`} />;
-}
+import { memo } from "react";
 
-export function DeityCardSkeleton() {
+export const Skeleton = memo(function Skeleton({ className = "" }: { className?: string }) {
+  return <div className={`animate-pulse rounded-lg bg-surface-container-highest ${className}`} />;
+});
+
+export const DeityCardSkeleton = memo(function DeityCardSkeleton() {
   return (
     <div className="block rounded-xl border border-outline-variant bg-surface-container-lowest p-6">
       <Skeleton className="mb-4 h-20 w-20" />
@@ -11,9 +13,9 @@ export function DeityCardSkeleton() {
       <Skeleton className="mt-2 h-4 w-3/4" />
     </div>
   );
-}
+});
 
-export function ContentRowSkeleton() {
+export const ContentRowSkeleton = memo(function ContentRowSkeleton() {
   return (
     <div className="flex items-center gap-4 rounded-xl border border-outline-variant bg-surface-container-lowest p-5">
       <Skeleton className="h-10 w-10 shrink-0 rounded-lg" />
@@ -24,9 +26,9 @@ export function ContentRowSkeleton() {
       <Skeleton className="h-7 w-16 shrink-0 rounded-full" />
     </div>
   );
-}
+});
 
-export function HomeSkeleton() {
+export const HomeSkeleton = memo(function HomeSkeleton() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-6xl px-4 py-8 md:px-12 md:py-12">
@@ -38,9 +40,9 @@ export function HomeSkeleton() {
       </div>
     </main>
   );
-}
+});
 
-export function DeitySkeleton() {
+export const DeitySkeleton = memo(function DeitySkeleton() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-4xl px-4 py-8 md:px-12 md:py-12">
@@ -55,9 +57,9 @@ export function DeitySkeleton() {
       </div>
     </main>
   );
-}
+});
 
-export function MantraSkeleton() {
+export const MantraSkeleton = memo(function MantraSkeleton() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-3xl px-4 py-8 md:px-12 md:py-12">
@@ -71,9 +73,9 @@ export function MantraSkeleton() {
       </div>
     </main>
   );
-}
+});
 
-export function SearchSkeleton() {
+export const SearchSkeleton = memo(function SearchSkeleton() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-4xl px-4 py-8 md:px-12 md:py-12">
@@ -89,9 +91,9 @@ export function SearchSkeleton() {
       </div>
     </main>
   );
-}
+});
 
-export function SavedSkeleton() {
+export const SavedSkeleton = memo(function SavedSkeleton() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-4xl px-4 py-8 md:px-12 md:py-12">
@@ -102,4 +104,4 @@ export function SavedSkeleton() {
       </div>
     </main>
   );
-}
+});

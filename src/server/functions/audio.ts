@@ -6,6 +6,7 @@ import { auth } from "@clerk/tanstack-react-start/server";
 import { writeFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { validateAudioUpload, generateUploadName } from "~/lib/upload";
 
 export const uploadContentAudio = createServerFn({ method: "POST" })
   .validator((data: { contentSlug: string; audioBase64: string; fileName: string }) => data)
@@ -14,11 +15,10 @@ export const uploadContentAudio = createServerFn({ method: "POST" })
     if (!userId) throw new Error("Unauthorized");
     await ensureSeeded();
 
-    const ext = path.extname(data.fileName) || ".mp3";
-    const name = `content-${data.contentSlug}-${Date.now()}${ext}`;
+    const { buffer, ext } = validateAudioUpload(data.audioBase64);
+    const name = generateUploadName("audio", ext);
     const uploadDir = path.resolve("public/uploads");
     if (!existsSync(uploadDir)) await mkdir(uploadDir, { recursive: true });
-    const buffer = Buffer.from(data.audioBase64, "base64");
     await writeFile(path.join(uploadDir, name), buffer);
 
     const audioUrl = `/uploads/${name}`;
@@ -31,6 +31,7 @@ export const removeContentAudio = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
+    await ensureSeeded();
     await db.update(contents).set({ audioUrl: null }).where(eq(contents.slug, data)).run();
     return { ok: true };
   });

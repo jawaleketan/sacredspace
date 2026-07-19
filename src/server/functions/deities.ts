@@ -1,11 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { db, ensureSeeded } from "../db";
-import { deities } from "../db/schema";
-import { eq } from "drizzle-orm";
+import { deities, contents, likes } from "../db/schema";
+import { eq, inArray } from "drizzle-orm";
 import { auth } from "@clerk/tanstack-react-start/server";
 import { writeFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { validateImageUpload, generateUploadName } from "~/lib/upload";
 
 export const getAllDeities = createServerFn({ method: "GET" }).handler(async () => {
   await ensureSeeded();
@@ -19,11 +20,10 @@ export const updateDeityImage = createServerFn({ method: "POST" })
     if (!userId) throw new Error("Unauthorized");
     await ensureSeeded();
 
-    const ext = path.extname(data.fileName) || ".png";
-    const name = `deity-${data.deityId}-${Date.now()}${ext}`;
+    const { buffer, ext } = validateImageUpload(data.imageBase64);
+    const name = generateUploadName("deity", ext);
     const uploadDir = path.resolve("public/uploads");
     if (!existsSync(uploadDir)) await mkdir(uploadDir, { recursive: true });
-    const buffer = Buffer.from(data.imageBase64, "base64");
     await writeFile(path.join(uploadDir, name), buffer);
 
     const imageUrl = `/uploads/${name}`;
@@ -38,7 +38,7 @@ export const updateDeity = createServerFn({ method: "POST" })
     if (!userId) throw new Error("Unauthorized");
     await ensureSeeded();
     await db.update(deities)
-      .set({ name: data.name, slug: data.slug, description: data.description })
+      .set({ name: data.name, slug: data.slug, description: data.description, updatedAt: new Date().toISOString() })
       .where(eq(deities.id, data.id))
       .run();
     return { ok: true };
@@ -58,6 +58,12 @@ export const deleteDeity = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
+    const related = await db.select({ id: contents.id }).from(contents).where(eq(contents.deityId, data)).all();
+    const contentIds = related.map((c) => c.id);
+    if (contentIds.length > 0) {
+      await db.delete(likes).where(inArray(likes.contentId, contentIds)).run();
+      await db.delete(contents).where(inArray(contents.id, contentIds)).run();
+    }
     await db.delete(deities).where(eq(deities.id, data)).run();
     return { deleted: true };
   });

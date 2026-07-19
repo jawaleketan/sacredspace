@@ -65,7 +65,6 @@ function ToastItem({ toast: t, onDone }: { toast: Toast; onDone: (id: number) =>
         pointerEvents: "auto",
       }}
     >
-      <style>{`@keyframes toast-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}`}</style>
       {t.message}
     </div>
   );

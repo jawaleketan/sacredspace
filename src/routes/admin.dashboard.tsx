@@ -5,6 +5,7 @@ import { auth } from "@clerk/tanstack-react-start/server";
 import { db, ensureSeeded } from "~/server/db";
 import { contents, deities } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
+import { ConfirmModal } from "~/components/ConfirmModal";
 
 const getData = createServerFn({ method: "GET" }).handler(async () => {
   const { userId } = await auth();
@@ -36,7 +37,7 @@ const toggleStatus = createServerFn({ method: "POST" })
     const item = await db.select().from(contents).where(eq(contents.id, data)).get();
     if (!item) throw new Error("Not found");
     const newStatus = item.status === "published" ? "draft" : "published";
-    await db.update(contents).set({ status: newStatus }).where(eq(contents.id, data)).run();
+    await db.update(contents).set({ status: newStatus, updatedAt: new Date().toISOString() }).where(eq(contents.id, data)).run();
     return { status: newStatus };
   });
 
@@ -69,16 +70,21 @@ export const Route = createFileRoute("/admin/dashboard")({
 function DashboardPage() {
   const items = Route.useLoaderData();
   const router = useRouter();
+  const [deleteConfirm, setDeleteConfirm] = useState<{ id: number; title: string } | null>(null);
 
   async function handleToggle(id: number) {
-    await toggleStatus({ data: id });
-    router.invalidate();
+    try {
+      await toggleStatus({ data: id });
+      router.invalidate();
+    } catch (e) { console.error("Toggle failed", e); }
   }
 
-  async function handleDelete(id: number, title: string) {
-    if (!confirm(`Delete "${title}"?`)) return;
-    await deleteItem({ data: id });
-    router.invalidate();
+  async function handleDelete(id: number) {
+    setDeleteConfirm(null);
+    try {
+      await deleteItem({ data: id });
+      router.invalidate();
+    } catch (e) { console.error("Delete failed", e); }
   }
 
   return (
@@ -109,7 +115,8 @@ function DashboardPage() {
               Deities
             </Link>
             <Link
-              to="/admin/editor/new"
+              to="/admin/editor/$slug"
+              params={{ slug: "new" }}
               className="rounded-md bg-accent-gold px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-saffron"
             >
               New content
@@ -177,7 +184,7 @@ function DashboardPage() {
                         Edit
                       </Link>
                       <button
-                        onClick={() => handleDelete(item.id, item.title)}
+                        onClick={() => setDeleteConfirm({ id: item.id, title: item.title })}
                         className="rounded px-2 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"
                       >
                         Delete
@@ -197,6 +204,15 @@ function DashboardPage() {
           </table>
         </div>
       </div>
+      <ConfirmModal
+        open={deleteConfirm !== null}
+        title="Delete content"
+        message={`Delete "${deleteConfirm?.title ?? ""}"? This cannot be undone.`}
+        confirmLabel="Delete"
+        variant="danger"
+        onConfirm={() => deleteConfirm && handleDelete(deleteConfirm.id)}
+        onCancel={() => setDeleteConfirm(null)}
+      />
     </main>
   );
 }

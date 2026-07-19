@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: sacredspace/package-lock.json
+
+      - name: Install dependencies
+        working-directory: sacredspace
+        run: npm ci
+
+      - name: Type check
+        working-directory: sacredspace
+        run: npm run typecheck
+
+      - name: Run tests
+        working-directory: sacredspace
+        run: npm test

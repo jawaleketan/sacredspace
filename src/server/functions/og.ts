@@ -1,6 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
 import satori from "satori";
 
+interface VNode {
+  type: string;
+  props: Record<string, unknown>;
+}
+
 let fontCache: Record<string, ArrayBuffer> | null = null;
 
 async function getFonts() {
@@ -27,132 +32,27 @@ export const generateOgImage = createServerFn({ method: "GET" })
     const devanagariRegex = /[\u0900-\u097F]+/g;
     const devanagariText = (body.match(devanagariRegex) || []).join(" ").slice(0, 80);
 
-    const svg = await satori(
-      {
-        type: "div",
-        props: {
-          style: {
-            width: 1200,
-            height: 630,
-            background: "linear-gradient(135deg, #0f0f1a 0%, #1a1a3e 50%, #0f3460 100%)",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            padding: "0 80px",
-            fontFamily: "Inter",
-          },
-          children: [
-            {
-              type: "div",
-              props: {
-                style: {
-                  position: "absolute",
-                  top: 28,
-                  left: 48,
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                },
-                children: [
-                  {
-                    type: "span",
-                    props: {
-                      style: { color: "#D4AF37", fontSize: 16, fontWeight: 600, letterSpacing: 1 },
-                      children: "SacredSpace",
-                    },
-                  },
-                ],
-              },
-            },
-            {
-              type: "div",
-              props: {
-                style: {
-                  position: "absolute",
-                  top: 56,
-                  left: 48,
-                  right: 48,
-                  height: 1,
-                  background: "linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent)",
-                },
-              },
-            },
-            {
-              type: "div",
-              props: {
-                style: {
-                  fontSize: 18,
-                  color: "#D4AF37",
-                  fontWeight: 500,
-                  letterSpacing: 3,
-                  textTransform: "uppercase",
-                  marginBottom: 20,
-                },
-                children: `${deityName} · ${type}`,
-              },
-            },
-            ...(devanagariText
-              ? [
-                  {
-                    type: "div",
-                    props: {
-                      style: {
-                        fontSize: 44,
-                        color: "#e8e4e0",
-                        fontFamily: "Noto Sans Devanagari",
-                        textAlign: "center",
-                        lineHeight: 1.5,
-                        marginBottom: 20,
-                      },
-                      children: devanagariText,
-                    },
-                  },
-                ]
-              : []),
-            {
-              type: "div",
-              props: {
-                style: {
-                  fontSize: 40,
-                  color: "#ffffff",
-                  fontWeight: 700,
-                  textAlign: "center",
-                  lineHeight: 1.3,
-                  maxWidth: 900,
-                },
-                children: title,
-              },
-            },
-            {
-              type: "div",
-              props: {
-                style: {
-                  position: "absolute",
-                  bottom: 60,
-                  left: 48,
-                  right: 48,
-                  height: 1,
-                  background: "linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent)",
-                },
-              },
-            },
-            {
-              type: "div",
-              props: {
-                style: {
-                  position: "absolute",
-                  bottom: 32,
-                  color: "rgba(255,255,255,0.3)",
-                  fontSize: 13,
-                  letterSpacing: 1.5,
-                },
-                children: "sacredspace.vercel.app",
-              },
-            },
-          ],
-        },
-      } as any,
+    function h(type: string, props: Record<string, unknown>, ...children: (VNode | string)[]): VNode {
+      return { type, props: { ...props, children: children.length > 0 ? children : props.children } };
+    }
+
+    const devanagariNodes: VNode[] = devanagariText
+      ? [h("div", { style: { fontSize: 44, color: "#e8e4e0", fontFamily: "Noto Sans Devanagari", textAlign: "center", lineHeight: 1.5, marginBottom: 20 } }, devanagariText)]
+      : [];
+
+    const tree: VNode = h("div", { style: { width: 1200, height: 630, background: "linear-gradient(135deg, #0f0f1a 0%, #1a1a3e 50%, #0f3460 100%)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "0 80px", fontFamily: "Inter" } },
+      h("div", { style: { position: "absolute", top: 28, left: 48, display: "flex", alignItems: "center", gap: 8 } },
+        h("span", { style: { color: "#D4AF37", fontSize: 16, fontWeight: 600, letterSpacing: 1 } }, "SacredSpace"),
+      ),
+      h("div", { style: { position: "absolute", top: 56, left: 48, right: 48, height: 1, background: "linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent)" } }),
+      h("div", { style: { fontSize: 18, color: "#D4AF37", fontWeight: 500, letterSpacing: 3, textTransform: "uppercase", marginBottom: 20 } }, `${deityName} · ${type}`),
+      ...devanagariNodes,
+      h("div", { style: { fontSize: 40, color: "#ffffff", fontWeight: 700, textAlign: "center", lineHeight: 1.3, maxWidth: 900 } }, title),
+      h("div", { style: { position: "absolute", bottom: 60, left: 48, right: 48, height: 1, background: "linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent)" } }),
+      h("div", { style: { position: "absolute", bottom: 32, color: "rgba(255,255,255,0.3)", fontSize: 13, letterSpacing: 1.5 } }, "sacredspace.vercel.app"),
+    );
+
+    const svg = await satori(tree as any,
       {
         width: 1200,
         height: 630,

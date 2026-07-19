@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { db, ensureSeeded } from "../db";
-import { contents, deities } from "../db/schema";
-import { eq, like, and, or, sql } from "drizzle-orm";
+import { contents, deities, type ContentType } from "../db/schema";
+import { eq, like, and, or } from "drizzle-orm";
 
 export const getContentsByDeity = createServerFn({ method: "GET" })
   .validator((deityId: number) => deityId)
@@ -31,7 +31,7 @@ export const getContent = createServerFn({ method: "GET" })
 export interface SearchFilters {
   query: string;
   deitySlug?: string;
-  type?: "mantra" | "stotra";
+  type?: ContentType;
 }
 
 export const searchContents = createServerFn({ method: "GET" })

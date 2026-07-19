@@ -1,10 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { db, ensureSeeded } from "../db";
-import { contents, deities } from "../db/schema";
+import { contents, deities, likes, type ContentType, type ContentStatus } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { auth } from "@clerk/tanstack-react-start/server";
 
 export const getAllContents = createServerFn({ method: "GET" }).handler(async () => {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
   await ensureSeeded();
   return await db
     .select({
@@ -26,20 +28,22 @@ export const getAllContents = createServerFn({ method: "GET" }).handler(async ()
 });
 
 export const getAllDeitiesForSelect = createServerFn({ method: "GET" }).handler(async () => {
+  const { userId } = await auth();
+  if (!userId) throw new Error("Unauthorized");
   await ensureSeeded();
   return await db.select().from(deities).orderBy(deities.name).all();
 });
 
 export interface ContentInput {
   deityId: number;
-  type: "mantra" | "stotra";
+  type: ContentType;
   title: string;
   slug: string;
   body: string;
   transliteration?: string;
   translation?: string;
   description?: string;
-  status: "published" | "draft";
+  status: ContentStatus;
 }
 
 export const createContent = createServerFn({ method: "POST" })
@@ -47,6 +51,7 @@ export const createContent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
+    await ensureSeeded();
     const result = await db
       .insert(contents)
       .values({
@@ -70,6 +75,7 @@ export const updateContent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
+    await ensureSeeded();
     const result = await db
       .update(contents)
       .set({
@@ -82,6 +88,7 @@ export const updateContent = createServerFn({ method: "POST" })
         translation: data.translation ?? "",
         description: data.description ?? "",
         status: data.status,
+        updatedAt: new Date().toISOString(),
       })
       .where(eq(contents.id, data.id))
       .returning()
@@ -94,6 +101,8 @@ export const deleteContent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
+    await ensureSeeded();
+    await db.delete(likes).where(eq(likes.contentId, data)).run();
     await db.delete(contents).where(eq(contents.id, data)).run();
     return { deleted: true };
   });
@@ -103,6 +112,7 @@ export const toggleContentStatus = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
+    await ensureSeeded();
     const item = await db.select().from(contents).where(eq(contents.id, data)).get();
     if (!item) throw new Error("Not found");
     const newStatus = item.status === "published" ? "draft" : "published";

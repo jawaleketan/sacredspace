@@ -62,7 +62,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       setIsPlaying(true);
       cancelAnimationFrame(animRef.current);
       animRef.current = requestAnimationFrame(updateProgress);
-    }).catch(() => {});
+    }).catch((e) => { console.error("Audio play failed", e); });
   }, [track, updateProgress]);
 
   const pause = useCallback(() => {
@@ -77,7 +77,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     el.play().then(() => {
       setIsPlaying(true);
       animRef.current = requestAnimationFrame(updateProgress);
-    }).catch(() => {});
+    }).catch((e) => { console.error("Audio resume failed", e); });
   }, [track, updateProgress]);
 
   const stop = useCallback(() => {

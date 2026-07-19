@@ -3,7 +3,7 @@ import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
 import { db, ensureSeeded } from "~/server/db";
-import { contents, deities } from "~/server/db/schema";
+import { contents, deities, type ContentType, type ContentStatus } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { TipTapEditor } from "~/components/TipTapEditor";
 import { uploadContentAudio, removeContentAudio } from "~/server/functions/audio";
@@ -29,12 +29,12 @@ const saveContent = createServerFn({ method: "POST" })
     slug: string;
     title: string;
     deityId: number;
-    type: "mantra" | "stotra";
+    type: ContentType;
     body: string;
     transliteration: string;
     translation: string;
     description: string;
-    status: "published" | "draft";
+    status: ContentStatus;
     audioUrl?: string | null;
     isNew?: boolean;
   }) => input)
@@ -43,6 +43,8 @@ const saveContent = createServerFn({ method: "POST" })
     if (!userId) throw new Error("Unauthorized");
     await ensureSeeded();
     if (data.isNew) {
+      const existing = await db.select({ id: contents.id }).from(contents).where(eq(contents.slug, data.slug)).get();
+      if (existing) throw new Error("A content item with this slug already exists");
       await db.insert(contents)
         .values({
           deityId: data.deityId,
@@ -68,6 +70,7 @@ const saveContent = createServerFn({ method: "POST" })
           description: data.description,
           status: data.status,
           audioUrl: data.audioUrl || null,
+          updatedAt: new Date().toISOString(),
         })
         .where(eq(contents.slug, data.slug))
         .run();
@@ -102,12 +105,12 @@ function EditorPage() {
   const [title, setTitle] = useState(item?.title ?? "");
   const [slug, setSlug] = useState(item?.slug ?? "");
   const [deityId, setDeityId] = useState(item?.deityId ?? allDeities[0]?.id ?? 0);
-  const [type, setType] = useState<"mantra" | "stotra">(item?.type ?? "mantra");
+  const [type, setType] = useState<ContentType>(item?.type ?? "mantra");
   const [body, setBody] = useState(item?.body ?? "");
   const [transliteration, setTransliteration] = useState(item?.transliteration ?? "");
   const [translation, setTranslation] = useState(item?.translation ?? "");
   const [description, setDescription] = useState(item?.description ?? "");
-  const [status, setStatus] = useState<"published" | "draft">(item?.status ?? "draft");
+  const [status, setStatus] = useState<ContentStatus>(item?.status ?? "draft");
   const [audioUrl, setAudioUrl] = useState(item?.audioUrl ?? "");
   const [saving, setSaving] = useState(false);
   const [uploadingAudio, setUploadingAudio] = useState(false);
@@ -126,12 +129,18 @@ function EditorPage() {
       setMessage("Title and body are required.");
       return;
     }
+    const currentSlug = isNew ? slug : item?.slug;
+    if (!currentSlug) {
+      setMessage("Content item not found.");
+      setSaving(false);
+      return;
+    }
     setSaving(true);
     setMessage("");
     try {
       await saveContent({
         data: {
-          slug: isNew ? slug : item!.slug,
+          slug: currentSlug,
           title: title.trim(),
           deityId,
           type,
@@ -228,7 +237,7 @@ function EditorPage() {
               </label>
               <select
                 value={type}
-                onChange={(e) => setType(e.target.value as "mantra" | "stotra")}
+                onChange={(e) => setType(e.target.value as ContentType)}
                 className="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-sm text-on-surface outline-none focus:border-accent-gold"
               >
                 <option value="mantra">Mantra</option>
@@ -241,7 +250,7 @@ function EditorPage() {
               </label>
               <select
                 value={status}
-                onChange={(e) => setStatus(e.target.value as "published" | "draft")}
+                onChange={(e) => setStatus(e.target.value as ContentStatus)}
                 className="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-sm text-on-surface outline-none focus:border-accent-gold"
               >
                 <option value="draft">Draft</option>
@@ -300,7 +309,7 @@ function EditorPage() {
             />
           </div>
 
-          {!isNew && (
+          {!isNew && item && (
             <div>
               <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
                 Audio Recitation
@@ -322,7 +331,7 @@ function EditorPage() {
                       const result = reader.result as string;
                       const base64 = result.split(",")[1];
                       const resp = await uploadContentAudio({
-                        data: { contentSlug: item!.slug, audioBase64: base64, fileName: file.name },
+                        data: { contentSlug: item.slug, audioBase64: base64, fileName: file.name },
                       });
                       setAudioUrl(resp.audioUrl);
                     } catch { setMessage("Error uploading audio.") }
@@ -335,7 +344,7 @@ function EditorPage() {
                     <button
                       type="button"
                       onClick={async () => {
-                        await removeContentAudio({ data: item!.slug });
+                        await removeContentAudio({ data: item.slug });
                         setAudioUrl("");
                       }}
                       className="rounded px-2 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"

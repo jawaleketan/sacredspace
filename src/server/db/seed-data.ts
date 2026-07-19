@@ -1,5 +1,4 @@
-import type { InferInsertModel } from "drizzle-orm";
-import type { deities, contents } from "./schema";
+import type { ContentType } from "./schema";
 
 export const seedDeities: Array<{
   name: string; slug: string; description: string; imageUrl: string;
@@ -16,7 +15,7 @@ export const seedDeities: Array<{
 
 export interface ContentSeed {
   deitySlug: string;
-  type: "mantra" | "stotra";
+  type: ContentType;
   title: string;
   slug: string;
   body: string;

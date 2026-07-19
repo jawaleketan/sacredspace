@@ -1,6 +1,11 @@
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { relations } from "drizzle-orm";
 
+export const CONTENT_TYPES = ["mantra", "stotra"] as const;
+export type ContentType = (typeof CONTENT_TYPES)[number];
+export const CONTENT_STATUSES = ["published", "draft"] as const;
+export type ContentStatus = (typeof CONTENT_STATUSES)[number];
+
 export const deities = sqliteTable("deities", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
@@ -14,10 +19,10 @@ export const deities = sqliteTable("deities", {
 export const contents = sqliteTable("contents", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   deityId: integer("deity_id").notNull().references(() => deities.id),
-  type: text("type", { enum: ["mantra", "stotra"] }).notNull(),
+  type: text("type", { enum: CONTENT_TYPES }).notNull(),
   title: text("title").notNull(),
-  slug: text("slug").notNull(),
-  status: text("status", { enum: ["published", "draft"] }).notNull().default("published"),
+  slug: text("slug").notNull().unique(),
+  status: text("status", { enum: CONTENT_STATUSES }).notNull().default("published"),
   body: text("body").notNull(),
   transliteration: text("transliteration"),
   translation: text("translation"),
