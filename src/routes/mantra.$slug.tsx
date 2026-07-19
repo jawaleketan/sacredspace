@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 import { toggleLike, getLikeStatus, getLikeCount } from "~/server/functions/likes";
 import { useAudio } from "~/components/AudioProvider";
 import { ProseRenderer } from "~/components/ProseRenderer";
+import { generateOgImage } from "~/server/functions/og";
 
 const getContentBySlug = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
@@ -24,7 +25,44 @@ export const Route = createFileRoute("/mantra/$slug")({
     const data = await getContentBySlug({ data: params.slug });
     const count = await getLikeCount({ data: data.content.id });
     const status = await getLikeStatus({ data: data.content.id });
-    return { ...data, likeCount: count, liked: status.liked };
+    let ogImage = "";
+    try {
+      ogImage = await generateOgImage({
+        data: {
+          title: data.content.title,
+          deityName: data.deity?.name ?? "",
+          type: data.content.type,
+          body: data.content.body,
+          slug: data.content.slug,
+        },
+      });
+    } catch {}
+    return { ...data, likeCount: count, liked: status.liked, ogImage };
+  },
+  head: ({ loaderData }) => {
+    const c = loaderData.content;
+    const d = loaderData.deity;
+    const title = `${c.title} — ${d?.name ?? ""} | SacredSpace`;
+    const desc = c.description || c.translation?.slice(0, 160) || "";
+    return {
+      meta: [
+        { title },
+        { name: "description", content: desc },
+        { property: "og:title", content: `${c.title} — ${d?.name ?? ""}` },
+        { property: "og:description", content: desc },
+        { property: "og:type", content: "article" },
+        { property: "og:url", content: `https://sacredspace.vercel.app/mantra/${c.slug}` },
+        ...(loaderData.ogImage
+          ? [
+              { property: "og:image", content: loaderData.ogImage },
+              { name: "twitter:card", content: "summary_large_image" },
+              { name: "twitter:title", content: `${c.title} — ${d?.name ?? ""}` },
+              { name: "twitter:description", content: desc },
+              { name: "twitter:image", content: loaderData.ogImage },
+            ]
+          : [{ name: "twitter:card", content: "summary" } as const]),
+      ],
+    };
   },
   errorComponent: () => (
     <main className="flex min-h-screen items-center justify-center bg-bg">

@@ -17,6 +17,12 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "SacredSpace — Mantras & Stotras" },
+      { name: "description", content: "Explore a sacred collection of Sanskrit mantras and stotras. Read, listen, and connect with ancient Vedic chants." },
+      { property: "og:title", content: "SacredSpace — Mantras & Stotras" },
+      { property: "og:description", content: "Explore a sacred collection of Sanskrit mantras and stotras. Read, listen, and connect with ancient Vedic chants." },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://sacredspace.vercel.app" },
+      { name: "twitter:card", content: "summary" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
