@@ -5,18 +5,26 @@ import path from "node:path";
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 
+function findDb(dbDir: string): string | null {
+  const p = path.resolve(dbDir, "sacredspace.db");
+  return fs.existsSync(p) ? p : null;
+}
+
 function findDbPath(): string {
-  const candidates = [
-    path.resolve(process.cwd(), "data", "sacredspace.db"),
-    path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "data", "sacredspace.db"),
-    path.resolve(process.cwd(), "..", "data", "sacredspace.db"),
-  ];
-  for (const c of candidates) {
-    if (fs.existsSync(c)) return c;
+  const home = path.dirname(fileURLToPath(import.meta.url));
+  let dir = home;
+  for (let i = 0; i < 20; i++) {
+    const found = findDb(dir);
+    if (found) return found;
+    const up = path.dirname(dir);
+    if (up === dir) break;
+    dir = up;
   }
-  const dir = path.dirname(candidates[0]);
-  fs.mkdirSync(dir, { recursive: true });
-  return candidates[0];
+  const writable = path.resolve("/tmp", "sacredspace.db");
+  if (fs.existsSync(path.dirname(writable))) return writable;
+  const d = path.resolve(process.cwd(), "data");
+  fs.mkdirSync(d, { recursive: true });
+  return path.resolve(d, "sacredspace.db");
 }
 
 const dbPath = findDbPath();
