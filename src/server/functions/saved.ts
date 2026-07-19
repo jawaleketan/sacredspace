@@ -1,11 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "../db";
+import { db, ensureSeeded } from "../db";
 import { contents, deities } from "../db/schema";
 import { eq, inArray } from "drizzle-orm";
 
 export const getSavedContents = createServerFn({ method: "POST" })
   .validator((ids: number[]) => ids)
   .handler(async ({ data }) => {
+    await ensureSeeded();
     if (data.length === 0) return [];
     return await db
       .select({

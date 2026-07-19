@@ -1,10 +1,11 @@
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "../db";
+import { db, ensureSeeded } from "../db";
 import { contents, deities } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { auth } from "@clerk/tanstack-react-start/server";
 
 export const getAllContents = createServerFn({ method: "GET" }).handler(async () => {
+  await ensureSeeded();
   return await db
     .select({
       id: contents.id,
@@ -25,6 +26,7 @@ export const getAllContents = createServerFn({ method: "GET" }).handler(async ()
 });
 
 export const getAllDeitiesForSelect = createServerFn({ method: "GET" }).handler(async () => {
+  await ensureSeeded();
   return await db.select().from(deities).orderBy(deities.name).all();
 });
 

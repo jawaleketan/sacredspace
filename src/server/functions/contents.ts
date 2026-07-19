@@ -1,11 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "../db";
+import { db, ensureSeeded } from "../db";
 import { contents, deities } from "../db/schema";
 import { eq, like, and, or, sql } from "drizzle-orm";
 
 export const getContentsByDeity = createServerFn({ method: "GET" })
   .validator((deityId: number) => deityId)
   .handler(async ({ data }) => {
+    await ensureSeeded();
     return await db
       .select()
       .from(contents)
@@ -17,6 +18,7 @@ export const getContentsByDeity = createServerFn({ method: "GET" })
 export const getContent = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
   .handler(async ({ data }) => {
+    await ensureSeeded();
     const content = await db
       .select()
       .from(contents)
@@ -35,6 +37,7 @@ export interface SearchFilters {
 export const searchContents = createServerFn({ method: "GET" })
   .validator((filters: SearchFilters) => filters)
   .handler(async ({ data }) => {
+    await ensureSeeded();
     const conditions = [];
 
     if (data.query) {

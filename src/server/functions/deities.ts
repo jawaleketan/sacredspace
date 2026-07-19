@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "../db";
+import { db, ensureSeeded } from "../db";
 import { deities } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { auth } from "@clerk/tanstack-react-start/server";
@@ -8,6 +8,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 
 export const getAllDeities = createServerFn({ method: "GET" }).handler(async () => {
+  await ensureSeeded();
   return await db.select().from(deities).orderBy(deities.name).all();
 });
 
@@ -16,6 +17,7 @@ export const updateDeityImage = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
+    await ensureSeeded();
 
     const ext = path.extname(data.fileName) || ".png";
     const name = `deity-${data.deityId}-${Date.now()}${ext}`;
@@ -34,6 +36,7 @@ export const updateDeity = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
+    await ensureSeeded();
     await db.update(deities)
       .set({ name: data.name, slug: data.slug, description: data.description })
       .where(eq(deities.id, data.id))
