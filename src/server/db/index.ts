@@ -17,9 +17,47 @@ client.execute("PRAGMA journal_mode = WAL").catch(() => {});
 
 export const db = drizzle(client, { schema });
 
+const migrationSQL = `CREATE TABLE IF NOT EXISTS contents (
+  id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+  deity_id integer NOT NULL,
+  type text NOT NULL,
+  title text NOT NULL,
+  slug text NOT NULL,
+  status text DEFAULT 'published' NOT NULL,
+  body text NOT NULL,
+  transliteration text,
+  translation text,
+  description text,
+  created_at text NOT NULL,
+  updated_at text NOT NULL,
+  FOREIGN KEY (deity_id) REFERENCES deities(id) ON UPDATE no action ON DELETE no action
+);
+CREATE TABLE IF NOT EXISTS deities (
+  id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+  name text NOT NULL,
+  slug text NOT NULL,
+  description text,
+  image_url text,
+  created_at text NOT NULL,
+  updated_at text NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS deities_slug_unique ON deities (slug);
+CREATE TABLE IF NOT EXISTS likes (
+  id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+  content_id integer NOT NULL,
+  session_id text NOT NULL,
+  created_at text NOT NULL,
+  FOREIGN KEY (content_id) REFERENCES contents(id) ON UPDATE no action ON DELETE no action
+);`;
+
 let seeded: Promise<void> | undefined;
 
 async function runSeed() {
+  const statements = migrationSQL.split(";").map(s => s.trim()).filter(Boolean);
+  for (const stmt of statements) {
+    await client.execute(stmt + ";");
+  }
+
   const row = await db.select({ c: count() }).from(deities).get();
   if (row && row.c > 0) return;
 
@@ -44,5 +82,4 @@ export function ensureSeeded() {
   return seeded;
 }
 
-// On Vercel (local sqlite, no Turso), pre-seed the DB
 if (isVercel && !process.env.TURSO_DATABASE_URL) ensureSeeded();
