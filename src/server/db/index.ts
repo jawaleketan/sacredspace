@@ -53,10 +53,17 @@ CREATE TABLE IF NOT EXISTS likes (
 
 let seeded: Promise<void> | undefined;
 
+const migrations = [
+  "ALTER TABLE contents ADD COLUMN audio_url text",
+];
+
 async function runSeed() {
   const statements = migrationSQL.split(";").map(s => s.trim()).filter(Boolean);
   for (const stmt of statements) {
     await client.execute(stmt + ";");
+  }
+  for (const m of migrations) {
+    try { await client.execute(m); } catch {}
   }
 
   const row = await db.select({ c: count() }).from(deities).get();
