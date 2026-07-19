@@ -5,6 +5,7 @@ import { db } from "~/server/db";
 import { contents, deities } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { toggleLike, getLikeStatus, getLikeCount } from "~/server/functions/likes";
+import { ProseRenderer } from "~/components/ProseRenderer";
 
 const getContentBySlug = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
@@ -174,7 +175,7 @@ function MantraPage() {
           style={{ fontSize: `${fontSize}%` }}
         >
           {isHtml ? (
-            <div className={`${bodyClass} prose-headings:font-serif prose-a:text-accent-gold`} dangerouslySetInnerHTML={{ __html: bodyText }} />
+            <ProseRenderer html={bodyText} className={bodyClass} />
           ) : (
             <div className={`${bodyClass} whitespace-pre-line`}>
               {bodyText}

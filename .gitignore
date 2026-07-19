@@ -1,7 +1,8 @@
 node_modules/
 dist/
+.output/
+.vercel/output/
 .tanstack/
 *.local
 .env.local
 data/
-Dockerfile
