@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "~/server/db";
+import { db, ensureSeeded } from "~/server/db";
 import { contents, deities } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { toggleLike, getLikeStatus, getLikeCount } from "~/server/functions/likes";
@@ -10,9 +10,10 @@ import { ProseRenderer } from "~/components/ProseRenderer";
 const getContentBySlug = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
   .handler(async ({ data }) => {
-    const content = db.select().from(contents).where(eq(contents.slug, data)).get();
+    await ensureSeeded();
+    const content = await db.select().from(contents).where(eq(contents.slug, data)).get();
     if (!content) throw new Error("Content not found");
-    const deity = db.select().from(deities).where(eq(deities.id, content.deityId)).get();
+    const deity = await db.select().from(deities).where(eq(deities.id, content.deityId)).get();
     return { content, deity };
   });
 

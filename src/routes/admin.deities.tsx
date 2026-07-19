@@ -2,14 +2,15 @@ import { useState, useRef } from "react";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
-import { db } from "~/server/db";
+import { db, ensureSeeded } from "~/server/db";
 import { deities } from "~/server/db/schema";
 import { updateDeityImage, updateDeity, deleteDeity, createDeity, removeDeityImage } from "~/server/functions/deities";
 
 const getDeities = createServerFn({ method: "GET" }).handler(async () => {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
-  return db.select().from(deities).orderBy(deities.name).all();
+  await ensureSeeded();
+  return await db.select().from(deities).orderBy(deities.name).all();
 });
 
 export const Route = createFileRoute("/admin/deities")({

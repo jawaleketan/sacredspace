@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
-import { db } from "~/server/db";
+import { db, ensureSeeded } from "~/server/db";
 import { contents, deities } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { TipTapEditor } from "~/components/TipTapEditor";
@@ -12,13 +12,15 @@ const getEditorData = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
-    const item = db.select().from(contents).where(eq(contents.slug, data)).get();
-    const allDeities = db.select().from(deities).orderBy(deities.name).all();
+    await ensureSeeded();
+    const item = await db.select().from(contents).where(eq(contents.slug, data)).get();
+    const allDeities = await db.select().from(deities).orderBy(deities.name).all();
     return { item, allDeities };
   });
 
 const getAllDeities = createServerFn({ method: "GET" }).handler(async () => {
-  return db.select().from(deities).orderBy(deities.name).all();
+  await ensureSeeded();
+  return await db.select().from(deities).orderBy(deities.name).all();
 });
 
 const saveContent = createServerFn({ method: "POST" })
@@ -37,8 +39,9 @@ const saveContent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
+    await ensureSeeded();
     if (data.isNew) {
-      db.insert(contents)
+      await db.insert(contents)
         .values({
           deityId: data.deityId,
           type: data.type,
@@ -52,7 +55,7 @@ const saveContent = createServerFn({ method: "POST" })
         })
         .run();
     } else {
-      db.update(contents)
+      await db.update(contents)
         .set({
           deityId: data.deityId,
           type: data.type,

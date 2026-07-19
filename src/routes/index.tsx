@@ -2,12 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/tanstack-react-start";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "~/server/db";
+import { db, ensureSeeded } from "~/server/db";
 import { deities } from "~/server/db/schema";
 import { DeityCard } from "~/components/DeityCard";
 
 const getDeities = createServerFn({ method: "GET" }).handler(async () => {
-  return db.select().from(deities).orderBy(deities.name).all();
+  await ensureSeeded();
+  return await db.select().from(deities).orderBy(deities.name).all();
 });
 
 export const Route = createFileRoute("/")({

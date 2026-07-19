@@ -2,14 +2,15 @@ import { useState } from "react";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
-import { db } from "~/server/db";
+import { db, ensureSeeded } from "~/server/db";
 import { contents, deities } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
 const getData = createServerFn({ method: "GET" }).handler(async () => {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
-  return db
+  await ensureSeeded();
+  return await db
     .select({
       id: contents.id,
       title: contents.title,
@@ -31,10 +32,11 @@ const toggleStatus = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
-    const item = db.select().from(contents).where(eq(contents.id, data)).get();
+    await ensureSeeded();
+    const item = await db.select().from(contents).where(eq(contents.id, data)).get();
     if (!item) throw new Error("Not found");
     const newStatus = item.status === "published" ? "draft" : "published";
-    db.update(contents).set({ status: newStatus }).where(eq(contents.id, data)).run();
+    await db.update(contents).set({ status: newStatus }).where(eq(contents.id, data)).run();
     return { status: newStatus };
   });
 
@@ -43,7 +45,8 @@ const deleteItem = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
-    db.delete(contents).where(eq(contents.id, data)).run();
+    await ensureSeeded();
+    await db.delete(contents).where(eq(contents.id, data)).run();
     return { deleted: true };
   });
 

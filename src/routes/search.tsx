@@ -1,17 +1,40 @@
 import { useState, useEffect } from "react";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "~/server/db";
-import { deities } from "~/server/db/schema";
-import { searchContents, type SearchFilters } from "~/server/functions/contents";
+import { db, ensureSeeded } from "~/server/db";
+import { deities, contents } from "~/server/db/schema";
+import { eq, like, and, or } from "drizzle-orm";
+import type { SearchFilters } from "~/server/functions/contents";
 
 const getAllDeities = createServerFn({ method: "GET" }).handler(async () => {
-  return db.select().from(deities).orderBy(deities.name).all();
+  await ensureSeeded();
+  return await db.select().from(deities).orderBy(deities.name).all();
 });
 
 const doSearch = createServerFn({ method: "GET" })
   .validator((filters: SearchFilters) => filters)
-  .handler(async ({ data }) => searchContents({ data }));
+  .handler(async ({ data }) => {
+    await ensureSeeded();
+    const conditions = [];
+    if (data.query) {
+      conditions.push(or(
+        like(contents.title, `%${data.query}%`),
+        like(contents.description ?? "", `%${data.query}%`),
+      ));
+    }
+    if (data.type) conditions.push(eq(contents.type, data.type));
+    if (data.deitySlug) {
+      const deity = await db.select().from(deities).where(eq(deities.slug, data.deitySlug)).get();
+      if (deity) conditions.push(eq(contents.deityId, deity.id));
+    }
+    const where = conditions.length > 0 ? and(...conditions) : undefined;
+    return await db.select({
+      id: contents.id, title: contents.title, slug: contents.slug,
+      type: contents.type, description: contents.description,
+      deityId: contents.deityId, deityName: deities.name, deitySlug: deities.slug,
+    }).from(contents).innerJoin(deities, eq(contents.deityId, deities.id)).where(where)
+      .orderBy(contents.title).all();
+  });
 
 export const Route = createFileRoute("/search")({
   component: SearchPage,

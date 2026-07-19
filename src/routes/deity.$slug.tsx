@@ -1,13 +1,14 @@
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { db } from "~/server/db";
+import { db, ensureSeeded } from "~/server/db";
 import { deities, contents } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
 const getDeityBySlug = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
   .handler(async ({ data }) => {
-    const deity = db.select().from(deities).where(eq(deities.slug, data)).get();
+    await ensureSeeded();
+    const deity = await db.select().from(deities).where(eq(deities.slug, data)).get();
     if (!deity) throw new Error("Deity not found");
     return deity;
   });
@@ -15,7 +16,8 @@ const getDeityBySlug = createServerFn({ method: "GET" })
 const getContentsForDeity = createServerFn({ method: "GET" })
   .validator((deityId: number) => deityId)
   .handler(async ({ data }) => {
-    return db
+    await ensureSeeded();
+    return await db
       .select()
       .from(contents)
       .where(eq(contents.deityId, data))
