@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { auth } from "@clerk/tanstack-react-start/server";
 
 export const getAllContents = createServerFn({ method: "GET" }).handler(async () => {
-  return db
+  return await db
     .select({
       id: contents.id,
       title: contents.title,
@@ -25,7 +25,7 @@ export const getAllContents = createServerFn({ method: "GET" }).handler(async ()
 });
 
 export const getAllDeitiesForSelect = createServerFn({ method: "GET" }).handler(async () => {
-  return db.select().from(deities).orderBy(deities.name).all();
+  return await db.select().from(deities).orderBy(deities.name).all();
 });
 
 export interface ContentInput {
@@ -45,7 +45,7 @@ export const createContent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
-    const result = db
+    const result = await db
       .insert(contents)
       .values({
         deityId: data.deityId,
@@ -68,7 +68,7 @@ export const updateContent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
-    const result = db
+    const result = await db
       .update(contents)
       .set({
         deityId: data.deityId,
@@ -92,7 +92,7 @@ export const deleteContent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
-    db.delete(contents).where(eq(contents.id, data)).run();
+    await db.delete(contents).where(eq(contents.id, data)).run();
     return { deleted: true };
   });
 
@@ -101,10 +101,10 @@ export const toggleContentStatus = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
-    const item = db.select().from(contents).where(eq(contents.id, data)).get();
+    const item = await db.select().from(contents).where(eq(contents.id, data)).get();
     if (!item) throw new Error("Not found");
     const newStatus = item.status === "published" ? "draft" : "published";
-    db.update(contents)
+    await db.update(contents)
       .set({ status: newStatus })
       .where(eq(contents.id, data))
       .run();

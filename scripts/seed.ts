@@ -198,34 +198,31 @@ const seedContents: ContentSeed[] = [
 async function seed() {
   console.log("Seeding database...");
 
-  const slugToId: Record<string, number> = {};
-
   for (const deity of seedDeities) {
-    const existing = db.select().from(deities).where(eq(deities.slug, deity.slug!)).get();
+    const existing = await db.select().from(deities).where(eq(deities.slug, deity.slug!)).get();
     if (existing) {
-      slugToId[deity.slug!] = existing.id;
       console.log(`  Skipped deity: ${deity.name} (exists)`);
     } else {
-      const result = db.insert(deities).values(deity).returning().get();
-      slugToId[result.slug] = result.id;
-      console.log(`  Added deity: ${deity.name}`);
+      const result = await db.insert(deities).values(deity).returning().get();
+      console.log(`  Added deity: ${result.name}`);
     }
   }
 
-  const deityByTitle: Record<string, string> = {};
-  for (const c of seedContents) {
-    deityByTitle[c.title] = c.deitySlug;
+  const allDeities = await db.select().from(deities).all();
+  const slugToId: Record<string, number> = {};
+  for (const d of allDeities) {
+    slugToId[d.slug] = d.id;
   }
 
   for (const content of seedContents) {
-    const deityId = slugToId[deityByTitle[content.title]!];
+    const deityId = slugToId[content.deitySlug];
     if (!deityId) {
       console.log(`  Skipped content: ${content.title} (deity not found)`);
       continue;
     }
-    const existing = db.select().from(contents).where(eq(contents.slug, content.slug)).get();
+    const existing = await db.select().from(contents).where(eq(contents.slug, content.slug)).get();
     if (existing) {
-      db.update(contents)
+      await db.update(contents)
         .set({
           transliteration: content.transliteration,
           translation: content.translation,
@@ -236,7 +233,7 @@ async function seed() {
         .run();
       console.log(`  Updated content: ${content.title}`);
     } else {
-      db.insert(contents)
+      await db.insert(contents)
         .values({
           deityId,
           type: content.type,
@@ -255,4 +252,7 @@ async function seed() {
   console.log("Seeding complete!");
 }
 
-seed();
+seed().catch((e) => {
+  console.error("Seed failed:", e);
+  process.exit(1);
+});

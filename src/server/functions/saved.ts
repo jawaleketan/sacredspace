@@ -7,7 +7,7 @@ export const getSavedContents = createServerFn({ method: "POST" })
   .validator((ids: number[]) => ids)
   .handler(async ({ data }) => {
     if (data.length === 0) return [];
-    return db
+    return await db
       .select({
         id: contents.id,
         title: contents.title,

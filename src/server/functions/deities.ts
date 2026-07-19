@@ -8,7 +8,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 
 export const getAllDeities = createServerFn({ method: "GET" }).handler(async () => {
-  return db.select().from(deities).orderBy(deities.name).all();
+  return await db.select().from(deities).orderBy(deities.name).all();
 });
 
 export const updateDeityImage = createServerFn({ method: "POST" })
@@ -25,7 +25,7 @@ export const updateDeityImage = createServerFn({ method: "POST" })
     await writeFile(path.join(uploadDir, name), buffer);
 
     const imageUrl = `/uploads/${name}`;
-    db.update(deities).set({ imageUrl }).where(eq(deities.id, data.deityId)).run();
+    await db.update(deities).set({ imageUrl }).where(eq(deities.id, data.deityId)).run();
     return { imageUrl };
   });
 
@@ -34,7 +34,7 @@ export const updateDeity = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
-    db.update(deities)
+    await db.update(deities)
       .set({ name: data.name, slug: data.slug, description: data.description })
       .where(eq(deities.id, data.id))
       .run();
@@ -46,7 +46,7 @@ export const removeDeityImage = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
-    db.update(deities).set({ imageUrl: null }).where(eq(deities.id, data)).run();
+    await db.update(deities).set({ imageUrl: null }).where(eq(deities.id, data)).run();
     return { ok: true };
   });
 
@@ -55,7 +55,7 @@ export const deleteDeity = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
-    db.delete(deities).where(eq(deities.id, data)).run();
+    await db.delete(deities).where(eq(deities.id, data)).run();
     return { deleted: true };
   });
 
@@ -64,7 +64,7 @@ export const createDeity = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
-    const result = db
+    const result = await db
       .insert(deities)
       .values({ name: data.name, slug: data.slug, description: data.description })
       .returning()

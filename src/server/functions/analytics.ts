@@ -8,22 +8,22 @@ export const getAnalytics = createServerFn({ method: "GET" }).handler(async () =
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
-  const totalItems = db.select({ count: count() }).from(contents).get()?.count ?? 0;
-  const totalLikes = db.select({ count: count() }).from(likes).get()?.count ?? 0;
+  const totalItems = (await db.select({ count: count() }).from(contents).get())?.count ?? 0;
+  const totalLikes = (await db.select({ count: count() }).from(likes).get())?.count ?? 0;
   const publishedCount =
-    db
+    (await db
       .select({ count: count() })
       .from(contents)
       .where(eq(contents.status, "published"))
-      .get()?.count ?? 0;
+      .get())?.count ?? 0;
   const draftsCount =
-    db
+    (await db
       .select({ count: count() })
       .from(contents)
       .where(eq(contents.status, "draft"))
-      .get()?.count ?? 0;
+      .get())?.count ?? 0;
 
-  const likesPerContent = db
+  const likesPerContent = await db
     .select({
       contentId: likes.contentId,
       count: count(),

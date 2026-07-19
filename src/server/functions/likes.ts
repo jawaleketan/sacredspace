@@ -22,7 +22,7 @@ export const toggleLike = createServerFn({ method: "POST" })
   .validator((contentId: number) => contentId)
   .handler(async ({ data }) => {
     const sessionId = getSessionId();
-    const existing = db
+    const existing = await db
       .select()
       .from(likes)
       .where(
@@ -31,13 +31,13 @@ export const toggleLike = createServerFn({ method: "POST" })
       .get();
 
     if (existing) {
-      db.delete(likes)
+      await db.delete(likes)
         .where(eq(likes.id, existing.id))
         .run();
       return { liked: false };
     }
 
-    db.insert(likes)
+    await db.insert(likes)
       .values({ contentId: data, sessionId })
       .run();
     return { liked: true };
@@ -47,7 +47,7 @@ export const getLikeStatus = createServerFn({ method: "GET" })
   .validator((contentId: number) => contentId)
   .handler(async ({ data }) => {
     const sessionId = getSessionId();
-    const existing = db
+    const existing = await db
       .select()
       .from(likes)
       .where(
@@ -60,7 +60,7 @@ export const getLikeStatus = createServerFn({ method: "GET" })
 export const getLikeCount = createServerFn({ method: "GET" })
   .validator((contentId: number) => contentId)
   .handler(async ({ data }) => {
-    const result = db
+    const result = await db
       .select({ count: count() })
       .from(likes)
       .where(eq(likes.contentId, data))

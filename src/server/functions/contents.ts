@@ -6,7 +6,7 @@ import { eq, like, and, or, sql } from "drizzle-orm";
 export const getContentsByDeity = createServerFn({ method: "GET" })
   .validator((deityId: number) => deityId)
   .handler(async ({ data }) => {
-    return db
+    return await db
       .select()
       .from(contents)
       .where(eq(contents.deityId, data))
@@ -17,7 +17,7 @@ export const getContentsByDeity = createServerFn({ method: "GET" })
 export const getContent = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
   .handler(async ({ data }) => {
-    const content = db
+    const content = await db
       .select()
       .from(contents)
       .where(eq(contents.slug, data))
@@ -51,7 +51,7 @@ export const searchContents = createServerFn({ method: "GET" })
     }
 
     if (data.deitySlug) {
-      const deity = db
+      const deity = await db
         .select()
         .from(deities)
         .where(eq(deities.slug, data.deitySlug))
@@ -63,7 +63,7 @@ export const searchContents = createServerFn({ method: "GET" })
 
     const where = conditions.length > 0 ? and(...conditions) : undefined;
 
-    const results = db
+    const results = await db
       .select({
         id: contents.id,
         title: contents.title,
