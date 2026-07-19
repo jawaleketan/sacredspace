@@ -16,9 +16,9 @@ export const DeityCard = memo(function DeityCard({ name, slug, description, imag
       params={{ slug }}
       className="group block rounded-xl border border-outline-variant bg-surface-container-lowest p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_4px_20px_rgba(77,58,38,0.08)]"
     >
-      <div className="relative mb-4 flex h-20 w-20 items-center justify-center overflow-hidden rounded-lg bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] text-3xl font-serif font-semibold text-primary transition-colors group-hover:from-[#1f1f3a] group-hover:to-[#141425]">
+      <div className="relative mb-4 flex h-20 w-20 items-center justify-center overflow-hidden rounded-lg bg-surface-container text-3xl font-serif font-semibold text-primary transition-colors group-hover:bg-accent-gold/10">
         {imageUrl ? (
-          <img src={imageUrl} alt={name} loading="lazy" decoding="async" className="h-full w-full object-contain p-1.5" />
+          <img src={imageUrl} alt={name} className="h-full w-full object-cover" />
         ) : (
           initial
         )}

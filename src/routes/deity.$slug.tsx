@@ -62,9 +62,9 @@ function DeityPage() {
         </Link>
 
         <div className="mb-12">
-          <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a] text-4xl font-serif font-semibold text-primary">
+          <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl bg-surface-container text-4xl font-serif font-semibold text-primary">
             {deity.imageUrl ? (
-              <img src={deity.imageUrl} alt={deity.name} loading="lazy" decoding="async" className="h-full w-full object-contain p-2" />
+              <img src={deity.imageUrl} alt={deity.name} className="h-full w-full object-cover" />
             ) : (
               deity.name.charAt(0)
             )}

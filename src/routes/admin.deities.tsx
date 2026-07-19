@@ -119,14 +119,12 @@ function AdminDeitiesPage() {
                 className="group relative rounded-xl border border-outline-variant bg-surface-container-lowest p-5 transition-all hover:border-accent-gold/40"
               >
                 <div className="flex items-start gap-4">
-                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-gradient-to-br from-[#1a1a2e] to-[#0f0f1a]">
+                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-surface-container">
                     {deity.imageUrl ? (
                       <img
                         src={deity.imageUrl}
                         alt={deity.name}
-                        loading="lazy"
-                        decoding="async"
-                        className="h-full w-full object-contain p-1.5"
+                        className="h-full w-full object-cover"
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center text-2xl font-serif font-semibold text-primary">
