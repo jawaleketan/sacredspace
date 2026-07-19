@@ -28,6 +28,7 @@ const migrationSQL = `CREATE TABLE IF NOT EXISTS contents (
   transliteration text,
   translation text,
   description text,
+  audio_url text,
   created_at text NOT NULL,
   updated_at text NOT NULL,
   FOREIGN KEY (deity_id) REFERENCES deities(id) ON UPDATE no action ON DELETE no action

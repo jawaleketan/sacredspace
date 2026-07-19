@@ -6,6 +6,7 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
+import { AudioProvider } from "~/components/AudioProvider";
 import appCss from "~/styles/app.css?url";
 
 const queryClient = new QueryClient();
@@ -34,7 +35,9 @@ function RootComponent() {
       <body className="bg-bg text-on-surface font-sans antialiased">
         <ClerkProvider>
           <QueryClientProvider client={queryClient}>
-            <Outlet />
+            <AudioProvider>
+              <Outlet />
+            </AudioProvider>
             <Scripts />
           </QueryClientProvider>
         </ClerkProvider>

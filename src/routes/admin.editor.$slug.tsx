@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
@@ -6,6 +6,7 @@ import { db, ensureSeeded } from "~/server/db";
 import { contents, deities } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { TipTapEditor } from "~/components/TipTapEditor";
+import { uploadContentAudio, removeContentAudio } from "~/server/functions/audio";
 
 const getEditorData = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
@@ -34,6 +35,7 @@ const saveContent = createServerFn({ method: "POST" })
     translation: string;
     description: string;
     status: "published" | "draft";
+    audioUrl?: string | null;
     isNew?: boolean;
   }) => input)
   .handler(async ({ data }) => {
@@ -65,6 +67,7 @@ const saveContent = createServerFn({ method: "POST" })
           translation: data.translation,
           description: data.description,
           status: data.status,
+          audioUrl: data.audioUrl || null,
         })
         .where(eq(contents.slug, data.slug))
         .run();
@@ -105,8 +108,11 @@ function EditorPage() {
   const [translation, setTranslation] = useState(item?.translation ?? "");
   const [description, setDescription] = useState(item?.description ?? "");
   const [status, setStatus] = useState<"published" | "draft">(item?.status ?? "draft");
+  const [audioUrl, setAudioUrl] = useState(item?.audioUrl ?? "");
   const [saving, setSaving] = useState(false);
+  const [uploadingAudio, setUploadingAudio] = useState(false);
   const [message, setMessage] = useState("");
+  const audioInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isNew && !slug && title) {
@@ -134,6 +140,7 @@ function EditorPage() {
           translation,
           description,
           status,
+          audioUrl,
           isNew,
         },
       });
@@ -292,6 +299,66 @@ function EditorPage() {
               placeholder="A short description..."
             />
           </div>
+
+          {!isNew && (
+            <div>
+              <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+                Audio Recitation
+              </label>
+              <div className="flex items-center gap-3 rounded-lg border border-outline-variant bg-surface-container-lowest p-3">
+                <input
+                  ref={audioInputRef}
+                  type="file"
+                  accept="audio/*"
+                  className="hidden"
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    setUploadingAudio(true);
+                    try {
+                      const reader = new FileReader();
+                      reader.readAsDataURL(file);
+                      await new Promise((resolve) => { reader.onload = resolve; });
+                      const result = reader.result as string;
+                      const base64 = result.split(",")[1];
+                      const resp = await uploadContentAudio({
+                        data: { contentSlug: item!.slug, audioBase64: base64, fileName: file.name },
+                      });
+                      setAudioUrl(resp.audioUrl);
+                    } catch { setMessage("Error uploading audio.") }
+                    setUploadingAudio(false);
+                  }}
+                />
+                {audioUrl ? (
+                  <>
+                    <audio src={audioUrl} controls className="h-8 flex-1" preload="none" />
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        await removeContentAudio({ data: item!.slug });
+                        setAudioUrl("");
+                      }}
+                      className="rounded px-2 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"
+                    >
+                      Remove
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <span className="flex-1 text-sm text-on-surface-variant">No audio file uploaded</span>
+                    <button
+                      type="button"
+                      onClick={() => audioInputRef.current?.click()}
+                      disabled={uploadingAudio}
+                      className="rounded-md border border-outline-variant px-3 py-1.5 text-xs font-medium text-on-surface transition-colors hover:bg-surface-container disabled:opacity-50"
+                    >
+                      {uploadingAudio ? "Uploading..." : "Upload audio"}
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
 
           <div className="flex items-center gap-4 pt-4">
             <button

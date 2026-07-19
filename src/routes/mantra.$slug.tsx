@@ -5,6 +5,7 @@ import { db, ensureSeeded } from "~/server/db";
 import { contents, deities } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { toggleLike, getLikeStatus, getLikeCount } from "~/server/functions/likes";
+import { useAudio } from "~/components/AudioProvider";
 import { ProseRenderer } from "~/components/ProseRenderer";
 
 const getContentBySlug = createServerFn({ method: "GET" })
@@ -47,7 +48,9 @@ function MantraPage() {
   const [liked, setLiked] = useState(initialLiked);
   const [likeCount, setLikeCount] = useState(initialCount);
   const [saved, setSaved] = useState(false);
+  const { play: playAudio, track: currentTrack, isPlaying: audioPlaying } = useAudio();
   const canShare = typeof navigator !== "undefined" && "share" in navigator;
+  const isCurrentTrack = currentTrack?.url === content.audioUrl;
 
   useEffect(() => {
     const savedIds = JSON.parse(localStorage.getItem("saved") || "[]");
@@ -138,6 +141,46 @@ function MantraPage() {
             </button>
           ))}
         </div>
+
+        {content.audioUrl && (
+          <div className="mt-6">
+            <button
+              onClick={() => {
+                if (isCurrentTrack && audioPlaying) return;
+                playAudio({ url: content.audioUrl, title: content.title, deityName: deity.name });
+              }}
+              className={`flex w-full items-center gap-3 rounded-xl border p-4 text-left transition-all ${
+                isCurrentTrack
+                  ? "border-accent-gold bg-accent-gold/5"
+                  : "border-outline-variant bg-surface-container-lowest hover:border-accent-gold/40 hover:bg-surface-container-low"
+              }`}
+            >
+              <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${
+                isCurrentTrack ? "bg-accent-gold text-white" : "bg-surface-container text-accent-gold"
+              }`}>
+                {isCurrentTrack && audioPlaying ? (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+                ) : (
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                )}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-on-surface">
+                  {isCurrentTrack && audioPlaying ? "Now Playing" : isCurrentTrack ? "Paused" : "Listen to Recitation"}
+                </div>
+                <div className="text-xs text-on-surface-variant">
+                  {isCurrentTrack ? `${deity.name} · ${content.title}` : "Audio available"}
+                </div>
+              </div>
+              {isCurrentTrack && (
+                <div className="flex items-center gap-2">
+                  <span className="flex h-2 w-2 rounded-full bg-accent-gold animate-pulse" />
+                  <span className="text-xs text-accent-gold font-medium">LIVE</span>
+                </div>
+              )}
+            </button>
+          </div>
+        )}
 
         <div className="mt-6 flex items-center gap-3">
           <button

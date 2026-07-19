@@ -22,6 +22,7 @@ export const contents = sqliteTable("contents", {
   transliteration: text("transliteration"),
   translation: text("translation"),
   description: text("description"),
+  audioUrl: text("audio_url"),
   createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });
