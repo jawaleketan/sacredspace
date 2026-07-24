@@ -1,9 +1,9 @@
 import { useLoaderData } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
-import { db, ensureSeeded } from "~/server/db";
 
 export const Route = createFileRoute("/api/health")({
   loader: async () => {
+    const { db, ensureSeeded } = await import("~/server/db");
     await ensureSeeded();
     try {
       await db.run("SELECT 1");

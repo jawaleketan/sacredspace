@@ -2,8 +2,6 @@ import { useState, useRef } from "react";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
-import { db, ensureSeeded } from "~/server/db";
-import { deities } from "~/server/db/schema";
 import { updateDeityImage, updateDeity, deleteDeity, createDeity, removeDeityImage } from "~/server/functions/deities";
 import { toBase64 } from "~/lib/upload";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
@@ -11,6 +9,8 @@ import { RouteErrorFallback } from "~/components/RouteErrorFallback";
 import { ConfirmModal } from "~/components/ConfirmModal";
 
 const getDeities = createServerFn({ method: "GET" }).handler(async () => {
+  const { db, ensureSeeded } = await import("~/server/db");
+  const { deities } = await import("~/server/db/schema");
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
   await ensureSeeded();

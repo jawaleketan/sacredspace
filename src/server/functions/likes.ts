@@ -1,8 +1,14 @@
 import { createServerFn } from "@tanstack/react-start";
-import { db, ensureSeeded } from "../db";
-import { likes } from "../db/schema";
-import { eq, and, count } from "drizzle-orm";
 import { getCookie, setCookie } from "@tanstack/react-start/server";
+
+async function getDb() {
+  const [{ ensureSeeded, db }, { likes }, { eq, and, count }] = await Promise.all([
+    import("../db"),
+    import("../db/schema"),
+    import("drizzle-orm"),
+  ]);
+  return { ensureSeeded, db, likes, eq, and, count };
+}
 
 function getSessionId(): string {
   let sessionId = getCookie("session_id");
@@ -21,6 +27,7 @@ function getSessionId(): string {
 export const toggleLike = createServerFn({ method: "POST" })
   .validator((contentId: number) => contentId)
   .handler(async ({ data }) => {
+    const { ensureSeeded, db, likes, eq, and } = await getDb();
     await ensureSeeded();
     const sessionId = getSessionId();
     const existing = await db
@@ -47,6 +54,7 @@ export const toggleLike = createServerFn({ method: "POST" })
 export const getLikeStatus = createServerFn({ method: "GET" })
   .validator((contentId: number) => contentId)
   .handler(async ({ data }) => {
+    const { ensureSeeded, db, likes, eq, and } = await getDb();
     await ensureSeeded();
     const sessionId = getSessionId();
     const existing = await db
@@ -62,6 +70,7 @@ export const getLikeStatus = createServerFn({ method: "GET" })
 export const getLikeCount = createServerFn({ method: "GET" })
   .validator((contentId: number) => contentId)
   .handler(async ({ data }) => {
+    const { ensureSeeded, db, likes, eq, count } = await getDb();
     await ensureSeeded();
     const result = await db
       .select({ count: count() })

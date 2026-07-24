@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { db, ensureSeeded } from "~/server/db";
-import { deities, contents, type ContentType } from "~/server/db/schema";
-import { eq, like, and, or } from "drizzle-orm";
+import type { ContentType } from "~/server/db/schema";
 import type { SearchFilters } from "~/server/functions/contents";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { SearchSkeleton } from "~/components/Skeleton";
 import { RouteErrorFallback } from "~/components/RouteErrorFallback";
 
 const getAllDeities = createServerFn({ method: "GET" }).handler(async () => {
+  const { db, ensureSeeded } = await import("~/server/db");
+  const { deities } = await import("~/server/db/schema");
   await ensureSeeded();
   return await db.select().from(deities).orderBy(deities.name).all();
 });
@@ -17,6 +17,9 @@ const getAllDeities = createServerFn({ method: "GET" }).handler(async () => {
 const doSearch = createServerFn({ method: "GET" })
   .validator((filters: SearchFilters) => filters)
   .handler(async ({ data }) => {
+    const { db, ensureSeeded } = await import("~/server/db");
+    const { deities, contents } = await import("~/server/db/schema");
+    const { eq, like, and, or } = await import("drizzle-orm");
     await ensureSeeded();
     const conditions = [];
     if (data.query) {

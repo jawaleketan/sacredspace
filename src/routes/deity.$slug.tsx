@@ -1,8 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { db, ensureSeeded } from "~/server/db";
-import { deities, contents } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { DeitySkeleton } from "~/components/Skeleton";
 import { SITE_URL } from "~/lib/constants";
@@ -10,6 +7,9 @@ import { SITE_URL } from "~/lib/constants";
 const getDeityBySlug = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
   .handler(async ({ data }) => {
+    const { db, ensureSeeded } = await import("~/server/db");
+    const { deities } = await import("~/server/db/schema");
+    const { eq } = await import("drizzle-orm");
     await ensureSeeded();
     const deity = await db.select().from(deities).where(eq(deities.slug, data)).get();
     if (!deity) throw new Error("Deity not found");
@@ -19,6 +19,9 @@ const getDeityBySlug = createServerFn({ method: "GET" })
 const getContentsForDeity = createServerFn({ method: "GET" })
   .validator((deityId: number) => deityId)
   .handler(async ({ data }) => {
+    const { db, ensureSeeded } = await import("~/server/db");
+    const { contents } = await import("~/server/db/schema");
+    const { eq } = await import("drizzle-orm");
     await ensureSeeded();
     return await db
       .select()

@@ -2,8 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/tanstack-react-start";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { db, ensureSeeded } from "~/server/db";
-import { deities } from "~/server/db/schema";
 import { DeityCard } from "~/components/DeityCard";
 import { HomeSkeleton } from "~/components/Skeleton";
 import { getMantraOfDay } from "~/server/functions/daily";
@@ -11,6 +9,8 @@ import { STORAGE_KEYS } from "~/lib/constants";
 import { RouteErrorFallback } from "~/components/RouteErrorFallback";
 
 const getDeities = createServerFn({ method: "GET" }).handler(async () => {
+  const { db, ensureSeeded } = await import("~/server/db");
+  const { deities } = await import("~/server/db/schema");
   await ensureSeeded();
   return await db.select().from(deities).orderBy(deities.name).all();
 });

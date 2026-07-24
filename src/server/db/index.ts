@@ -55,7 +55,6 @@ CREATE TABLE IF NOT EXISTS likes (
 let seeded: Promise<void> | null = null;
 
 const migrations = [
-  "ALTER TABLE contents ADD COLUMN audio_url text",
   "CREATE UNIQUE INDEX IF NOT EXISTS likes_content_id_session_id_unique ON likes (content_id, session_id)",
 ];
 

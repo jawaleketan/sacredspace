@@ -1,9 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
-import { db, ensureSeeded } from "~/server/db";
-import { contents, deities } from "~/server/db/schema";
-import { eq, and, ne } from "drizzle-orm";
 import { toggleLike, getLikeStatus, getLikeCount } from "~/server/functions/likes";
 import { useAudio } from "~/components/AudioProvider";
 import { ProseRenderer } from "~/components/ProseRenderer";
@@ -16,6 +13,9 @@ import { SITE_URL, STORAGE_KEYS } from "~/lib/constants";
 const getContentBySlug = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
   .handler(async ({ data }) => {
+    const { ensureSeeded, db } = await import("~/server/db");
+    const { contents, deities } = await import("~/server/db/schema");
+    const { eq } = await import("drizzle-orm");
     await ensureSeeded();
     const content = await db.select().from(contents).where(eq(contents.slug, data)).get();
     if (!content) throw new Error("Content not found");
@@ -26,6 +26,9 @@ const getContentBySlug = createServerFn({ method: "GET" })
 const getSiblingContent = createServerFn({ method: "GET" })
   .validator((input: { deityId: number; excludeSlug: string }) => input)
   .handler(async ({ data }) => {
+    const { ensureSeeded, db } = await import("~/server/db");
+    const { contents } = await import("~/server/db/schema");
+    const { eq, and, ne } = await import("drizzle-orm");
     await ensureSeeded();
     return await db
       .select()
@@ -102,16 +105,19 @@ type ViewMode = "sanskrit" | "transliteration" | "translation";
 
 function MantraPage() {
   const { content, deity, likeCount: initialCount, liked: initialLiked, siblings } = Route.useLoaderData();
-  if (!deity) throw new Error("Deity not found");
   const [view, setView] = useState<ViewMode>("sanskrit");
   const [fontSize, setFontSize] = useState(100);
   const [liked, setLiked] = useState(initialLiked);
   const [likeCount, setLikeCount] = useState(initialCount);
   const [saved, setSaved] = useState(false);
+  const [canShare, setCanShare] = useState(false);
   const { play: playAudio, track: currentTrack, isPlaying: audioPlaying } = useAudio();
   const { toast } = useToast();
-  const canShare = typeof navigator !== "undefined" && "share" in navigator;
   const isCurrentTrack = currentTrack?.url === content.audioUrl;
+
+  useEffect(() => {
+    setCanShare(typeof navigator !== "undefined" && "share" in navigator);
+  }, []);
 
   useEffect(() => {
     try {
@@ -177,7 +183,7 @@ function MantraPage() {
       <div className="mx-auto max-w-3xl px-4 py-8 md:px-12 md:py-12">
         <Breadcrumbs items={[
           { label: "Home", to: "/" },
-          { label: deity.name, to: "/deity/$slug", params: { slug: deity.slug } },
+          { label: deity?.name ?? "", to: "/deity/$slug", params: { slug: deity?.slug ?? "" } },
           { label: content.title },
         ]} />
 
@@ -224,7 +230,7 @@ function MantraPage() {
             <button
               onClick={() => {
                 if (isCurrentTrack && audioPlaying) return;
-                playAudio({ url: content.audioUrl!, title: content.title, deityName: deity.name });
+                playAudio({ url: content.audioUrl!, title: content.title, deityName: deity?.name ?? "" });
               }}
               className={`flex w-full items-center gap-3 rounded-xl border p-4 text-left transition-all ${
                 isCurrentTrack
@@ -246,7 +252,7 @@ function MantraPage() {
                   {isCurrentTrack && audioPlaying ? "Now Playing" : isCurrentTrack ? "Paused" : "Listen to Recitation"}
                 </div>
                 <div className="text-xs text-on-surface-variant">
-                  {isCurrentTrack ? `${deity.name} · ${content.title}` : "Audio available"}
+                  {isCurrentTrack ? `${deity?.name ?? ""} · ${content.title}` : "Audio available"}
                 </div>
               </div>
               {isCurrentTrack && (
@@ -309,7 +315,7 @@ function MantraPage() {
 
         {siblings && siblings.length > 0 && (
           <section className="mt-12">
-            <h2 className="font-serif text-xl font-semibold text-on-surface">More from {deity.name}</h2>
+            <h2 className="font-serif text-xl font-semibold text-on-surface">More from {deity?.name ?? ""}</h2>
             <div className="mt-4 space-y-3">
               {siblings.map((s) => (
                 <Link

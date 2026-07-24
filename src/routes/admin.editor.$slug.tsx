@@ -2,9 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
-import { db, ensureSeeded } from "~/server/db";
-import { contents, deities, type ContentType, type ContentStatus } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
+import type { ContentType, ContentStatus } from "~/server/db/schema";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { TipTapEditor } from "~/components/TipTapEditor";
 import { uploadContentAudio, removeContentAudio } from "~/server/functions/audio";
@@ -12,6 +10,9 @@ import { uploadContentAudio, removeContentAudio } from "~/server/functions/audio
 const getEditorData = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
   .handler(async ({ data }) => {
+    const { db, ensureSeeded } = await import("~/server/db");
+    const { contents, deities } = await import("~/server/db/schema");
+    const { eq } = await import("drizzle-orm");
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
     await ensureSeeded();
@@ -21,6 +22,8 @@ const getEditorData = createServerFn({ method: "GET" })
   });
 
 const getAllDeities = createServerFn({ method: "GET" }).handler(async () => {
+  const { db, ensureSeeded } = await import("~/server/db");
+  const { deities } = await import("~/server/db/schema");
   await ensureSeeded();
   return await db.select().from(deities).orderBy(deities.name).all();
 });
@@ -40,6 +43,9 @@ const saveContent = createServerFn({ method: "POST" })
     isNew?: boolean;
   }) => input)
   .handler(async ({ data }) => {
+    const { db, ensureSeeded } = await import("~/server/db");
+    const { contents } = await import("~/server/db/schema");
+    const { eq } = await import("drizzle-orm");
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
     await ensureSeeded();

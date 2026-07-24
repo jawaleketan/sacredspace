@@ -2,13 +2,13 @@ import { useState } from "react";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
-import { db, ensureSeeded } from "~/server/db";
-import { contents, deities } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { ConfirmModal } from "~/components/ConfirmModal";
 
 const getData = createServerFn({ method: "GET" }).handler(async () => {
+  const { db, ensureSeeded } = await import("~/server/db");
+  const { contents, deities } = await import("~/server/db/schema");
+  const { eq } = await import("drizzle-orm");
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
   await ensureSeeded();
@@ -32,6 +32,9 @@ const getData = createServerFn({ method: "GET" }).handler(async () => {
 const toggleStatus = createServerFn({ method: "POST" })
   .validator((id: number) => id)
   .handler(async ({ data }) => {
+    const { db, ensureSeeded } = await import("~/server/db");
+    const { contents } = await import("~/server/db/schema");
+    const { eq } = await import("drizzle-orm");
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
     await ensureSeeded();
@@ -45,6 +48,9 @@ const toggleStatus = createServerFn({ method: "POST" })
 const deleteItem = createServerFn({ method: "POST" })
   .validator((id: number) => id)
   .handler(async ({ data }) => {
+    const { db, ensureSeeded } = await import("~/server/db");
+    const { contents } = await import("~/server/db/schema");
+    const { eq } = await import("drizzle-orm");
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
     await ensureSeeded();
