@@ -156,11 +156,11 @@ function MantraPage() {
   }, [content.id]);
 
   const bodyText =
-    view === "transliteration" ? content.transliteration || content.body
-    : view === "translation" ? content.translation || content.description
-    : content.body;
+    view === "transliteration" ? (content.transliteration ?? content.body)
+    : view === "translation" ? (content.translation ?? content.description ?? "")
+    : (content.body ?? "");
 
-  const isHtml = view === "sanskrit" && /<[a-z][\s\S]*>/i.test(bodyText ?? "");
+  const isHtml = view === "sanskrit" && bodyText ? /<[a-z][\s\S]*>/i.test(bodyText) : false;
 
   const bodyClass =
     view === "translation"
@@ -168,6 +168,9 @@ function MantraPage() {
       : view === "transliteration"
         ? "font-sans text-lg italic leading-relaxed tracking-wide text-on-surface"
         : "font-devanagari leading-[2] text-on-surface";
+
+  const showDescription = content.description && view !== "translation";
+  const showTranslationCallout = view === "translation" && content.translation;
 
   return (
     <main className="min-h-screen bg-bg">
@@ -188,28 +191,32 @@ function MantraPage() {
           {content.title}
         </h1>
 
-        {content.description && view !== "translation" && (
+        {showDescription && (
           <p className="mt-3 text-base leading-relaxed text-on-surface-variant">
             {content.description}
           </p>
         )}
 
         <div className="mt-8 flex items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-low p-1" role="radiogroup" aria-label="View mode">
-          {(["sanskrit", "transliteration", "translation"] as ViewMode[]).map((mode) => (
-            <button
-              key={mode}
-              role="radio"
-              aria-checked={view === mode}
-              onClick={() => setView(mode)}
-              className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium min-h-[44px] transition-colors ${
-                view === mode
-                  ? "bg-accent-gold text-white"
-                  : "text-on-surface-variant hover:text-on-surface"
-              }`}
-            >
-              {mode === "sanskrit" ? "Original" : mode === "transliteration" ? "Transliteration" : "Translation"}
-            </button>
-          ))}
+          {(["sanskrit", "transliteration", "translation"] as ViewMode[]).map((mode) => {
+            const label = mode === "sanskrit" ? "Original" : mode === "transliteration" ? "Transliteration" : "Translation";
+            const isActive = view === mode;
+            return (
+              <button
+                key={mode}
+                role="radio"
+                aria-checked={isActive}
+                onClick={() => setView(mode)}
+                className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium min-h-[44px] transition-colors ${
+                  isActive
+                    ? "bg-accent-gold text-white"
+                    : "text-on-surface-variant hover:text-on-surface"
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
 
         {content.audioUrl && (
@@ -276,29 +283,23 @@ function MantraPage() {
           >
             A+
           </button>
-          <span className="text-xs text-on-surface-variant tabular-nums">{fontSize}%</span>
+          <span className="text-xs text-on-surface-variant tabular-nums" suppressHydrationWarning>{fontSize}%</span>
         </div>
-
-        {view === "translation" && content.description && (
-          <p className="mt-6 text-base leading-relaxed text-on-surface-variant">
-            {content.description}
-          </p>
-        )}
 
         <div
           className="mt-6 rounded-xl border border-outline-variant bg-surface-container-lowest p-6 md:p-10"
           style={{ fontSize: `${fontSize}%` }}
         >
           {isHtml ? (
-            <ProseRenderer html={bodyText ?? ""} className={bodyClass} />
+            <ProseRenderer html={bodyText} className={bodyClass} />
           ) : (
             <div className={`${bodyClass} whitespace-pre-line`}>
-              {bodyText}
+              {bodyText || null}
             </div>
           )}
         </div>
 
-        {view === "translation" && content.translation && (
+        {showTranslationCallout && (
           <div className="mt-4 border-l-4 border-accent-gold bg-surface-container-low pl-4 py-3 pr-3 rounded-r-lg">
             <p className="text-sm leading-relaxed text-on-surface-variant">
               {content.translation}
