@@ -5,6 +5,7 @@ import { auth } from "@clerk/tanstack-react-start/server";
 import { db, ensureSeeded } from "~/server/db";
 import { contents, deities, type ContentType, type ContentStatus } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
+import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { TipTapEditor } from "~/components/TipTapEditor";
 import { uploadContentAudio, removeContentAudio } from "~/server/functions/audio";
 
@@ -167,12 +168,11 @@ function EditorPage() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-4xl px-4 py-8 md:px-12 md:py-12">
-        <Link
-          to="/admin/dashboard"
-          className="mb-8 inline-flex items-center gap-1 text-sm text-on-surface-variant transition-colors hover:text-on-surface"
-        >
-          &larr; Dashboard
-        </Link>
+        <Breadcrumbs items={[
+          { label: "Home", to: "/" },
+          { label: "Dashboard", to: "/admin/dashboard" },
+          { label: isNew ? "New content" : `Edit: ${item?.title ?? ""}` },
+        ]} />
 
         <h1 className="font-serif text-3xl font-semibold text-on-surface">
           {isNew ? "New content" : `Edit: ${item?.title}`}
@@ -187,10 +187,11 @@ function EditorPage() {
         <form onSubmit={handleSave} className="mt-8 space-y-6">
           <div className="grid gap-6 sm:grid-cols-2">
             <div>
-              <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+              <label htmlFor="editor-title" className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
                 Title
               </label>
               <input
+                id="editor-title"
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
@@ -201,10 +202,11 @@ function EditorPage() {
             </div>
             {isNew && (
               <div>
-                <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+                <label htmlFor="editor-slug" className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
                   Slug
                 </label>
                 <input
+                  id="editor-slug"
                   type="text"
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
@@ -218,10 +220,11 @@ function EditorPage() {
 
           <div className="grid gap-6 sm:grid-cols-3">
             <div>
-              <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+              <label htmlFor="editor-deity" className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
                 Deity
               </label>
               <select
+                id="editor-deity"
                 value={deityId}
                 onChange={(e) => setDeityId(Number(e.target.value))}
                 className="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-sm text-on-surface outline-none focus:border-accent-gold"
@@ -232,10 +235,11 @@ function EditorPage() {
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+              <label htmlFor="editor-type" className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
                 Type
               </label>
               <select
+                id="editor-type"
                 value={type}
                 onChange={(e) => setType(e.target.value as ContentType)}
                 className="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-sm text-on-surface outline-none focus:border-accent-gold"
@@ -245,10 +249,11 @@ function EditorPage() {
               </select>
             </div>
             <div>
-              <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+              <label htmlFor="editor-status" className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
                 Status
               </label>
               <select
+                id="editor-status"
                 value={status}
                 onChange={(e) => setStatus(e.target.value as ContentStatus)}
                 className="w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 py-2 text-sm text-on-surface outline-none focus:border-accent-gold"
@@ -260,7 +265,7 @@ function EditorPage() {
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+            <label htmlFor="editor-body" className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
               Sanskrit body
             </label>
             <TipTapEditor
@@ -271,10 +276,11 @@ function EditorPage() {
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+            <label htmlFor="editor-transliteration" className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
               Transliteration (IAST)
             </label>
             <textarea
+              id="editor-transliteration"
               value={transliteration}
               onChange={(e) => setTransliteration(e.target.value)}
               rows={3}
@@ -284,10 +290,11 @@ function EditorPage() {
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+            <label htmlFor="editor-translation" className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
               Translation
             </label>
             <textarea
+              id="editor-translation"
               value={translation}
               onChange={(e) => setTranslation(e.target.value)}
               rows={4}
@@ -297,10 +304,11 @@ function EditorPage() {
           </div>
 
           <div>
-            <label className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+            <label htmlFor="editor-description" className="mb-1 block text-xs font-medium uppercase tracking-wider text-on-surface-variant">
               Description
             </label>
             <textarea
+              id="editor-description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={2}
@@ -340,14 +348,14 @@ function EditorPage() {
                 />
                 {audioUrl ? (
                   <>
-                    <audio src={audioUrl} controls className="h-8 flex-1" preload="none" />
+                    <audio src={audioUrl} controls className="h-8 flex-1" preload="none" aria-label="Audio recitation" />
                     <button
                       type="button"
                       onClick={async () => {
                         await removeContentAudio({ data: item.slug });
                         setAudioUrl("");
                       }}
-                      className="rounded px-2 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"
+                      className="rounded px-2 py-1 text-xs min-h-[44px] text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"
                     >
                       Remove
                     </button>

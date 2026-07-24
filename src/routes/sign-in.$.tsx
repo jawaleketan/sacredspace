@@ -5,6 +5,11 @@ import { RouteErrorFallback } from "~/components/RouteErrorFallback";
 export const Route = createFileRoute("/sign-in/$")({
   component: Page,
   errorComponent: () => <RouteErrorFallback />,
+  head: () => ({
+    meta: [
+      { title: "Sign In — SacredSpace" },
+    ],
+  }),
 });
 
 function Page() {

@@ -7,7 +7,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { writeFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
-import { validateImageUpload, generateUploadName } from "~/lib/upload";
+import { validateImageUpload, generateUploadName, toBase64 } from "~/lib/upload";
 
 const uploadContentImage = createServerFn({ method: "POST" })
   .validator((data: { imageBase64: string; fileName: string }) => data)
@@ -24,18 +24,6 @@ interface TipTapEditorProps {
   content: string;
   onChange: (html: string) => void;
   placeholder?: string;
-}
-
-async function toBase64(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => {
-      const result = r.result as string;
-      resolve(result.split(",")[1]);
-    };
-    r.onerror = reject;
-    r.readAsDataURL(file);
-  });
 }
 
 export function TipTapEditor({ content, onChange, placeholder }: TipTapEditorProps) {

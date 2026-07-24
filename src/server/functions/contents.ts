@@ -32,6 +32,7 @@ export interface SearchFilters {
   query: string;
   deitySlug?: string;
   type?: ContentType;
+  sortBy?: "alpha" | "newest";
 }
 
 export const searchContents = createServerFn({ method: "GET" })
@@ -66,6 +67,8 @@ export const searchContents = createServerFn({ method: "GET" })
 
     const where = conditions.length > 0 ? and(...conditions) : undefined;
 
+    const orderBy = data.sortBy === "newest" ? contents.createdAt : contents.title;
+
     const results = await db
       .select({
         id: contents.id,
@@ -80,7 +83,7 @@ export const searchContents = createServerFn({ method: "GET" })
       .from(contents)
       .innerJoin(deities, eq(contents.deityId, deities.id))
       .where(where)
-      .orderBy(contents.title)
+      .orderBy(orderBy)
       .all();
 
     return results;

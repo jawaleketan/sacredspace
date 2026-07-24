@@ -3,7 +3,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { db, ensureSeeded } from "~/server/db";
 import { deities, contents } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
+import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { DeitySkeleton } from "~/components/Skeleton";
+import { SITE_URL } from "~/lib/constants";
 
 const getDeityBySlug = createServerFn({ method: "GET" })
   .validator((slug: string) => slug)
@@ -34,6 +36,20 @@ export const Route = createFileRoute("/deity/$slug")({
     const contentList = await getContentsForDeity({ data: deity.id });
     return { deity, contentList };
   },
+  head: ({ loaderData }) => {
+    const d = loaderData?.deity;
+    if (!d) return {};
+    const desc = d.description?.slice(0, 160) ?? `Explore ${d.name} mantras and stotras`;
+    return {
+      meta: [
+        { title: `${d.name} — SacredSpace` },
+        { name: "description", content: desc },
+        { property: "og:title", content: d.name },
+        { property: "og:description", content: desc },
+        { property: "og:url", content: `${SITE_URL}/deity/${d.slug}` },
+      ],
+    };
+  },
   errorComponent: () => (
     <main className="flex min-h-screen items-center justify-center bg-bg">
       <div className="text-center">
@@ -54,12 +70,10 @@ function DeityPage() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-4xl px-4 py-8 md:px-12 md:py-12">
-        <Link
-          to="/"
-          className="mb-8 inline-flex items-center gap-1 text-sm text-on-surface-variant transition-colors hover:text-on-surface"
-        >
-          &larr; Back
-        </Link>
+        <Breadcrumbs items={[
+          { label: "Home", to: "/" },
+          { label: deity.name },
+        ]} />
 
         <div className="mb-12">
           <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl bg-surface-container text-4xl font-serif font-semibold text-primary">

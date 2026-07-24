@@ -3,11 +3,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { db, ensureSeeded } from "~/server/db";
 import { contents, deities } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, and, ne } from "drizzle-orm";
 import { toggleLike, getLikeStatus, getLikeCount } from "~/server/functions/likes";
 import { useAudio } from "~/components/AudioProvider";
 import { ProseRenderer } from "~/components/ProseRenderer";
 import { generateOgImage } from "~/server/functions/og";
+import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { MantraSkeleton } from "~/components/Skeleton";
 import { useToast } from "~/components/Toast";
 import { SITE_URL, STORAGE_KEYS } from "~/lib/constants";
@@ -22,6 +23,18 @@ const getContentBySlug = createServerFn({ method: "GET" })
     return { content, deity };
   });
 
+const getSiblingContent = createServerFn({ method: "GET" })
+  .validator((input: { deityId: number; excludeSlug: string }) => input)
+  .handler(async ({ data }) => {
+    await ensureSeeded();
+    return await db
+      .select()
+      .from(contents)
+      .where(and(eq(contents.deityId, data.deityId), ne(contents.slug, data.excludeSlug), eq(contents.status, "published")))
+      .orderBy(contents.title)
+      .all();
+  });
+
 export const Route = createFileRoute("/mantra/$slug")({
   component: MantraPage,
   pendingComponent: MantraSkeleton,
@@ -29,23 +42,28 @@ export const Route = createFileRoute("/mantra/$slug")({
     const data = await getContentBySlug({ data: params.slug });
     const count = await getLikeCount({ data: data.content.id });
     const status = await getLikeStatus({ data: data.content.id });
-    let ogImage = "";
-    try {
-      ogImage = await generateOgImage({
-        data: {
-          title: data.content.title,
-          deityName: data.deity?.name ?? "",
-          type: data.content.type,
-          body: data.content.body,
-          slug: data.content.slug,
-        },
-      });
-    } catch {}
-    return { ...data, likeCount: count, liked: status.liked, ogImage };
+    const [siblings, ogImage] = await Promise.all([
+      getSiblingContent({ data: { deityId: data.content.deityId, excludeSlug: data.content.slug } }).catch(() => []),
+      (async () => {
+        try {
+          return await generateOgImage({
+            data: {
+              title: data.content.title,
+              deityName: data.deity?.name ?? "",
+              type: data.content.type,
+              body: data.content.body,
+              slug: data.content.slug,
+            },
+          });
+        } catch { return ""; }
+      })(),
+    ]);
+    return { ...data, likeCount: count, liked: status.liked, ogImage, siblings };
   },
   head: ({ loaderData }) => {
-    const c = loaderData!.content;
-    const d = loaderData!.deity;
+    if (!loaderData) return {};
+    const c = loaderData.content;
+    const d = loaderData.deity;
     const title = `${c.title} — ${d?.name ?? ""} | SacredSpace`;
     const desc = (c.description || c.translation)?.slice(0, 160) ?? "";
     return {
@@ -56,13 +74,13 @@ export const Route = createFileRoute("/mantra/$slug")({
         { property: "og:description", content: desc },
         { property: "og:type", content: "article" },
         { property: "og:url", content: `${SITE_URL}/mantra/${c.slug}` },
-        ...(loaderData!.ogImage
+        ...(loaderData.ogImage
           ? [
-              { property: "og:image", content: loaderData!.ogImage },
+              { property: "og:image", content: loaderData.ogImage },
               { name: "twitter:card", content: "summary_large_image" },
               { name: "twitter:title", content: `${c.title} — ${d?.name ?? ""}` },
               { name: "twitter:description", content: desc },
-              { name: "twitter:image", content: loaderData!.ogImage },
+              { name: "twitter:image", content: loaderData.ogImage },
             ]
           : [{ name: "twitter:card", content: "summary" } as const]),
       ],
@@ -83,8 +101,8 @@ export const Route = createFileRoute("/mantra/$slug")({
 type ViewMode = "sanskrit" | "transliteration" | "translation";
 
 function MantraPage() {
-  const { content, deity, likeCount: initialCount, liked: initialLiked } = Route.useLoaderData();
-  if (!deity) return null;
+  const { content, deity, likeCount: initialCount, liked: initialLiked, siblings } = Route.useLoaderData();
+  if (!deity) throw new Error("Deity not found");
   const [view, setView] = useState<ViewMode>("sanskrit");
   const [fontSize, setFontSize] = useState(100);
   const [liked, setLiked] = useState(initialLiked);
@@ -154,13 +172,11 @@ function MantraPage() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-3xl px-4 py-8 md:px-12 md:py-12">
-        <Link
-          to="/deity/$slug"
-          params={{ slug: deity.slug }}
-          className="mb-8 inline-flex items-center gap-1 text-sm text-on-surface-variant transition-colors hover:text-on-surface"
-        >
-          &larr; {deity.name}
-        </Link>
+        <Breadcrumbs items={[
+          { label: "Home", to: "/" },
+          { label: deity.name, to: "/deity/$slug", params: { slug: deity.slug } },
+          { label: content.title },
+        ]} />
 
         <div className="mb-2 flex items-center gap-3">
           <span className="inline-block rounded-full bg-surface-container px-3 py-1 text-xs font-medium uppercase tracking-wider text-on-surface-variant">
@@ -178,12 +194,14 @@ function MantraPage() {
           </p>
         )}
 
-        <div className="mt-8 flex items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-low p-1">
+        <div className="mt-8 flex items-center gap-2 rounded-lg border border-outline-variant bg-surface-container-low p-1" role="radiogroup" aria-label="View mode">
           {(["sanskrit", "transliteration", "translation"] as ViewMode[]).map((mode) => (
             <button
               key={mode}
+              role="radio"
+              aria-checked={view === mode}
               onClick={() => setView(mode)}
-              className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition-colors ${
+              className={`flex-1 rounded-md px-3 py-1.5 text-xs font-medium min-h-[44px] transition-colors ${
                 view === mode
                   ? "bg-accent-gold text-white"
                   : "text-on-surface-variant hover:text-on-surface"
@@ -237,7 +255,7 @@ function MantraPage() {
         <div className="mt-6 flex items-center gap-3">
           <button
             onClick={() => setFontSize((s) => Math.max(60, s - 10))}
-            className="rounded-md border border-outline-variant px-2.5 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-container"
+            className="rounded-md border border-outline-variant px-2.5 py-1 text-xs min-h-[44px] text-on-surface-variant transition-colors hover:bg-surface-container"
             aria-label="Decrease font size"
           >
             A&minus;
@@ -248,11 +266,12 @@ function MantraPage() {
             max="180"
             value={fontSize}
             onChange={(e) => setFontSize(Number(e.target.value))}
+            aria-label="Font size"
             className="h-1 w-32 cursor-pointer appearance-none rounded-full bg-surface-container-highest accent-accent-gold"
           />
           <button
             onClick={() => setFontSize((s) => Math.min(180, s + 10))}
-            className="rounded-md border border-outline-variant px-2.5 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-container"
+            className="rounded-md border border-outline-variant px-2.5 py-1 text-xs min-h-[44px] text-on-surface-variant transition-colors hover:bg-surface-container"
             aria-label="Increase font size"
           >
             A+
@@ -285,6 +304,32 @@ function MantraPage() {
               {content.translation}
             </p>
           </div>
+        )}
+
+        {siblings && siblings.length > 0 && (
+          <section className="mt-12">
+            <h2 className="font-serif text-xl font-semibold text-on-surface">More from {deity.name}</h2>
+            <div className="mt-4 space-y-3">
+              {siblings.map((s) => (
+                <Link
+                  key={s.id}
+                  to="/mantra/$slug"
+                  params={{ slug: s.slug }}
+                  className="block rounded-lg border border-outline-variant bg-surface-container-lowest p-4 transition-all hover:border-accent-gold/40 hover:shadow-sm"
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-serif text-base font-semibold text-on-surface">{s.title}</span>
+                    <span className="shrink-0 rounded-full bg-surface-container px-2 py-0.5 text-xs font-medium uppercase tracking-wider text-on-surface-variant">
+                      {s.type}
+                    </span>
+                  </div>
+                  {s.description && (
+                    <p className="mt-1 line-clamp-2 text-sm text-on-surface-variant">{s.description}</p>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
 
         <div className="mt-10 flex items-center justify-center gap-6 border-t border-outline-variant pt-6">

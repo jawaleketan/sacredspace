@@ -61,3 +61,15 @@ export function generateUploadName(prefix: string, ext: string): string {
   const id = randomUUID().replace(/-/g, "").slice(0, 16);
   return `${prefix}-${id}.${ext}`;
 }
+
+export function toBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => {
+      const result = r.result as string;
+      resolve(result.split(",")[1]);
+    };
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}

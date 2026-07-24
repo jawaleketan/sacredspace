@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getAnalytics } from "~/server/functions/analytics";
+import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { RouteErrorFallback } from "~/components/RouteErrorFallback";
 
 export const Route = createFileRoute("/admin/analytics")({
@@ -17,12 +18,11 @@ function AdminAnalytics() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-4xl px-4 py-8 md:px-12 md:py-12">
-        <Link
-          to="/admin/dashboard"
-          className="mb-8 inline-flex items-center gap-1 text-sm text-on-surface-variant transition-colors hover:text-on-surface"
-        >
-          &larr; Dashboard
-        </Link>
+        <Breadcrumbs items={[
+          { label: "Home", to: "/" },
+          { label: "Dashboard", to: "/admin/dashboard" },
+          { label: "Analytics" },
+        ]} />
 
         <h1 className="font-serif text-3xl font-semibold text-on-surface">Analytics</h1>
 

@@ -1,12 +1,19 @@
 import { useState, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getSavedContents } from "~/server/functions/saved";
+import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { SavedSkeleton } from "~/components/Skeleton";
 import { useToast } from "~/components/Toast";
 import { STORAGE_KEYS } from "~/lib/constants";
 
 export const Route = createFileRoute("/saved")({
   component: SavedPage,
+  head: () => ({
+    meta: [
+      { title: "Saved — SacredSpace" },
+      { name: "description", content: "Your saved mantras and stotras." },
+    ],
+  }),
 });
 
 interface SavedItem {
@@ -54,12 +61,10 @@ function SavedPage() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-4xl px-4 py-8 md:px-12 md:py-12">
-        <Link
-          to="/"
-          className="mb-8 inline-flex items-center gap-1 text-sm text-on-surface-variant transition-colors hover:text-on-surface"
-        >
-          &larr; Home
-        </Link>
+        <Breadcrumbs items={[
+          { label: "Home", to: "/" },
+          { label: "Saved" },
+        ]} />
 
         <h1 className="font-serif text-3xl font-semibold text-on-surface">Saved</h1>
         <p className="mt-2 text-sm text-on-surface-variant">
@@ -111,7 +116,7 @@ function SavedPage() {
                 </Link>
                 <button
                   onClick={() => removeItem(item.id)}
-                  className="shrink-0 rounded p-1.5 text-sm text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"
+                  className="shrink-0 rounded p-1.5 text-sm min-h-[44px] min-w-[44px] text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"
                   aria-label="Remove from saved"
                   title="Remove from saved"
                 >

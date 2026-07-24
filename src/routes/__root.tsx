@@ -6,10 +6,12 @@ import {
   Scripts,
   createRootRoute,
 } from "@tanstack/react-router";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
+import { useRouter } from "@tanstack/react-router";
 import { AudioProvider } from "~/components/AudioProvider";
 import { ToastProvider } from "~/components/Toast";
 import { ConfirmModal } from "~/components/ConfirmModal";
+import { BackToTop } from "~/components/BackToTop";
 import { SITE_URL } from "~/lib/constants";
 import appCss from "~/styles/app.css?url";
 
@@ -33,12 +35,21 @@ export const Route = createRootRoute({
       { rel: "manifest", href: "/manifest.webmanifest" },
       { rel: "stylesheet", href: appCss },
     ],
+    scripts: [
+      { children: "try{let t=localStorage.getItem('theme');if(t==='dark')document.documentElement.classList.add('dark')}catch(e){}" },
+    ],
   }),
   component: RootComponent,
 });
 
 function RootComponent() {
+  const router = useRouter();
+  const mainRef = useRef<HTMLDivElement>(null);
   const [pwaUpdate, setPwaUpdate] = useState<(() => void) | null>(null);
+
+  useEffect(() => {
+    mainRef.current?.focus();
+  }, [router.state.location]);
 
   useEffect(() => {
     import("virtual:pwa-register").then(({ registerSW }) => {
@@ -64,11 +75,16 @@ function RootComponent() {
         <HeadContent />
       </head>
       <body className="bg-bg text-on-surface font-sans antialiased">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-accent-gold focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white">
+          Skip to content
+        </a>
         <ClerkProvider>
           <QueryClientProvider client={queryClient}>
             <AudioProvider>
               <ToastProvider>
-                <Outlet />
+                <div ref={mainRef} id="main-content" tabIndex={-1} className="outline-none">
+                  <Outlet />
+                </div>
               </ToastProvider>
             </AudioProvider>
             <Scripts />
@@ -82,6 +98,7 @@ function RootComponent() {
           onConfirm={handlePwaReload}
           onCancel={() => setPwaUpdate(null)}
         />
+        <BackToTop />
       </body>
     </html>
   );

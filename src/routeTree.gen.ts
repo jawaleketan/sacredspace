@@ -16,6 +16,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminDeitiesRouteImport } from './routes/admin.deities'
+import { Route as ApiHealthRouteImport } from './routes/api.health'
 import { Route as DeitySlugRouteImport } from './routes/deity.$slug'
 import { Route as MantraSlugRouteImport } from './routes/mantra.$slug'
 import { Route as SignInSplatRouteImport } from './routes/sign-in.$'
@@ -57,6 +58,11 @@ const AdminDeitiesRoute = AdminDeitiesRouteImport.update({
   path: '/admin/deities',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiHealthRoute = ApiHealthRouteImport.update({
+  id: '/api/health',
+  path: '/api/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DeitySlugRoute = DeitySlugRouteImport.update({
   id: '/deity/$slug',
   path: '/deity/$slug',
@@ -90,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/deities': typeof AdminDeitiesRoute
+  '/api/health': typeof ApiHealthRoute
   '/deity/$slug': typeof DeitySlugRoute
   '/mantra/$slug': typeof MantraSlugRoute
   '/sign-in/$': typeof SignInSplatRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/deities': typeof AdminDeitiesRoute
+  '/api/health': typeof ApiHealthRoute
   '/deity/$slug': typeof DeitySlugRoute
   '/mantra/$slug': typeof MantraSlugRoute
   '/sign-in/$': typeof SignInSplatRoute
@@ -119,6 +127,7 @@ export interface FileRoutesById {
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/deities': typeof AdminDeitiesRoute
+  '/api/health': typeof ApiHealthRoute
   '/deity/$slug': typeof DeitySlugRoute
   '/mantra/$slug': typeof MantraSlugRoute
   '/sign-in/$': typeof SignInSplatRoute
@@ -135,6 +144,7 @@ export interface FileRouteTypes {
     | '/admin/analytics'
     | '/admin/dashboard'
     | '/admin/deities'
+    | '/api/health'
     | '/deity/$slug'
     | '/mantra/$slug'
     | '/sign-in/$'
@@ -149,6 +159,7 @@ export interface FileRouteTypes {
     | '/admin/analytics'
     | '/admin/dashboard'
     | '/admin/deities'
+    | '/api/health'
     | '/deity/$slug'
     | '/mantra/$slug'
     | '/sign-in/$'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/admin/analytics'
     | '/admin/dashboard'
     | '/admin/deities'
+    | '/api/health'
     | '/deity/$slug'
     | '/mantra/$slug'
     | '/sign-in/$'
@@ -178,6 +190,7 @@ export interface RootRouteChildren {
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminDeitiesRoute: typeof AdminDeitiesRoute
+  ApiHealthRoute: typeof ApiHealthRoute
   DeitySlugRoute: typeof DeitySlugRoute
   MantraSlugRoute: typeof MantraSlugRoute
   SignInSplatRoute: typeof SignInSplatRoute
@@ -237,6 +250,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDeitiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/health': {
+      id: '/api/health'
+      path: '/api/health'
+      fullPath: '/api/health'
+      preLoaderRoute: typeof ApiHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/deity/$slug': {
       id: '/deity/$slug'
       path: '/deity/$slug'
@@ -282,6 +302,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminDeitiesRoute: AdminDeitiesRoute,
+  ApiHealthRoute: ApiHealthRoute,
   DeitySlugRoute: DeitySlugRoute,
   MantraSlugRoute: MantraSlugRoute,
   SignInSplatRoute: SignInSplatRoute,

@@ -13,10 +13,12 @@ interface ToastContextValue {
   toast: (message: string, type?: ToastType) => void;
 }
 
-const ToastContext = createContext<ToastContextValue>({ toast: () => {} });
+const ToastContext = createContext<ToastContextValue | null>(null);
 
 export function useToast() {
-  return useContext(ToastContext);
+  const ctx = useContext(ToastContext);
+  if (!ctx) throw new Error("useToast must be used within a ToastProvider");
+  return ctx;
 }
 
 let nextId = 0;
@@ -36,7 +38,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={{ toast }}>
       {children}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col-reverse gap-2" style={{ pointerEvents: toasts.length > 0 ? "auto" : "none" }}>
+      <div className="fixed bottom-6 right-6 z-50 flex flex-col-reverse gap-2" role="status" aria-live="polite" aria-label="Notifications" style={{ pointerEvents: toasts.length > 0 ? "auto" : "none" }}>
         {toasts.map((t) => (
           <ToastItem key={t.id} toast={t} onDone={remove} />
         ))}
@@ -65,7 +67,16 @@ function ToastItem({ toast: t, onDone }: { toast: Toast; onDone: (id: number) =>
         pointerEvents: "auto",
       }}
     >
-      {t.message}
+      <div className="flex items-center gap-3">
+        <span className="flex-1">{t.message}</span>
+        <button
+          onClick={() => onDone(t.id)}
+          className="shrink-0 rounded p-0.5 text-current opacity-60 transition-opacity hover:opacity-100"
+          aria-label="Dismiss"
+        >
+          &#x2715;
+        </button>
+      </div>
     </div>
   );
 }

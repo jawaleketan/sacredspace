@@ -5,6 +5,7 @@ import { db, ensureSeeded } from "~/server/db";
 import { deities, contents, type ContentType } from "~/server/db/schema";
 import { eq, like, and, or } from "drizzle-orm";
 import type { SearchFilters } from "~/server/functions/contents";
+import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { SearchSkeleton } from "~/components/Skeleton";
 import { RouteErrorFallback } from "~/components/RouteErrorFallback";
 
@@ -42,12 +43,19 @@ export const Route = createFileRoute("/search")({
   component: SearchPage,
   pendingComponent: SearchSkeleton,
   errorComponent: () => <RouteErrorFallback />,
+  head: () => ({
+    meta: [
+      { title: "Search — SacredSpace" },
+      { name: "description", content: "Search mantras and stotras by deity, type, or keyword." },
+    ],
+  }),
   validateSearch: (search: Record<string, string>) => ({
     q: search.q ?? "",
     deity: search.deity ?? "",
     type: search.type ?? "",
+    sort: (search.sort as "alpha" | "newest") || "alpha",
   }),
-  loaderDeps: ({ search }) => ({ q: search.q, deity: search.deity, type: search.type }),
+  loaderDeps: ({ search }) => ({ q: search.q, deity: search.deity, type: search.type, sort: search.sort }),
   loader: async ({ deps }) => {
     const [results, deityList] = await Promise.all([
       doSearch({
@@ -55,6 +63,7 @@ export const Route = createFileRoute("/search")({
           query: deps.q,
           deitySlug: deps.deity || undefined,
           type: (deps.type as ContentType | undefined) || undefined,
+          sortBy: deps.sort,
         },
       }),
       getAllDeities(),
@@ -82,7 +91,7 @@ function SearchPage() {
   function updateFilters(updates: Partial<typeof search>) {
     navigate({
       to: "/search",
-      search: (prev) => ({ q: prev.q || "", deity: prev.deity || "", type: prev.type || "", ...updates }),
+      search: (prev) => ({ q: prev.q || "", deity: prev.deity || "", type: prev.type || "", sort: prev.sort || "alpha", ...updates }),
     });
   }
 
@@ -94,12 +103,10 @@ function SearchPage() {
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-4xl px-4 py-8 md:px-12 md:py-12">
-        <Link
-          to="/"
-          className="mb-8 inline-flex items-center gap-1 text-sm text-on-surface-variant transition-colors hover:text-on-surface"
-        >
-          &larr; Home
-        </Link>
+        <Breadcrumbs items={[
+          { label: "Home", to: "/" },
+          { label: "Search" },
+        ]} />
 
         <form onSubmit={handleSearch} className="mb-8">
           <div className="relative">
@@ -111,6 +118,7 @@ function SearchPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Search mantras and stotras..."
+              aria-label="Search mantras and stotras"
               className="w-full rounded-full border border-outline-variant bg-surface-container-lowest py-3 pl-11 pr-4 text-sm text-on-surface placeholder:text-on-surface-variant outline-none transition-colors focus:border-accent-gold focus:ring-1 focus:ring-accent-gold/30"
             />
           </div>
@@ -122,7 +130,7 @@ function SearchPage() {
           </span>
           <button
             onClick={() => updateFilters({ deity: "" })}
-            className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+            className={`rounded-full border px-3 py-1 text-xs font-medium min-h-[44px] transition-colors ${
               !search.deity
                 ? "border-accent-gold bg-accent-gold/10 text-accent-gold"
                 : "border-outline-variant text-on-surface-variant hover:bg-surface-container"
@@ -134,7 +142,7 @@ function SearchPage() {
             <button
               key={d.slug}
               onClick={() => updateFilters({ deity: d.slug === search.deity ? "" : d.slug })}
-              className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+              className={`rounded-full border px-3 py-1 text-xs font-medium min-h-[44px] transition-colors ${
                 search.deity === d.slug
                   ? "border-accent-gold bg-accent-gold/10 text-accent-gold"
                   : "border-outline-variant text-on-surface-variant hover:bg-surface-container"
@@ -153,7 +161,7 @@ function SearchPage() {
             <button
               key={chip.value}
               onClick={() => updateFilters({ type: chip.value })}
-              className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
+              className={`rounded-full border px-3 py-1 text-xs font-medium min-h-[44px] transition-colors ${
                 search.type === chip.value
                   ? "border-accent-gold bg-accent-gold/10 text-accent-gold"
                   : "border-outline-variant text-on-surface-variant hover:bg-surface-container"
@@ -164,12 +172,31 @@ function SearchPage() {
           ))}
         </div>
 
-        {search.q && (
-          <p className="mb-6 text-sm text-on-surface-variant">
-            {results.length} result{results.length !== 1 ? "s" : ""} for &ldquo;{search.q}&rdquo;
-            {search.deity ? ` in ${deityList.find((d) => d.slug === search.deity)?.name}` : ""}
-            {search.type ? ` (${search.type})` : ""}
-          </p>
+        {(search.q || search.deity || search.type) && (
+          <div className="mb-6 flex flex-wrap items-center gap-3">
+            <p className="text-sm text-on-surface-variant">
+              {results.length} result{results.length !== 1 ? "s" : ""}
+              {search.q ? ` for &ldquo;${search.q}&rdquo;` : ""}
+              {search.deity ? ` in ${deityList.find((d) => d.slug === search.deity)?.name}` : ""}
+              {search.type ? ` (${search.type})` : ""}
+            </p>
+            <div className="ml-auto flex gap-1.5">
+              <span className="self-center text-xs text-on-surface-variant mr-1">Sort:</span>
+              {(["alpha", "newest"] as const).map((s) => (
+                <button
+                  key={s}
+                  onClick={() => updateFilters({ sort: s === search.sort ? "alpha" : s })}
+                  className={`rounded-md px-2.5 py-1 text-xs font-medium min-h-[44px] transition-colors ${
+                    search.sort === s
+                      ? "bg-accent-gold/10 text-accent-gold"
+                      : "text-on-surface-variant hover:text-on-surface"
+                  }`}
+                >
+                  {s === "alpha" ? "A–Z" : "Newest"}
+                </button>
+              ))}
+            </div>
+          </div>
         )}
 
         {!search.q && !search.deity && !search.type && (

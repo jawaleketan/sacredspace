@@ -5,6 +5,7 @@ import { auth } from "@clerk/tanstack-react-start/server";
 import { db, ensureSeeded } from "~/server/db";
 import { contents, deities } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
+import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { ConfirmModal } from "~/components/ConfirmModal";
 
 const getData = createServerFn({ method: "GET" }).handler(async () => {
@@ -71,25 +72,35 @@ function DashboardPage() {
   const items = Route.useLoaderData();
   const router = useRouter();
   const [deleteConfirm, setDeleteConfirm] = useState<{ id: number; title: string } | null>(null);
+  const [toggling, setToggling] = useState<number | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   async function handleToggle(id: number) {
+    setToggling(id);
     try {
       await toggleStatus({ data: id });
       router.invalidate();
     } catch (e) { console.error("Toggle failed", e); }
+    finally { setToggling(null); }
   }
 
   async function handleDelete(id: number) {
+    setDeleting(true);
     setDeleteConfirm(null);
     try {
       await deleteItem({ data: id });
       router.invalidate();
     } catch (e) { console.error("Delete failed", e); }
+    finally { setDeleting(false); }
   }
 
   return (
     <main className="min-h-screen bg-bg">
       <div className="mx-auto max-w-6xl px-4 py-8 md:px-12 md:py-12">
+        <Breadcrumbs items={[
+          { label: "Home", to: "/" },
+          { label: "Dashboard" },
+        ]} />
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="font-serif text-3xl font-semibold text-on-surface">Dashboard</h1>
@@ -140,7 +151,7 @@ function DashboardPage() {
               {items.map((item) => (
                 <tr
                   key={item.id}
-                  className="bg-surface-container-lowest transition-colors hover:bg-surface-container-low/50"
+                  className="group/row bg-surface-container-lowest transition-colors hover:bg-surface-container-low/50"
                 >
                   <td className="px-4 py-3">
                     <Link
@@ -162,13 +173,14 @@ function DashboardPage() {
                   <td className="px-4 py-3">
                     <button
                       onClick={() => handleToggle(item.id)}
-                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors ${
+                      disabled={toggling === item.id}
+                      className={`rounded-full px-2.5 py-0.5 text-xs font-medium min-h-[44px] transition-colors ${
                         item.status === "published"
                           ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
                           : "bg-surface-container text-on-surface-variant"
-                      }`}
+                      } disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
-                      {item.status}
+                      {toggling === item.id ? "..." : item.status}
                     </button>
                   </td>
                   <td className="px-4 py-3 text-xs text-on-surface-variant hidden lg:table-cell tabular-nums">
@@ -179,13 +191,13 @@ function DashboardPage() {
                       <Link
                         to="/admin/editor/$slug"
                         params={{ slug: item.slug }}
-                        className="rounded px-2 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-container hover:text-on-surface"
+                        className="rounded px-2 py-1 text-xs min-h-[44px] text-on-surface-variant transition-colors hover:bg-surface-container hover:text-on-surface"
                       >
                         Edit
                       </Link>
                       <button
                         onClick={() => setDeleteConfirm({ id: item.id, title: item.title })}
-                        className="rounded px-2 py-1 text-xs text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"
+                        className="rounded px-2 py-1 text-xs min-h-[44px] text-on-surface-variant transition-colors hover:bg-surface-container hover:text-error"
                       >
                         Delete
                       </button>
@@ -210,6 +222,7 @@ function DashboardPage() {
         message={`Delete "${deleteConfirm?.title ?? ""}"? This cannot be undone.`}
         confirmLabel="Delete"
         variant="danger"
+        loading={deleting}
         onConfirm={() => deleteConfirm && handleDelete(deleteConfirm.id)}
         onCancel={() => setDeleteConfirm(null)}
       />

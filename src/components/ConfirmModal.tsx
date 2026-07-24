@@ -9,9 +9,10 @@ interface ConfirmModalProps {
   onConfirm: () => void;
   onCancel: () => void;
   variant?: "danger" | "default";
+  loading?: boolean;
 }
 
-export function ConfirmModal({ open, title, message, confirmLabel = "Confirm", cancelLabel = "Cancel", onConfirm, onCancel, variant = "default" }: ConfirmModalProps) {
+export function ConfirmModal({ open, title, message, confirmLabel = "Confirm", cancelLabel = "Cancel", onConfirm, onCancel, variant = "default", loading }: ConfirmModalProps) {
   const confirmRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -43,11 +44,12 @@ export function ConfirmModal({ open, title, message, confirmLabel = "Confirm", c
             ref={confirmRef}
             type="button"
             onClick={onConfirm}
+            disabled={loading}
             className={`rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors ${
               variant === "danger" ? "bg-error hover:bg-error/90" : "bg-accent-gold hover:bg-accent-saffron"
-            }`}
+            } disabled:opacity-50 disabled:cursor-not-allowed`}
           >
-            {confirmLabel}
+            {loading ? "..." : confirmLabel}
           </button>
         </div>
       </div>

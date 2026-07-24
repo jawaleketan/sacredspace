@@ -117,7 +117,7 @@ function HomePage() {
             onSubmit={(e) => {
               e.preventDefault();
               const val = searchRef.current?.value.trim();
-              if (val) navigate({ to: "/search", search: { q: val, deity: "", type: "" } as { q: string; deity: string; type: string } });
+              if (val) navigate({ to: "/search", search: { q: val, deity: "", type: "", sort: "alpha" } });
             }}
             className="relative max-w-md"
           >
@@ -128,6 +128,7 @@ function HomePage() {
               ref={searchRef}
               type="text"
               placeholder="Search mantras and stotras..."
+              aria-label="Search mantras and stotras"
               className="w-full rounded-full border border-outline-variant bg-surface-container-lowest py-2.5 pl-10 pr-4 text-sm text-on-surface placeholder:text-on-surface-variant outline-none transition-colors focus:border-accent-gold focus:ring-1 focus:ring-accent-gold/30"
             />
           </form>
@@ -141,10 +142,10 @@ function HomePage() {
               className="group block rounded-2xl border border-accent-gold/30 bg-gradient-to-br from-accent-gold/5 via-accent-saffron/[0.02] to-transparent p-6 transition-all hover:border-accent-gold/60 hover:shadow-[0_4px_24px_rgba(212,175,55,0.1)] md:p-8"
             >
               <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-accent-gold/30 bg-accent-gold/10 px-3.5 py-1">
-                <span className="text-xs text-accent-gold">&#9733;</span>
-                <span className="text-xs font-medium uppercase tracking-wider text-accent-gold">
+                <span className="text-xs text-accent-gold" aria-hidden="true">&#9733;</span>
+                <h2 className="text-xs font-medium uppercase tracking-wider text-accent-gold m-0">
                   Mantra of the Day
-                </span>
+                </h2>
               </div>
               <h3 className="font-serif text-xl font-semibold text-on-surface group-hover:text-accent-gold transition-colors md:text-2xl">
                 {daily.content.title}
@@ -173,7 +174,7 @@ function HomePage() {
             <div className="flex items-center gap-4">
               <Link
                 to="/search"
-                search={{ q: "", deity: "", type: "" }}
+                search={{ q: "", deity: "", type: "", sort: "alpha" }}
                 className="text-sm text-on-surface-variant transition-colors hover:text-accent-gold"
               >
                 Browse all
