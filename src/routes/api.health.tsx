@@ -1,20 +1,21 @@
+import { useLoaderData } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
-import { db } from "~/server/db";
+import { db, ensureSeeded } from "~/server/db";
 
 export const Route = createFileRoute("/api/health")({
   loader: async () => {
+    await ensureSeeded();
     try {
       await db.run("SELECT 1");
-      return new Response(JSON.stringify({ status: "healthy", database: "connected", timestamp: new Date().toISOString() }), {
-        status: 200,
-        headers: { "Content-Type": "application/json", "Cache-Control": "no-cache" },
-      });
+      return { status: "healthy", database: "connected", timestamp: new Date().toISOString() };
     } catch (e) {
-      return new Response(JSON.stringify({ status: "unhealthy", error: String(e), timestamp: new Date().toISOString() }), {
-        status: 503,
-        headers: { "Content-Type": "application/json" },
-      });
+      return { status: "unhealthy", error: String(e), timestamp: new Date().toISOString() };
     }
   },
-  component: () => null,
+  component: HealthPage,
 });
+
+function HealthPage() {
+  const data = useLoaderData({ from: Route.id });
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
+}
