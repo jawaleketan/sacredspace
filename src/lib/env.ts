@@ -8,9 +8,11 @@ export function validateEnv(): void {
     missing.push("CLERK_SECRET_KEY");
   }
   if (missing.length > 0) {
-    throw new Error(
-      `Missing required environment variables: ${missing.join(", ")}.\n` +
-      "Create a .env.local file with these values."
-    );
+    const msg = `Missing required environment variables: ${missing.join(", ")}.\nCreate a .env.local file with these values.`;
+    if (process.env.NODE_ENV === "development") {
+      throw new Error(msg);
+    } else {
+      console.error(msg);
+    }
   }
 }

@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { db, ensureSeeded } from "../db";
 import { contents, deities, likes } from "../db/schema";
-import { eq, sql, count, and } from "drizzle-orm";
+import { eq, sql, count } from "drizzle-orm";
 import { auth } from "@clerk/tanstack-react-start/server";
 
 export const getAnalytics = createServerFn({ method: "GET" }).handler(async () => {
@@ -63,10 +63,10 @@ export const getAnalytics = createServerFn({ method: "GET" }).handler(async () =
       deitySlug: deities.slug,
       contentCount: count(contents.id),
       likesCount: count(likes.id),
-      mantraCount: count(cnt => cnt.type === "mantra"),
-      stotraCount: count(cnt => cnt.type === "stotra"),
-      publishedCount: count(cnt => cnt.status === "published"),
-      draftCount: count(cnt => cnt.status === "draft"),
+      mantraCount: count(sql`CASE WHEN ${contents.type} = 'mantra' THEN 1 END`),
+      stotraCount: count(sql`CASE WHEN ${contents.type} = 'stotra' THEN 1 END`),
+      publishedCount: count(sql`CASE WHEN ${contents.status} = 'published' THEN 1 END`),
+      draftCount: count(sql`CASE WHEN ${contents.status} = 'draft' THEN 1 END`),
     })
     .from(deities)
     .leftJoin(contents, eq(deities.id, contents.deityId))

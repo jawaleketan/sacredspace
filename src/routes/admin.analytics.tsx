@@ -27,10 +27,10 @@ function AdminAnalytics() {
         <h1 className="font-serif text-3xl font-semibold text-on-surface">Analytics</h1>
 
         <div className="mt-8 grid grid-cols-2 gap-4 md:grid-cols-4">
-          <SummaryCard label="Total Items" value={data.totalItems} />
-          <SummaryCard label="Total Likes" value={data.totalLikes} />
-          <SummaryCard label="Published" value={data.publishedCount} />
-          <SummaryCard label="Drafts" value={data.draftsCount} />
+          <SummaryCard label="Total Items" value={data.totals.totalItems} />
+          <SummaryCard label="Total Likes" value={data.totals.totalLikes} />
+          <SummaryCard label="Published" value={data.totals.publishedCount} />
+          <SummaryCard label="Drafts" value={data.totals.draftsCount} />
         </div>
 
         <h2 className="mt-12 font-serif text-xl font-semibold text-on-surface">Likes per Content</h2>

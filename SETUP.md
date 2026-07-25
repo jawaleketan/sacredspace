@@ -179,8 +179,12 @@ If `TURSO_DATABASE_URL` is set, the app connects to a remote Turso database inst
 3. Import `jawaleketan/sacredspace`
 4. Framework is auto-detected as "TanStack Start"
 5. Add environment variables:
-   - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` — Clerk publishable key
-   - `CLERK_SECRET_KEY` — Clerk secret key
+   - `VITE_CLERK_PUBLISHABLE_KEY` — Clerk publishable key (VITE_ prefix is required for Vite to expose to the client)
+   - `VITE_CLERK_SIGN_IN_URL=/sign-in`
+   - `VITE_CLERK_SIGN_UP_URL=/sign-up`
+   - `VITE_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/`
+   - `VITE_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/`
+   - `CLERK_SECRET_KEY` — Clerk secret key (server-side only, no prefix)
 6. Deploy
 7. Every `git push` triggers automatic redeploy
 
