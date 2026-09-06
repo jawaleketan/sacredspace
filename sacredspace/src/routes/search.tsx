@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { createFileRoute, Link, useNavigate, useSearch } from "@tanstack/react-router";
 import type { ContentType } from "~/server/db/schema";
 import { searchContents, getAllDeities } from "~/server/functions/contents";
@@ -50,11 +50,14 @@ function SearchPage() {
   const { results, deityList, query: initialQuery } = Route.useLoaderData();
   const search = useSearch({ from: Route.id });
   const navigate = useNavigate();
+  // Re-initialize local input when the URL query changes (e.g. back/forward,
+  // header search). The key forces a remount instead of syncing via effect.
   const [input, setInput] = useState(search.q || initialQuery || "");
-
-  useEffect(() => {
+  const [lastUrlQuery, setLastUrlQuery] = useState(search.q);
+  if (search.q !== lastUrlQuery) {
+    setLastUrlQuery(search.q);
     setInput(search.q || "");
-  }, [search.q]);
+  }
 
   function updateFilters(updates: Partial<typeof search>) {
     navigate({

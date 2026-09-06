@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import satori from "satori";
+import type { ReactNode } from "react";
 import { ogImageInput } from "./validators";
 
 interface VNode {
@@ -53,7 +54,7 @@ export const generateOgImage = createServerFn({ method: "GET" })
       h("div", { style: { position: "absolute", bottom: 32, color: "rgba(255,255,255,0.3)", fontSize: 13, letterSpacing: 1.5 } }, "sacredspace.vercel.app"),
     );
 
-    const svg = await satori(tree as any,
+    const svg = await satori(tree as ReactNode,
       {
         width: 1200,
         height: 630,

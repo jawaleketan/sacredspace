@@ -62,7 +62,7 @@ function RootComponent() {
           setPwaUpdate(() => () => updateSW(true));
         },
         onOfflineReady() {
-          console.log("App ready for offline use");
+          console.info("App ready for offline use");
         },
       });
     }).catch((e) => { console.error("PWA registration failed", e); });

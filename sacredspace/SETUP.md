@@ -58,9 +58,12 @@ The app uses a local SQLite file at `data/sacredspace.db`. The schema is auto-cr
 npm run db:seed
 ```
 
-### Production with Turso (optional — for persistent remote DB)
+### Production with Turso (required for production deployments)
 
-If you want writes (likes, admin edits) to persist on Vercel, set up Turso:
+Writes (likes, admin edits) must persist on Vercel, so production requires a
+Turso database. The app **fails fast at startup** in production if
+`TURSO_DATABASE_URL` is missing — the old `/tmp` SQLite fallback was removed
+because serverless filesystems are ephemeral and silently discard data.
 
 ```bash
 # Install Turso CLI
@@ -81,7 +84,8 @@ TURSO_DATABASE_URL=libsql://xxx TURSO_AUTH_TOKEN=xxx npx tsx scripts/seed.ts
 # Add these env vars to Vercel project settings
 ```
 
-**Without Turso:** On Vercel, the DB is created in `/tmp/sacredspace.db` and auto-seeded at cold start. Data resets on cold starts (acceptable for demo — content is the same every time).
+**Local dev:** no Turso needed — a local file database is created at
+`./data/sacredspace.db` and auto-seeded at startup when `TURSO_DATABASE_URL` is unset.
 
 ---
 

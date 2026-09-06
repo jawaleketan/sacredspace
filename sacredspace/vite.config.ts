@@ -37,7 +37,8 @@ export default defineConfig({
         navigateFallbackDenylist: [/^\/api\//, /^\/admin\//],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/sacredspace\.vercel\.app\/api\/.*/i,
+            // Relative pattern: works on production, preview, and custom domains
+            urlPattern: /\/api\//,
             handler: "NetworkFirst",
             options: {
               cacheName: "api-cache",

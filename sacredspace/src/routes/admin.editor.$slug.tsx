@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
@@ -124,11 +124,14 @@ function EditorPage() {
   const [message, setMessage] = useState("");
   const audioInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (isNew && !slug && title) {
-      setSlug(title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""));
-    }
-  }, [title, slug, isNew]);
+  // Auto-derive slug from title while creating new content, until the user
+  // edits the slug field manually. Derived-state-during-render pattern:
+  // previous title is tracked so the slug only follows title changes.
+  const [prevTitle, setPrevTitle] = useState(isNew ? title : null);
+  if (isNew && title !== prevTitle) {
+    setPrevTitle(title);
+    setSlug(title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""));
+  }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();

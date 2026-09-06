@@ -32,6 +32,10 @@ jobs:
         working-directory: sacredspace
         run: npm run typecheck
 
+      - name: Lint
+        working-directory: sacredspace
+        run: npm run lint
+
       - name: Run tests
         working-directory: sacredspace
         run: npm test

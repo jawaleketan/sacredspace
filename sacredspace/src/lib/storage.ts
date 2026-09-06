@@ -24,7 +24,7 @@ export interface StoredFile {
   storage: "blob" | "local";
 }
 
-function useBlob(): boolean {
+function shouldUseBlob(): boolean {
   return !!process.env.BLOB_READ_WRITE_TOKEN && !!process.env.VERCEL;
 }
 
@@ -48,7 +48,7 @@ export async function storeFile(
   buffer: Buffer,
   contentType: string,
 ): Promise<StoredFile> {
-  if (useBlob()) {
+  if (shouldUseBlob()) {
     const blob = await put(name, buffer, {
       contentType,
       access: "public",

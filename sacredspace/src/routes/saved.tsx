@@ -29,27 +29,29 @@ interface SavedItem {
 }
 
 function SavedPage() {
-  const [items, setItems] = useState<SavedItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [ids, setIds] = useState<number[]>([]);
-  const { toast } = useToast();
-
-  useEffect(() => {
+  // Lazy initializer: localStorage is client-only, but SavedPage renders
+  // client-side after hydration so this runs only in the browser.
+  const [ids, setIds] = useState<number[]>(() => {
     try {
-      const savedIds: number[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.saved) || "[]");
-      setIds(savedIds);
-    } catch { /* localStorage unavailable */ }
-  }, []);
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.saved) || "[]");
+    } catch {
+      return []; /* localStorage unavailable */
+    }
+  });
+  const { toast } = useToast();
+  const [items, setItems] = useState<SavedItem[]>([]);
+  // `loading` is derived: true until the fetch for the current ids resolves.
+  // An empty saved-list never fetches, so it's never "loading".
+  const [loadedForIds, setLoadedForIds] = useState<number[] | null>(null);
+  const loading = ids.length > 0 && (loadedForIds === null || loadedForIds !== ids);
+  const visibleItems = ids.length === 0 ? [] : items;
 
   useEffect(() => {
-    if (ids.length === 0) {
-      setItems([]);
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
+    if (ids.length === 0) return;
     let cancelled = false;
-    getSavedContents({ data: ids }).then((data) => { if (!cancelled) setItems(data); }).catch(() => { if (!cancelled) setItems([]); }).finally(() => { if (!cancelled) setLoading(false); });
+    getSavedContents({ data: ids })
+      .then((data) => { if (!cancelled) { setItems(data); setLoadedForIds(ids); } })
+      .catch(() => { if (!cancelled) { setItems([]); setLoadedForIds(ids); } });
     return () => { cancelled = true; };
   }, [ids]);
 
@@ -70,12 +72,12 @@ function SavedPage() {
 
         <h1 className="font-serif text-3xl font-semibold text-on-surface">Saved</h1>
         <p className="mt-2 text-sm text-on-surface-variant">
-          {loading ? "Loading..." : `${items.length} saved item${items.length !== 1 ? "s" : ""}`}
+          {loading ? "Loading..." : `${visibleItems.length} saved item${visibleItems.length !== 1 ? "s" : ""}`}
         </p>
 
         {loading && <SavedSkeleton />}
 
-        {!loading && items.length === 0 && (
+        {!loading && visibleItems.length === 0 && (
           <div className="py-16 text-center">
             <p className="text-on-surface-variant">No saved items yet.</p>
             <Link
@@ -89,7 +91,7 @@ function SavedPage() {
 
         {!loading && items.length > 0 && (
           <div className="mt-8 space-y-3">
-            {items.map((item) => (
+            {visibleItems.map((item) => (
               <div
                 key={item.id}
                 className="flex items-start gap-4 rounded-lg border border-outline-variant bg-surface-container-lowest p-5 transition-all hover:border-accent-gold/40 hover:shadow-sm"

@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { auth } from "@clerk/tanstack-react-start/server";
 import { updateDeityImage, updateDeity, deleteDeity, createDeity, removeDeityImage } from "~/server/functions/deities";
@@ -57,7 +57,7 @@ function AdminDeitiesPage() {
     finally { setSaving(false); }
   }
 
-  async function handleDelete(id: number, name: string) {
+  async function handleDelete(id: number, _name: string) {
     setDeleting(null);
     try {
       await deleteDeity({ data: id });

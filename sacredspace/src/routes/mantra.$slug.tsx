@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { toggleLike, getLikeStatus, getLikeCount } from "~/server/functions/likes";
 import { getContentBySlugWithDeity, getSiblingContent } from "~/server/functions/contents";
@@ -116,28 +116,38 @@ export const Route = createFileRoute("/mantra/$slug")({
 
 type ViewMode = "sanskrit" | "transliteration" | "translation";
 
+function readSaved(contentId: number): boolean {
+  try {
+    const savedIds: number[] = JSON.parse(localStorage.getItem(STORAGE_KEYS.saved) || "[]");
+    return savedIds.includes(contentId);
+  } catch {
+    return false; /* localStorage unavailable */
+  }
+}
+
 function MantraPage() {
   const { content, deity, likeCount: initialCount, liked: initialLiked, siblings } = Route.useLoaderData();
   const [view, setView] = useState<ViewMode>("sanskrit");
   const [fontSize, setFontSize] = useState(100);
   const [liked, setLiked] = useState(initialLiked);
   const [likeCount, setLikeCount] = useState(initialCount);
-  const [saved, setSaved] = useState(false);
-  const [canShare, setCanShare] = useState(false);
+  // Read navigator capabilities lazily (browser-only); false on the server
+  // so SSR markup matches the initial client render.
+  const [canShare] = useState(() => typeof navigator !== "undefined" && "share" in navigator);
   const { play: playAudio, track: currentTrack, isPlaying: audioPlaying } = useAudio();
   const { toast } = useToast();
   const isCurrentTrack = currentTrack?.url === content.audioUrl;
 
-  useEffect(() => {
-    setCanShare(typeof navigator !== "undefined" && "share" in navigator);
-  }, []);
-
-  useEffect(() => {
-    try {
-      const savedIds = JSON.parse(localStorage.getItem(STORAGE_KEYS.saved) || "[]");
-      setSaved(savedIds.includes(content.id));
-    } catch { /* localStorage unavailable */ }
-  }, [content.id]);
+  // Persisted saved-state lives in localStorage (client-only). Read it in the
+  // initializer, and re-read when content.id changes (SPA navigation between
+  // mantras reuses this component) using the adjust-state-during-render
+  // pattern instead of a setState-in-effect.
+  const [saved, setSaved] = useState(() => readSaved(content.id));
+  const [prevContentId, setPrevContentId] = useState(content.id);
+  if (prevContentId !== content.id) {
+    setPrevContentId(content.id);
+    setSaved(readSaved(content.id));
+  }
 
   const handleLike = useCallback(async () => {
     const result = await toggleLike({ data: content.id });
@@ -155,7 +165,7 @@ function MantraPage() {
         toast("Link copied to clipboard", "info");
       }
     } catch { /* user cancelled or API unavailable */ }
-  }, [content.title]);
+  }, [content.title, canShare, toast]);
 
   const handleSave = useCallback(() => {
     try {
@@ -172,7 +182,7 @@ function MantraPage() {
         toast("Saved!", "success");
       }
     } catch { /* localStorage unavailable */ }
-  }, [content.id]);
+  }, [content.id, toast]);
 
   const bodyText =
     view === "transliteration" ? (content.transliteration ?? content.body)

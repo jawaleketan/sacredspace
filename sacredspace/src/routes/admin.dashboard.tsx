@@ -1,8 +1,28 @@
 import { useState } from "react";
 import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
 import { getAllContents, toggleContentStatus, deleteContent } from "~/server/functions/admin";
+import { AppError } from "~/lib/errors";
 import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { ConfirmModal } from "~/components/ConfirmModal";
+import { RouteErrorFallback } from "~/components/RouteErrorFallback";
+
+function DashboardErrorComponent({ error, reset }: { error: Error; reset?: () => void }) {
+  // 401 Unauthorized → sign-in prompt; everything else → generic fallback
+  if (error instanceof AppError && error.statusCode === 401) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-bg">
+        <div className="text-center">
+          <h1 className="font-serif text-2xl font-semibold text-on-surface">Access Denied</h1>
+          <p className="mt-2 text-on-surface-variant">Sign in to access the admin panel.</p>
+          <Link to="/admin" className="mt-4 inline-block text-accent-gold hover:text-accent-saffron">
+            Sign in
+          </Link>
+        </div>
+      </main>
+    );
+  }
+  return <RouteErrorFallback title="Dashboard Error" error={error} reset={reset} />;
+}
 
 export const Route = createFileRoute("/admin/dashboard")({
   component: DashboardPage,
@@ -12,16 +32,8 @@ export const Route = createFileRoute("/admin/dashboard")({
   },
   loaderDeps: ({ search }) => ({ page: search.page ?? 1 }),
   loader: async ({ deps }) => await getAllContents({ data: { page: deps.page } }),
-  errorComponent: () => (
-    <main className="flex min-h-screen items-center justify-center bg-bg">
-      <div className="text-center">
-        <h1 className="font-serif text-2xl font-semibold text-on-surface">Access Denied</h1>
-        <p className="mt-2 text-on-surface-variant">Sign in to access the admin panel.</p>
-        <Link to="/admin" className="mt-4 inline-block text-accent-gold hover:text-accent-saffron">
-          Sign in
-        </Link>
-      </div>
-    </main>
+  errorComponent: ({ error, reset }) => (
+    <DashboardErrorComponent error={error} reset={reset} />
   ),
 });
 

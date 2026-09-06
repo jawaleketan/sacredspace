@@ -8,12 +8,38 @@ import { validateEnv } from "~/lib/env";
 
 validateEnv();
 
-const isVercel = !!process.env.VERCEL;
-const url = process.env.TURSO_DATABASE_URL ?? (isVercel ? "file:/tmp/sacredspace.db" : "file:./data/sacredspace.db");
+const isProduction = process.env.NODE_ENV === "production" || !!process.env.VERCEL;
+const url = process.env.TURSO_DATABASE_URL;
+
+if (!url) {
+  if (isProduction) {
+    // Serverless filesystems are ephemeral — a local SQLite file in /tmp is
+    // wiped on every cold start, silently discarding all admin-created data.
+    // Refuse to start with a database that will lose data.
+    throw new Error(
+      "TURSO_DATABASE_URL is required in production. " +
+        "The previous fallback used an ephemeral /tmp SQLite file that loses all data on cold start. " +
+        "Create a Turso database and set TURSO_DATABASE_URL + TURSO_AUTH_TOKEN. " +
+        "See sacredspace/.env.example."
+    );
+  }
+  // Local dev: a local file database is fine.
+  console.warn("TURSO_DATABASE_URL not set — using local file database ./data/sacredspace.db");
+}
+
+const dbUrl = url ?? "file:./data/sacredspace.db";
 const authToken = process.env.TURSO_AUTH_TOKEN;
 
+// Turso remote databases require an auth token; connecting without one would
+// fail at first query with a confusing auth error instead of at startup.
+if (url && !authToken && !url.startsWith("file:")) {
+  throw new Error(
+    "TURSO_AUTH_TOKEN is required when TURSO_DATABASE_URL points to a remote database. See sacredspace/.env.example."
+  );
+}
+
 const client = createClient(
-  authToken ? { url, authToken } : { url }
+  authToken ? { url: dbUrl, authToken } : { url: dbUrl }
 );
 
 client.execute("PRAGMA journal_mode = WAL").catch((e) => { console.error("WAL pragma failed", e); });

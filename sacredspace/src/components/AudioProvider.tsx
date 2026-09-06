@@ -41,10 +41,16 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     return () => { cancelAnimationFrame(animRef.current); audioRef.current?.remove(); };
   }, []);
 
-  const updateProgress = useCallback(() => {
-    if (!audioRef.current) return;
-    setCurrentTime(audioRef.current.currentTime);
-    animRef.current = requestAnimationFrame(updateProgress);
+  // Self-contained rAF loop: `tick` closes over itself, so no hook-managed
+  // value is mutated and the callback identity stays stable.
+  const startProgressLoop = useCallback(() => {
+    const tick = () => {
+      if (!audioRef.current) return;
+      setCurrentTime(audioRef.current.currentTime);
+      animRef.current = requestAnimationFrame(tick);
+    };
+    cancelAnimationFrame(animRef.current);
+    animRef.current = requestAnimationFrame(tick);
   }, []);
 
   const play = useCallback((t: AudioTrack) => {
@@ -60,10 +66,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     }
     el.play().then(() => {
       setIsPlaying(true);
-      cancelAnimationFrame(animRef.current);
-      animRef.current = requestAnimationFrame(updateProgress);
+      startProgressLoop();
     }).catch((e) => { console.error("Audio play failed", e); });
-  }, [track, updateProgress]);
+  }, [track, startProgressLoop]);
 
   const pause = useCallback(() => {
     audioRef.current?.pause();
@@ -76,9 +81,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     if (!el || !track) return;
     el.play().then(() => {
       setIsPlaying(true);
-      animRef.current = requestAnimationFrame(updateProgress);
+      startProgressLoop();
     }).catch((e) => { console.error("Audio resume failed", e); });
-  }, [track, updateProgress]);
+  }, [track, startProgressLoop]);
 
   const stop = useCallback(() => {
     const el = audioRef.current;
