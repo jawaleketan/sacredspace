@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Welcome to SacredSpace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#93000a",
+                    "on-tertiary-fixed": "#1b1c1a",
+                    "on-secondary-fixed": "#2c1600",
+                    "surface-container-high": "#2b2a28",
+                    "on-primary": "#402d00",
+                    "secondary-fixed": "#ffdcbe",
+                    "surface-bright": "#3a3937",
+                    "error": "#ffb4ab",
+                    "primary-fixed": "#ffdea2",
+                    "on-tertiary-fixed-variant": "#474744",
+                    "surface-variant": "#363533",
+                    "surface": "#141312",
+                    "surface-container-highest": "#363533",
+                    "on-surface-variant": "#d2c5b1",
+                    "tertiary-container": "#afaeaa",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#693c00",
+                    "inverse-on-surface": "#31302e",
+                    "surface-tint": "#eec060",
+                    "outline": "#9a8f7e",
+                    "primary-fixed-dim": "#eec060",
+                    "surface-dim": "#141312",
+                    "primary": "#f2c363",
+                    "surface-container-low": "#1c1b1a",
+                    "secondary-fixed-dim": "#ffb870",
+                    "on-secondary-container": "#402300",
+                    "surface-container-lowest": "#0f0e0d",
+                    "tertiary-fixed-dim": "#c8c6c3",
+                    "secondary": "#ffb870",
+                    "on-primary-fixed": "#261900",
+                    "on-secondary": "#4a2800",
+                    "primary-container": "#d4a84b",
+                    "secondary-container": "#ce7e1a",
+                    "on-tertiary-container": "#41423f",
+                    "inverse-surface": "#e6e2de",
+                    "on-primary-fixed-variant": "#5c4200",
+                    "inverse-primary": "#7a5900",
+                    "tertiary": "#cbc9c6",
+                    "tertiary-fixed": "#e4e2de",
+                    "on-tertiary": "#30312e",
+                    "on-surface": "#e6e2de",
+                    "on-primary-container": "#563e00",
+                    "outline-variant": "#4e4637",
+                    "on-error": "#690005",
+                    "surface-container": "#201f1e",
+                    "on-background": "#e6e2de",
+                    "background": "#141312"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "stack-lg": "48px",
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "container-max": "1200px",
+                    "stack-sm": "12px",
+                    "stack-md": "24px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-md": ["Noto Serif"],
+                    "headline-display": ["Noto Serif"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Noto Serif"],
+                    "headline-lg-mobile": ["Noto Serif"],
+                    "body-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #141312;
+            color: #e6e2de;
+            overflow-x: hidden;
+        }
+        .sacred-glow {
+            filter: blur(80px);
+            background: radial-gradient(circle, rgba(212, 168, 75, 0.15) 0%, rgba(212, 168, 75, 0) 70%);
+        }
+        .serene-transition {
+            transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .vignette-overlay {
+            background: linear-gradient(to top, #141312 0%, rgba(20, 19, 18, 0.4) 40%, rgba(20, 19, 18, 0.1) 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- Hero Background Wrapper -->
+<div class="relative h-screen w-full flex flex-col justify-end items-center overflow-hidden">
+<!-- Background Image Container -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center scale-105 animate-[pulse_10s_ease-in-out_infinite] opacity-60" data-alt="A breathtaking panoramic view of the majestic Himalayas at dawn, with soft golden light hitting the snow-capped peaks. In the foreground, a subtle, ancient stone temple terrace features intricate Vedic carvings and small flickering oil lamps. The atmosphere is deeply serene, filled with a mystical haze and a palette of warm ambers, deep charcoal shadows, and sacred gold highlights. The image is hyper-realistic and captures a sense of profound spiritual awakening and timeless wisdom." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCD3EEMbdfbCd9iFqfb9QPNNE8LWkmLmYeN4ey8hhfgpTAtkXvKGaBbpbJAmuQeVojBQmJMClAZqBOi-ERrFYLAswZ16GzKjU6ZX_Q-e14EQ-WuuPHvdBViZkhmgxAGKFFq6pJx68oUXTa3rkYK8LkO99PLzyYh4si9V4PteXLfU75qtR5tcM5fUavDmEbYL0FC6ll1TSR-LxAZacEZQVNJ6PNLcYURmpVNSUMvZrfkzXB8REL_rrvTWcFvBWbL3Q7WliGtE2Z31-w')">
+</div>
+<!-- Atmospheric Overlays -->
+<div class="absolute inset-0 vignette-overlay z-10"></div>
+<div class="absolute -bottom-24 -left-24 w-96 h-96 sacred-glow z-0"></div>
+<div class="absolute -top-24 -right-24 w-96 h-96 sacred-glow z-0"></div>
+</div>
+<!-- Navigation Shell Suppression (Transactional/Onboarding Flow) -->
+<!-- Top Utility Bar (Skip Option) -->
+<div class="absolute top-0 left-0 w-full px-margin-mobile md:px-margin-desktop py-8 z-50 flex justify-end">
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-primary serene-transition tracking-widest uppercase">
+                Skip
+            </button>
+</div>
+<!-- Main Content Canvas -->
+<main class="relative z-30 w-full max-w-container-max px-margin-mobile md:px-margin-desktop pb-24 md:pb-32 text-center flex flex-col items-center">
+<!-- Branding / Logo Area -->
+<div class="mb-stack-lg animate-fade-in-up">
+<div class="flex items-center justify-center mb-base">
+<span class="material-symbols-outlined text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">
+                        temple_hindu
+                    </span>
+</div>
+<h1 class="font-headline-display text-headline-lg-mobile md:text-headline-display text-on-surface tracking-tight">
+                    Welcome to SacredSpace
+                </h1>
+</div>
+<!-- Descriptive Text -->
+<div class="max-w-2xl mb-stack-lg opacity-0 animate-[fadeIn_1s_ease-out_0.5s_forwards]">
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                    Your digital sanctuary for Vedic chants and ancient wisdom. 
+                    Reclaim your inner silence through a curated journey of mindfulness and ritual.
+                </p>
+</div>
+<!-- Primary Action -->
+<div class="flex flex-col items-center gap-gutter opacity-0 animate-[fadeIn_1s_ease-out_1s_forwards]">
+<button class="relative group px-12 py-5 bg-primary-container text-on-primary-container rounded-full font-label-md text-label-md serene-transition hover:scale-105 active:scale-95 shadow-xl">
+<span class="relative z-10">Begin Journey</span>
+<!-- Sacred Glow Effect -->
+<div class="absolute inset-0 rounded-full bg-primary opacity-0 group-hover:opacity-20 blur-xl serene-transition"></div>
+</button>
+<!-- Secondary Micro-text -->
+<div class="flex items-center gap-2 text-outline font-label-sm text-label-sm uppercase tracking-[0.2em]">
+<span class="w-8 h-[1px] bg-outline/20"></span>
+                    Step into the silence
+                    <span class="w-8 h-[1px] bg-outline/20"></span>
+</div>
+</div>
+</main>
+<!-- Decorative Footer Element -->
+<div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
+</div>
+<!-- Micro-Interactions Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.querySelector('button');
+            button.addEventListener('mouseenter', () => {
+                // Potential for haptic feedback or sound trigger here
+            });
+            
+            // Background subtle parallax effect
+            window.addEventListener('mousemove', (e) => {
+                const moveX = (e.clientX - window.innerWidth / 2) / 100;
+                const moveY = (e.clientY - window.innerHeight / 2) / 100;
+                const bg = document.querySelector('[data-alt]');
+                if (bg) {
+                    bg.style.transform = `scale(1.05) translate(${moveX}px, ${moveY}px)`;
+                }
+            });
+        });
+    </script>
+<style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeIn 1s ease-out forwards;
+        }
+    </style>
+</body></html>

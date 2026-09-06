@@ -1,0 +1,32 @@
+# ---------- Secrets & env (defense in depth; sacredspace/.gitignore also covers these) ----------
+.env
+.env.*
+!.env.example
+*.local
+
+# ---------- Dependencies ----------
+node_modules/
+
+# ---------- Build outputs ----------
+dist/
+.output/
+.tanstack/
+.vercel/
+
+# ---------- Local data (SQLite DB lives in sacredspace/data) ----------
+sacredspace/data/
+*.db
+*.db-shm
+*.db-wal
+
+# ---------- Retired / legacy ----------
+**/.git_disabled/
+
+# ---------- Claude Code local settings ----------
+.claude/settings.local.json
+
+# ---------- OS junk ----------
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store

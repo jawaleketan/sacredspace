@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Account Settings | SacredSpace Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Noto+Serif:wght@600;700&amp;family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        :root {
+            --sacred-glow: rgba(212, 168, 75, 0.15);
+        }
+        body {
+            background-color: #141312;
+            color: #e6e2de;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .sacred-glow-hover:hover {
+            box-shadow: 0 0 20px var(--sacred-glow);
+        }
+        .section-header {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom Toggle Styling */
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #d4a84b;
+        }
+        .toggle-checkbox:checked + .toggle-label .toggle-dot {
+            transform: translateX(100%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary": "#4a2800",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "outline-variant": "#4e4637",
+                        "inverse-primary": "#7a5900",
+                        "tertiary-fixed-dim": "#c8c6c3",
+                        "on-secondary-container": "#402300",
+                        "on-surface-variant": "#d2c5b1",
+                        "secondary-container": "#ce7e1a",
+                        "secondary": "#ffb870",
+                        "on-primary-fixed": "#261900",
+                        "tertiary-container": "#afaeaa",
+                        "surface-container-lowest": "#0f0e0d",
+                        "surface-container-low": "#1c1b1a",
+                        "surface-dim": "#141312",
+                        "on-secondary-fixed": "#2c1600",
+                        "outline": "#9a8f7e",
+                        "background": "#141312",
+                        "on-primary-container": "#563e00",
+                        "surface-tint": "#eec060",
+                        "on-tertiary": "#30312e",
+                        "surface-container": "#201f1e",
+                        "primary-fixed-dim": "#eec060",
+                        "primary": "#f2c363",
+                        "surface-variant": "#363533",
+                        "surface-container-high": "#2b2a28",
+                        "secondary-fixed": "#ffdcbe",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "inverse-surface": "#e6e2de",
+                        "surface": "#141312",
+                        "on-secondary-fixed-variant": "#693c00",
+                        "tertiary-fixed": "#e4e2de",
+                        "primary-fixed": "#ffdea2",
+                        "on-tertiary-fixed": "#1b1c1a",
+                        "surface-bright": "#3a3937",
+                        "on-primary-fixed-variant": "#5c4200",
+                        "error": "#ffb4ab",
+                        "primary-container": "#d4a84b",
+                        "on-primary": "#402d00",
+                        "inverse-on-surface": "#31302e",
+                        "tertiary": "#cbc9c6",
+                        "error-container": "#93000a",
+                        "surface-container-highest": "#363533",
+                        "secondary-fixed-dim": "#ffb870",
+                        "on-tertiary-container": "#41423f",
+                        "on-background": "#e6e2de",
+                        "on-surface": "#e6e2de"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "48px",
+                        "stack-sm": "12px",
+                        "container-max": "1200px",
+                        "stack-md": "24px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "margin-desktop": "64px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg-mobile": ["Noto Serif"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Noto Serif"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-display": ["Noto Serif"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Noto Serif"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface">
+<div class="flex min-h-screen">
+<!-- SideNavBar Navigation (Anchor) -->
+<nav class="flex flex-col h-screen fixed left-0 top-0 py-stack-md px-base bg-surface-container dark:bg-surface-container-low h-full w-64 left-0 transition-all duration-400 ease-in-out border-r border-outline/5">
+<div class="px-4 mb-stack-lg">
+<h1 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed">SacredSpace</h1>
+<p class="text-on-surface-variant font-label-sm text-label-sm mt-1 uppercase tracking-widest">Admin Console</p>
+</div>
+<div class="flex-grow space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-bright transition-colors duration-400 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-bright transition-colors duration-400 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-[20px]">auto_stories</span>
+<span class="font-label-md text-label-md">Library</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-bright transition-colors duration-400 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-[20px]">bar_chart</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-bright transition-colors duration-400 ease-in-out group" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="font-label-md text-label-md">Users</span>
+</a>
+<!-- Active State: Settings -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary dark:text-primary-fixed-dim font-bold bg-surface-container-high/50 group" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+<div class="px-4 py-4 mb-stack-md">
+<button class="w-full py-3 bg-primary text-on-primary rounded-lg font-label-md text-label-md shadow-lg sacred-glow-hover transition-all duration-400">
+                    Add New Stotra
+                </button>
+</div>
+<div class="border-t border-outline/10 pt-4 space-y-1">
+<div class="flex items-center gap-3 px-4 py-3 mb-4">
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden border border-outline/20">
+<img class="w-full h-full object-cover" data-alt="A sophisticated close-up portrait of a professional editor in a minimalist dark-themed office. The person is an older adult with wise eyes, wearing a dark turtleneck. The lighting is low-key with warm golden highlights on one side of their face, creating a sense of serene authority and intellectual depth. The background is softly blurred with hints of ancient manuscripts or books, maintaining the sacred minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1ff7ISmYMdpLLFVsPzz85Kf9AEcFDShRdeovo1wZ548BBg6aTRr9BwipJzqzoVU9AmcyjyLp5F7MbPzoGEbzbeTGfYcQZDyKS8I3qQHf2WD4__KFjL2BB2r9wLYU7GpacYQCOOd71AInCEPCLQTTW_L7FzrcEv8RGX8QU5Sq1bQS4E2NxmKAw0TlMVUNg0EqiEXv7Ebe8pXSfNzns7Lr2R21vQUt48fbRXBQQ3iklAYRS_hZ7CAKFL9P4RGzvVuarRogkbpq1WVk"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Admin User</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-tighter">Editor in Chief</span>
+</div>
+</div>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-primary transition-colors duration-400" href="#">
+<span class="material-symbols-outlined text-[20px]">light_mode</span>
+<span class="font-label-md text-label-md">Light Mode</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-error transition-colors duration-400" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-64 flex-grow px-margin-desktop py-stack-lg max-w-[1400px]">
+<header class="mb-stack-lg">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Account Settings</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Manage your personal presence, security credentials, and platform preferences for the SacredSpace environment.</p>
+</header>
+<div class="space-y-stack-md">
+<!-- Profile Section -->
+<section class="bg-surface-container-low rounded-xl p-8 border border-outline/5">
+<h3 class="section-header text-2xl text-primary-fixed mb-8">Profile Details</h3>
+<div class="flex flex-col md:flex-row gap-12">
+<div class="flex flex-col items-center gap-4">
+<div class="relative group">
+<div class="w-32 h-32 rounded-full overflow-hidden border-2 border-primary-container/30 group-hover:border-primary transition-all duration-400">
+<img class="w-full h-full object-cover" data-alt="A high-quality, professional headshot of a person with a serene expression, suitable for a lead editor in a spiritual tech company. The individual has an air of calm wisdom and professional poise. The lighting is soft and golden, evocative of a sunrise, casting subtle shadows that highlight their features. The aesthetic is extremely polished and minimalist, reflecting a sacred and intellectual brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFHeFlzSidFSkBqqTdRmKo6CtZWx_M85rHGGF_PXTnp4S8615rkiQQ_BMWIL4gu4WE_a8fKKPOWOviNV1D73VDMziAAjj9hw4tTaTD46Q_XwqQQUkCUGJ3fyKGQVW98FAbEJk7YpRrDCN2M1etqdeJT94yxx5zf6w2LVVNA-NX4LY8MR_AjdG9y9Qo5mymbCrFjtXaB8utia6TiITu3q44EZf7yHXXFl3YrhVwHGvrni1LIbC7qoHnEmk1G4Z4d2r4m1wRAtDf7iI"/>
+</div>
+<button class="absolute bottom-1 right-1 bg-primary text-on-primary p-2 rounded-full shadow-lg hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+</button>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant italic">Upload new avatar</span>
+</div>
+<div class="flex-grow grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Full Name</label>
+<input class="bg-surface-dim border border-outline/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-body-md text-on-surface outline-none transition-all duration-400" type="text" value="Admin User"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Professional Title</label>
+<input class="bg-surface-dim border border-outline/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-body-md text-on-surface outline-none transition-all duration-400" type="text" value="Editor in Chief"/>
+</div>
+<div class="flex flex-col gap-2 md:col-span-2">
+<label class="font-label-md text-label-md text-on-surface-variant px-1">Email Address</label>
+<input class="bg-surface-dim border border-outline/10 focus:border-primary focus:ring-1 focus:ring-primary/20 rounded-lg px-4 py-3 text-body-md text-on-surface outline-none transition-all duration-400" type="email" value="admin@sacredspace.io"/>
+</div>
+</div>
+</div>
+<div class="mt-8 flex justify-end">
+<button class="px-8 py-3 bg-primary-container text-on-primary-container rounded-lg font-label-md text-label-md hover:bg-primary hover:text-on-primary transition-all duration-400 sacred-glow-hover">Save Profile Changes</button>
+</div>
+</section>
+<!-- Security Section -->
+<section class="bg-surface-container-low rounded-xl p-8 border border-outline/5">
+<h3 class="section-header text-2xl text-primary-fixed mb-6">Security &amp; Authentication</h3>
+<div class="flex items-center justify-between p-4 bg-surface-dim rounded-lg border border-outline/5 mb-6">
+<div class="flex items-center gap-4">
+<div class="p-3 bg-surface-container-high rounded-full">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Identity Status</p>
+<p class="text-sm text-on-surface-variant">Authenticated via Google Account (Clerk Auth)</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-green-500/80">
+<span class="w-2 h-2 rounded-full bg-current"></span>
+<span class="text-xs font-semibold uppercase tracking-wider">Active</span>
+</div>
+</div>
+<div class="flex flex-col md:flex-row gap-4">
+<button class="flex items-center justify-center gap-2 px-6 py-3 border border-outline/20 text-on-surface-variant rounded-lg font-label-md text-label-md hover:border-primary hover:text-primary transition-all duration-400">
+<span class="material-symbols-outlined text-[20px]">lock_reset</span>
+                            Manage Security via Clerk
+                        </button>
+<button class="flex items-center justify-center gap-2 px-6 py-3 border border-outline/20 text-on-surface-variant rounded-lg font-label-md text-label-md hover:border-primary hover:text-primary transition-all duration-400">
+<span class="material-symbols-outlined text-[20px]">phonelink_lock</span>
+                            Setup Two-Factor Auth
+                        </button>
+</div>
+</section>
+<!-- Preferences Section -->
+<section class="bg-surface-container-low rounded-xl p-8 border border-outline/5">
+<h3 class="section-header text-2xl text-primary-fixed mb-8">Personal Preferences</h3>
+<div class="space-y-8">
+<!-- Appearance -->
+<div class="flex items-center justify-between group">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Global Dark Mode</h4>
+<p class="text-sm text-on-surface-variant">Maintain the sanctuary aesthetic across all interfaces.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only toggle-checkbox" type="checkbox"/>
+<div class="w-12 h-6 bg-surface-variant rounded-full p-1 transition-colors duration-400 toggle-label">
+<div class="toggle-dot w-4 h-4 bg-white rounded-full shadow-md transition-transform duration-400"></div>
+</div>
+</label>
+</div>
+<!-- Language -->
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Primary Language</h4>
+<p class="text-sm text-on-surface-variant">Translation for administrative tools and notifications.</p>
+</div>
+<select class="bg-surface-dim border border-outline/10 text-on-surface-variant font-label-md text-label-md rounded-lg px-4 py-2 outline-none focus:border-primary">
+<option>English (US)</option>
+<option>Sanskrit (IAST)</option>
+<option>Hindi</option>
+<option>Japanese</option>
+</select>
+</div>
+<!-- Notification Settings -->
+<div class="border-t border-outline/5 pt-8">
+<h4 class="font-label-md text-label-md text-on-surface mb-6 uppercase tracking-widest text-[10px]">Notification Rituals</h4>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant text-body-md">New Comments on Stotras</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only toggle-checkbox" type="checkbox"/>
+<div class="w-12 h-6 bg-surface-variant rounded-full p-1 transition-colors duration-400 toggle-label">
+<div class="toggle-dot w-4 h-4 bg-white rounded-full shadow-md transition-transform duration-400"></div>
+</div>
+</label>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-on-surface-variant text-body-md">Collection Updates &amp; New Likes</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only toggle-checkbox" type="checkbox"/>
+<div class="w-12 h-6 bg-surface-variant rounded-full p-1 transition-colors duration-400 toggle-label">
+<div class="toggle-dot w-4 h-4 bg-white rounded-full shadow-md transition-transform duration-400"></div>
+</div>
+</label>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Danger Zone -->
+<section class="bg-surface-container-low/30 rounded-xl p-8 border border-error/10">
+<h3 class="section-header text-2xl text-error mb-4">Danger Zone</h3>
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+<div>
+<h4 class="font-label-md text-label-md text-on-surface">Delete Administrator Account</h4>
+<p class="text-sm text-on-surface-variant max-w-lg">Permanently remove your administrative access and all associated personal data. This action is irreversible.</p>
+</div>
+<button class="px-6 py-3 border border-error/30 text-error rounded-lg font-label-md text-label-md hover:bg-error hover:text-on-error transition-all duration-400">
+                            Terminate Account
+                        </button>
+</div>
+</section>
+</div>
+<!-- Footer (Anchor) -->
+<footer class="flex flex-col items-center py-stack-lg gap-base w-full mt-stack-lg">
+<div class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed">SacredSpace</div>
+<div class="flex gap-gutter">
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors duration-400" href="#">Philosophy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors duration-400" href="#">Terms of Ritual</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors duration-400" href="#">Contact Seeker Support</a>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant mt-4">© 2024 SacredSpace. Crafted for Mindfulness.</p>
+</footer>
+</main>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        // Simple toggle state management for demonstration
+        document.querySelectorAll('.toggle-checkbox').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const isChecked = this.checked;
+                // Add actual logic here (e.g., updating user preferences in DB)
+                if (this.closest('section').querySelector('h4').textContent.includes('Dark Mode')) {
+                    document.documentElement.classList.toggle('dark', isChecked);
+                }
+            });
+        });
+
+        // Hover effects for inputs
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('sacred-glow-container');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.classList.remove('sacred-glow-container');
+            });
+        });
+    </script>
+</body></html>

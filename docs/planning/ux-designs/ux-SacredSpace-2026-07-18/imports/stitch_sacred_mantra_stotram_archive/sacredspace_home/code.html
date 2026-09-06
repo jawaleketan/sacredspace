@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SacredSpace | Serene Editorial Minimalism</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&amp;family=Inter:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e4e2e0",
+                        "tertiary": "#262a11",
+                        "surface-container-high": "#eae8e6",
+                        "secondary-fixed-dim": "#e3c198",
+                        "tertiary-fixed-dim": "#c6c9a5",
+                        "on-primary-container": "#bfa48a",
+                        "inverse-surface": "#30302f",
+                        "surface-bright": "#fbf9f7",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "outline": "#7A7874",
+                        "secondary-fixed": "#ffddb6",
+                        "on-primary-fixed": "#281807",
+                        "surface-dim": "#dbdad8",
+                        "gold": "#D4A84B",
+                        "error": "#ba1a1a",
+                        "background": "#fbf9f7",
+                        "on-surface": "#1b1c1b",
+                        "surface-tint": "#705a44",
+                        "surface-container": "#efedec",
+                        "on-secondary-fixed-variant": "#5a4223",
+                        "on-primary-fixed-variant": "#57432e",
+                        "primary": "#352512",
+                        "on-surface-variant": "#4e453d",
+                        "on-tertiary-container": "#a8ac89",
+                        "error-container": "#ffdad6",
+                        "surface": "#fbf9f7",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#d1c4ba",
+                        "on-secondary-container": "#785e3c",
+                        "saffron": "#F59E3B",
+                        "primary-fixed-dim": "#dec1a6",
+                        "primary-fixed": "#fbddc1",
+                        "secondary": "#745a38",
+                        "on-tertiary-fixed": "#1a1d06",
+                        "primary-container": "#4d3a26",
+                        "secondary-container": "#fedab0",
+                        "tertiary-container": "#3c4025",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#2a1800",
+                        "tertiary-fixed": "#e2e6bf",
+                        "on-background": "#1b1c1b",
+                        "surface-container-low": "#f5f3f1",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f2f0ee",
+                        "inverse-primary": "#dec1a6",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e4e2e0",
+                        "on-tertiary-fixed-variant": "#45492d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "64px",
+                        "reading-width": "720px",
+                        "unit": "8px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Cormorant Garamond"],
+                        "sanskrit": ["Noto Sans Devanagari"],
+                        "headline-sm": ["Cormorant Garamond"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Cormorant Garamond"],
+                        "display-lg": ["Cormorant Garamond"],
+                        "display-lg-mobile": ["Cormorant Garamond"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                        "headline-md": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "sanskrit": ["20px", {"lineHeight": "2.0", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.15", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.7", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #fbf9f7;
+            color: #1b1c1b;
+            scroll-behavior: smooth;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .god-card {
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .god-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(77, 58, 38, 0.12);
+        }
+        .serif-italic {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+        }
+        .nav-active {
+            border-bottom: 2px solid #D4A84B;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface">
+<!-- TopNavBar -->
+<nav class="bg-surface border-b border-outline-variant fixed top-0 w-full z-50">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-reading-width mx-auto">
+<div class="flex items-center gap-8">
+<span class="font-headline-md text-headline-md font-semibold text-primary">SacredSpace</span>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-body-md text-primary nav-active transition-colors duration-200 hover:text-gold" href="#">Browse</a>
+<a class="font-body-md text-on-surface-variant transition-colors duration-200 hover:text-gold" href="#">Saved</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-surface-container px-3 py-1.5 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant mr-2" style="font-size: 18px;">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm p-0 w-32 md:w-48 placeholder:text-on-surface-variant" placeholder="Find mantras..." type="text"/>
+</div>
+<button class="font-body-md text-primary font-medium hover:opacity-80 transition-opacity">Sign In</button>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-32">
+<!-- Hero Section -->
+<section class="max-w-reading-width mx-auto px-margin-mobile md:px-margin-desktop text-center mb-section-gap">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-4 leading-tight">
+                A sanctuary for <span class="serif-italic">contemplative</span> study.
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto">
+                Explore the timeless wisdom of ancient mantras, stotras, and the divine figures that inspire them.
+            </p>
+</section>
+<!-- God Cards Grid -->
+<section class="max-w-[1200px] mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+<!-- Ganesha -->
+<div class="god-card bg-surface-container-low rounded-lg p-8 flex flex-col items-center text-center border border-outline-variant/30 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-gold opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-gold" style="font-size: 40px;">temple_hindu</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Obstacle Remover</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Ganesha</h3>
+<div class="w-full h-48 rounded-lg bg-cover bg-center mb-6 opacity-90 group-hover:opacity-100 transition-opacity" data-alt="A minimalist and elegant digital illustration of Lord Ganesha in a serene meditative pose. The style is modern editorial with a warm color palette of cream, espresso, and soft gold accents. The lighting is ethereal and soft, creating a calm, high-end atmosphere consistent with a spiritual sanctuary design." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDHkB8WXF6bsx_0dwRrhQ24k6csA_PKgGeaxFjS2-la-jYvOv8nbCDds0iQhPGq7YIaJODiCFHX4FUoGwDM0ZRZQ9XqPikkT_ZivhXBgb_r6JrDCRGHukRKoLEgS1WODKTTWlxJMJcO3PT0f617VXRCKSTxVsNAi6WPxJSByvXoPP0qdNHcg1waly3hOZl_M73mK1FBktV-MjneQ6a0c1T9l3i1zVjeMAcNA_DOh92SnQzz6W2OrthGMojSQ8i2IgCpwKN0kkDGKsg')"></div>
+<button class="mt-auto font-body-sm text-primary flex items-center gap-2 group-hover:text-gold transition-colors">
+                        View Mantras <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Shiva -->
+<div class="god-card bg-surface-container-low rounded-lg p-8 flex flex-col items-center text-center border border-outline-variant/30 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-gold opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-gold" style="font-size: 40px;">self_improvement</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">The Destroyer</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Shiva</h3>
+<div class="w-full h-48 rounded-lg bg-cover bg-center mb-6 opacity-90 group-hover:opacity-100 transition-opacity" data-alt="A sophisticated artistic representation of Lord Shiva, emphasizing stillness and cosmic energy. The image uses a minimal color scheme of muted blues, creams, and golden glows. High-key soft lighting emphasizes the editorial, reverent feel of the SacredSpace brand identity." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD3d-tNAuhkcmy_srIYk94avg7C3PqfhCGxgLZxLb5KZdZjKMZZtS6UgS0xEUlgMUmbJLOvN-BTdCm_Dz_pWUH4dsYvJ5iZQUDuwJoTjGQPX54rCBHLk5HHHp_6R4IS0DwZ4ewDbjRpu4JcyKAjSuCVy0PD5SeATGRD6X0_b7UfpeDMJiEwMovCAJEr5u-QWP-Cm3JYZXJBX8a5VEify2on29ZhRo-oUa9ucpyf9rJTCbJyQWqRGoK2j6uWJWJctoDLz_VZ2R74KnY')"></div>
+<button class="mt-auto font-body-sm text-primary flex items-center gap-2 group-hover:text-gold transition-colors">
+                        View Mantras <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Durga -->
+<div class="god-card bg-surface-container-low rounded-lg p-8 flex flex-col items-center text-center border border-outline-variant/30 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-gold opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-gold" style="font-size: 40px;">shield</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Divine Mother</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Durga</h3>
+<div class="w-full h-48 rounded-lg bg-cover bg-center mb-6 opacity-90 group-hover:opacity-100 transition-opacity" data-alt="A powerful yet serene digital artwork of Goddess Durga, rendered with fine linework and tonal layering. The aesthetic is clean and modern, using a palette of warm ochre, gold, and deep brown. The mood is one of quiet strength and protection, perfectly fitting the editorial minimalist style." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAmVsoy-nAe9MhcOgydKxFDELf3ZK2cwsFXbeg151-KvED8rOhZ_-J0neP8NEnJFCE1jaiAbtwRBY_JuVQNdvfHTi_6bv5BHaSWEZVt9i6dAfZXtjtLIY_N-03zf4OLwbildTRAu0GnV-c7ApapVZ04XjtPf2poa3UteWa-VfqzgrRtcKnRrSBGInr0DMdqL7tvAVh_x9VGId7BNK2qaKmrRZRt1FOQfwbdMZ7HwI5ObkSwWPRaY3jOb7Qn8D3URix-LRqAcDc9iUM')"></div>
+<button class="mt-auto font-body-sm text-primary flex items-center gap-2 group-hover:text-gold transition-colors">
+                        View Mantras <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Krishna -->
+<div class="god-card bg-surface-container-low rounded-lg p-8 flex flex-col items-center text-center border border-outline-variant/30 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-gold opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-gold" style="font-size: 40px;">music_note</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Supreme Soul</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Krishna</h3>
+<div class="w-full h-48 rounded-lg bg-cover bg-center mb-6 opacity-90 group-hover:opacity-100 transition-opacity" data-alt="An editorial style portrait of Lord Krishna with a flute, featuring delicate golden light and a soft focus background. The design follows a minimalist approach with organic textures and a palette of warm whites and coffee tones. The emotional goal is to evoke peace and devotion." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA8-wok4-11qEGOFRbg7_0HPulUMm1P9-loMP7WOyV0s4vwdQvgGEj9zrsrXmpf8aVbF7Yas6HUGQCKeV3-VJfXCxeRjm1hp2T_Vb-cxKGNYUc5bdb935BNplqSNcBLqC0ByDL67QVEjuCKXhbPunocz4VBgbmk3Jb3ehnwo4KGgEoT19oFBofilNJblespIi8OCSKv6wRPpoXnC6pnloN6Krde59N3JFsoKevZ10BNMw7M91VbXwpY6fgvoSVlMmChIMkumEmmP9I')"></div>
+<button class="mt-auto font-body-sm text-primary flex items-center gap-2 group-hover:text-gold transition-colors">
+                        View Mantras <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Saraswati -->
+<div class="god-card bg-surface-container-low rounded-lg p-8 flex flex-col items-center text-center border border-outline-variant/30 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-gold opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-gold" style="font-size: 40px;">auto_stories</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Knowledge &amp; Art</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Saraswati</h3>
+<div class="w-full h-48 rounded-lg bg-cover bg-center mb-6 opacity-90 group-hover:opacity-100 transition-opacity" data-alt="A clean, intellectual digital illustration of Goddess Saraswati, emphasizing her connection to music and wisdom. The style is inspired by high-end literary journals, featuring a warm, organic palette and precise geometric balance. Soft, ambient shadows create depth without noise." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAhCNE1S5Gy8ABgbJSlQJtcx_Jm5fEcjp5Md-m-toJ35s47aCy4caUZ-B-RPuQ2jx3XLmzg1cRu1maXFhe0953NaY_5Embn8iGDU77DitNvJ43hkjIZ4olTEAMfd5vIne5Ly1VItnKRf3D4VylxVNvFvFUgEoV0BzY1TvKOChdauQin1WYs_4Ae-nZepTDNFg11sY92vQDVi8xH8ga9UwS21DTgZbJlgn0CRe2idTe4QOk12Tn7izNVNISIJUjbU15yrs_43tPryow')"></div>
+<button class="mt-auto font-body-sm text-primary flex items-center gap-2 group-hover:text-gold transition-colors">
+                        View Mantras <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Lakshmi -->
+<div class="god-card bg-surface-container-low rounded-lg p-8 flex flex-col items-center text-center border border-outline-variant/30 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-gold opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-gold" style="font-size: 40px;">monetization_on</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Abundance</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Lakshmi</h3>
+<div class="w-full h-48 rounded-lg bg-cover bg-center mb-6 opacity-90 group-hover:opacity-100 transition-opacity" data-alt="A serene digital representation of Goddess Lakshmi, focusing on prosperity through a lens of elegant minimalism. Golden petals fall gently in a space filled with soft, warm light-mode glow. The visual style is focused and reverent, using a palette of ivory, espresso, and shimmering gold." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDbXyyOHZt4ucVhhPUOuIzNMU7_5gYhWqAe9JWS-fcwlvr1ahmuVE6xr-gKuR1_Z1FzxL29YEj2Oi7jIpAVUuwOyvcyONKIGZV9PQgmv1pEz1BU-bAcqXF-ssfNFAwo7_ISNPCN2vRFfpMqLB9n253pDxQ4Hv9Cc0ZBYiwU9-K3iSi4GO5kubIN_s6qNvWIrDVdrZlITfdAy_9u65i6slrh7uGYaYGfGDyyJd1UwWQ13jR81pSIbSzT9isNAooOGucT6RxR-Q_zBFs')"></div>
+<button class="mt-auto font-body-sm text-primary flex items-center gap-2 group-hover:text-gold transition-colors">
+                        View Mantras <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Hanuman -->
+<div class="god-card bg-surface-container-low rounded-lg p-8 flex flex-col items-center text-center border border-outline-variant/30 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-gold opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-gold" style="font-size: 40px;">fitness_center</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Strength &amp; Devotion</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Hanuman</h3>
+<div class="w-full h-48 rounded-lg bg-cover bg-center mb-6 opacity-90 group-hover:opacity-100 transition-opacity" data-alt="A striking minimalist depiction of Lord Hanuman in a gesture of humility and power. The composition is clean with ample whitespace, utilizing a warm palette of sienna and cream. Lighting is directional and soft, emphasizing form and a spiritual, contemplative mood." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB2VhSmuOv--lwpVeIpnjHQbvDMf0aSKGdrmXSLcTRu0uiKhlRahLJBYTQtv7WIlU4Ne0_PEMoMNwWdIPYOBY_4nBHIizV6sOd3JQGlHRdRMN-tId34m9julu5kBMiL2qHY7kNH9KyZ9-gRHWWrJa82YEqz9Hcg81pVS-AAbS2q6f14x20YtaLqULzjxJ4YKu6d8bsCWxTfM3OL2KZI1YnbsYcoxuhHfPww-F8fu0a5_Kc2_jZmGSh-vJQjfgKj3z82X8ZCwaQGwVw')"></div>
+<button class="mt-auto font-body-sm text-primary flex items-center gap-2 group-hover:text-gold transition-colors">
+                        View Mantras <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Rama -->
+<div class="god-card bg-surface-container-low rounded-lg p-8 flex flex-col items-center text-center border border-outline-variant/30 relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-full h-1 bg-gold opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="w-20 h-20 bg-surface-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-gold" style="font-size: 40px;">military_tech</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Righteousness</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Rama</h3>
+<div class="w-full h-48 rounded-lg bg-cover bg-center mb-6 opacity-90 group-hover:opacity-100 transition-opacity" data-alt="An elegant, modern illustration of Lord Rama, portraying him as a figure of calm authority and dharma. The art style uses subtle tonal shifts and organic textures, consistent with the serene editorial minimalism of SacredSpace. The colors are earthy, grounded, and accented with soft light." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAxXmleBIhvYgKzvvE8wd3NG4-GGyJlqhaIWnQyub2X_ezRjzBcjxahULUVBtJFTdw59V24FlUxQqQyXKkvbJigiCP7Z0hwAcvOnnyIfS7dF3ALkkOFI3a1B4rt2ZuCLVJdZyaeWuEMtKYOAwA53OCKYReIexITqQz1eqaNvgzbKBDEmf2UXAhuApdBfZjdEDJAfosqlpjhIdzcpsLQWiFK7f7ucQzsYOum2JXCEiM2kokDYg-ReoYneSDjRKKYuUJPd2fDLswJaVY')"></div>
+<button class="mt-auto font-body-sm text-primary flex items-center gap-2 group-hover:text-gold transition-colors">
+                        View Mantras <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Featured Quote / Mantra Section -->
+<section class="mt-section-gap py-20 bg-surface-container/50 border-y border-outline-variant/20">
+<div class="max-w-reading-width mx-auto px-margin-mobile text-center">
+<span class="font-label-sm text-label-sm text-gold uppercase tracking-[0.2em] mb-4 block">Daily Contemplation</span>
+<p class="font-sanskrit text-sanskrit text-primary mb-4 leading-relaxed">
+                    ॐ असतो मा सद्गमय । तमसो मा ज्योतिर्गमय ॥
+                </p>
+<p class="font-headline-sm text-headline-sm text-on-surface-variant italic mb-8">
+                    "From the unreal, lead me to the real. From darkness, lead me to light."
+                </p>
+<button class="px-8 py-3 bg-primary text-on-primary rounded-full font-body-md hover:bg-primary-container transition-colors shadow-sm">
+                    Begin Reading
+                </button>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 md:hidden bg-surface-container-low shadow-sm rounded-t-xl">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-[10px] uppercase mt-0.5">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors rounded-lg px-4 py-1" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-sm text-[10px] uppercase mt-0.5">Browse</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors rounded-lg px-4 py-1" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-sm text-[10px] uppercase mt-0.5">Saved</span>
+</a>
+</nav>
+<!-- Simple Footer -->
+<footer class="bg-surface py-12 border-t border-outline-variant/30 hidden md:block">
+<div class="max-w-[1200px] mx-auto px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col gap-2">
+<span class="font-headline-sm text-primary font-bold">SacredSpace</span>
+<p class="font-body-sm text-on-surface-variant">A digital sanctuary for modern seekers.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-label-sm text-on-surface-variant hover:text-gold transition-colors" href="#">Privacy</a>
+<a class="font-label-sm text-on-surface-variant hover:text-gold transition-colors" href="#">Library</a>
+<a class="font-label-sm text-on-surface-variant hover:text-gold transition-colors" href="#">Archive</a>
+<a class="font-label-sm text-on-surface-variant hover:text-gold transition-colors" href="#">Contact</a>
+</div>
+<p class="font-label-sm text-outline-variant">© 2024 SacredSpace Editorial.</p>
+</div>
+</footer>
+<script>
+        // Micro-interaction for hover effects or active states
+        document.querySelectorAll('.god-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                // Potential for adding audio cues or subtle haptic feedback if mobile
+            });
+        });
+
+        // Search bar interaction
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput?.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('border-gold');
+        });
+        searchInput?.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('border-gold');
+        });
+    </script>
+</body></html>

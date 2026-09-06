@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SacredSpace Admin Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;1,500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #141312;
+            color: #e6e2de;
+            -webkit-font-smoothing: antialiased;
+        }
+        .sacred-glow {
+            position: relative;
+        }
+        .sacred-glow::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            background: #d4a84b;
+            filter: blur(15px);
+            opacity: 0;
+            transition: opacity 0.4s ease-in-out;
+            z-index: -1;
+            border-radius: inherit;
+        }
+        .sacred-glow:hover::after {
+            opacity: 0.15;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .cormorant {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary": "#402d00",
+                        "secondary": "#ffb870",
+                        "on-surface": "#e6e2de",
+                        "surface-dim": "#141312",
+                        "outline": "#9a8f7e",
+                        "surface-container": "#201f1e",
+                        "surface-container-high": "#2b2a28",
+                        "primary": "#f2c363",
+                        "primary-container": "#d4a84b",
+                        "surface-variant": "#363533",
+                        "on-surface-variant": "#d2c5b1",
+                        "outline-variant": "#4e4637",
+                        "surface-container-low": "#1c1b1a",
+                        "surface-bright": "#3a3937",
+                    },
+                    spacing: {
+                        "stack-sm": "12px",
+                        "margin-mobile": "20px",
+                        "container-max": "1200px",
+                        "stack-md": "24px",
+                        "margin-desktop": "64px",
+                        "stack-lg": "48px",
+                        "gutter": "24px",
+                        "base": "8px"
+                    },
+                    fontFamily: {
+                        "headline-md": ["Noto Serif"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-sm": ["Noto Serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="flex min-h-screen overflow-x-hidden">
+<!-- SideNavBar - Adaptive Rail for Tablet -->
+<!-- Logic: On Tablet/Small Laptop, width reduces to icon rail, on Desktop stays 64. Handled by responsive classes -->
+<nav class="fixed left-0 top-0 h-screen z-50 flex flex-col transition-all duration-400 ease-in-out bg-surface-container dark:bg-surface-container-low py-stack-md px-base w-20 md:w-64 border-r border-outline-variant/10">
+<!-- Logo Area -->
+<div class="flex items-center gap-4 mb-10 px-2 overflow-hidden">
+<div class="min-w-[48px] h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">temple_hindu</span>
+</div>
+<span class="hidden md:block font-headline-sm text-headline-sm text-primary dark:text-primary-fixed truncate">SacredSpace</span>
+</div>
+<!-- Navigation Tabs -->
+<div class="flex flex-col gap-2 flex-grow">
+<!-- Active Tab: Dashboard -->
+<a class="flex items-center gap-4 p-3 rounded-xl bg-surface-container-high text-primary dark:text-primary-fixed-dim font-bold transition-all duration-400 group" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span class="hidden md:block font-label-md">Dashboard</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-4 p-3 rounded-xl text-on-surface-variant dark:text-outline-variant hover:bg-surface-bright transition-all duration-400 group" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="hidden md:block font-label-md">Library</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-xl text-on-surface-variant dark:text-outline-variant hover:bg-surface-bright transition-all duration-400 group" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="hidden md:block font-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-xl text-on-surface-variant dark:text-outline-variant hover:bg-surface-bright transition-all duration-400 group" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="hidden md:block font-label-md">Users</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-xl text-on-surface-variant dark:text-outline-variant hover:bg-surface-bright transition-all duration-400 group" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="hidden md:block font-label-md">Settings</span>
+</a>
+</div>
+<!-- FAB (Add New Stotra) - Optimized for Rail -->
+<button class="mb-8 w-12 md:w-full h-12 md:h-auto md:py-3 flex items-center justify-center gap-2 bg-primary text-on-primary rounded-full md:rounded-xl font-bold shadow-lg shadow-primary/10 transition-transform active:scale-95 sacred-glow">
+<span class="material-symbols-outlined">add</span>
+<span class="hidden md:block font-label-md">Add New Stotra</span>
+</button>
+<!-- Footer Links -->
+<div class="flex flex-col gap-2 border-t border-outline-variant/5 pt-6">
+<a class="flex items-center gap-4 p-3 rounded-xl text-on-surface-variant hover:text-primary transition-all duration-400" href="#">
+<span class="material-symbols-outlined">light_mode</span>
+<span class="hidden md:block font-label-md">Light Mode</span>
+</a>
+<a class="flex items-center gap-4 p-3 rounded-xl text-on-surface-variant hover:text-error transition-all duration-400" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="hidden md:block font-label-md">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-grow ml-20 md:ml-64 min-h-screen transition-all duration-400 px-6 md:px-margin-desktop py-stack-lg bg-surface">
+<!-- Header & Profile -->
+<header class="flex justify-between items-center mb-10">
+<div class="flex flex-col">
+<h1 class="font-headline-md text-headline-md text-primary cormorant italic">Admin Console</h1>
+<p class="font-label-sm text-outline-variant">SacredSpace Management &amp; Wisdom Oversight</p>
+</div>
+<div class="flex items-center gap-4 bg-surface-container p-2 pr-4 rounded-full border border-outline-variant/10">
+<img class="w-10 h-10 rounded-full object-cover grayscale hover:grayscale-0 transition-all duration-500" data-alt="A portrait of a serene administrative professional in a minimalist, warm-toned studio with soft golden light leaks. The person has a calm expression, wearing professional attire in deep charcoal, reflecting the premium and thoughtful aesthetic of the SacredSpace brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMjXfy517e50WoV9qgqtUpTrXMFxtgaoeK1PhUqnhl-fSNsD31g1WI6gWP2BYJd1FGj7ge47yJ3QPBtnbtN30YxkiXX-14cQun3h5T-bkGVM9c34sMm8Ckni0eQMyqeMyO_3C8gP_rm8KvmuS2aiLte5JMcMS8Pn2Lw9PlZf0_oi9Uf9xSvelCLyA6XC-IL7iX76-vdFQeA9YpdlMEdAoU5DOOpPs0gL_ZgPiVmbhi39ZqmhvHAxhLjF4HbqVDLH9HHJHUbCxRpnQ"/>
+<div class="hidden sm:block">
+<p class="font-label-md text-on-surface text-sm">Prasanna Dev</p>
+<p class="font-label-sm text-outline-variant text-[10px]">Head Curator</p>
+</div>
+</div>
+</header>
+<!-- Analytics Overview: Swipeable Carousel for Tablet -->
+<section class="mb-stack-lg">
+<div class="flex justify-between items-end mb-6">
+<h2 class="font-headline-sm text-on-surface cormorant text-2xl">Analytics Overview</h2>
+<div class="flex gap-2">
+<button class="p-2 rounded-full border border-outline-variant/20 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="p-2 rounded-full border border-outline-variant/20 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<div class="flex overflow-x-auto hide-scrollbar gap-gutter pb-4 snap-x snap-mandatory">
+<!-- Metric Card 1 -->
+<div class="min-w-[280px] md:min-w-[320px] bg-surface-container-low p-6 rounded-2xl snap-start border border-outline-variant/5 relative group">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="material-symbols-outlined text-primary mb-4 block" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<p class="font-label-sm text-outline-variant mb-1">Total Mantras</p>
+<h3 class="font-headline-lg text-primary text-4xl cormorant">1,248</h3>
+<div class="mt-4 flex items-center text-green-400 gap-1 font-label-sm">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>12% this month</span>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="min-w-[280px] md:min-w-[320px] bg-surface-container-low p-6 rounded-2xl snap-start border border-outline-variant/5">
+<span class="material-symbols-outlined text-secondary mb-4 block">favorite</span>
+<p class="font-label-sm text-outline-variant mb-1">Total Engagement</p>
+<h3 class="font-headline-lg text-on-surface text-4xl cormorant">42.5k</h3>
+<div class="mt-4 flex items-center text-green-400 gap-1 font-label-sm">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>8.4% this month</span>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="min-w-[280px] md:min-w-[320px] bg-surface-container-low p-6 rounded-2xl snap-start border border-outline-variant/5">
+<span class="material-symbols-outlined text-outline mb-4 block">visibility</span>
+<h3 class="font-label-sm text-outline-variant mb-1">Weekly Seekers</h3>
+<p class="font-headline-lg text-on-surface text-4xl cormorant">8,912</p>
+<div class="mt-4 flex items-center text-on-surface-variant gap-1 font-label-sm">
+<span class="material-symbols-outlined text-sm">horizontal_rule</span>
+<span>Stable</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Content Management: Two-column grid for Tablet -->
+<section>
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-stack-md">
+<h2 class="font-headline-sm text-on-surface cormorant text-2xl">Library Management</h2>
+<div class="flex gap-stack-sm w-full sm:w-auto">
+<div class="relative flex-grow sm:flex-grow-0">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-sm">search</span>
+<input class="w-full sm:w-64 bg-surface-container-low border border-outline-variant/10 rounded-full py-2 pl-10 pr-4 font-label-sm focus:border-primary/50 focus:ring-0 outline-none transition-all duration-400" placeholder="Search stotras..." type="text"/>
+</div>
+<button class="px-4 py-2 bg-surface-container-high text-on-surface rounded-full font-label-sm flex items-center gap-2 hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                        Filter
+                    </button>
+</div>
+</div>
+<!-- Bento-style Card Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter">
+<!-- Stotra Card 1 -->
+<div class="bg-surface-container-low rounded-3xl overflow-hidden flex flex-col sm:flex-row group transition-all duration-500 hover:translate-y-[-4px]">
+<div class="sm:w-40 h-48 sm:h-full relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="An ethereal, high-contrast black and white photograph of an ancient stone temple pillar intricate with carvings, bathed in a single beam of golden celestial light. The composition is artistic and minimalist, emphasizing texture and the sacred atmosphere of an old ritual space. Moody shadows create deep depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcda_JJSIK7d3OCn_8Jo3hSazYIKXIfpZ0R_-b2sdngiPaan1znFtyQ_NbDUXRsTUisoldp2Lbd_dvqlxJ3gaS-3U6VZ14vpOlSGoOBwvGOfME-ndtjjTiuU8YSApi01pZqu9XRC8ol8L-64gOAkvTJbutsLBrYAr124il-CKXtRh74Q382X-oNUI3RkQHQyzh3HEY4Yahz4uybbGgfVtUGfp_B24PcdsKQR5nXHeDvoxmvfMHONvBAb6ftJHEEaMBJsFstV_93GQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 bg-primary/90 text-on-primary px-3 py-1 rounded-full font-label-sm text-[10px] uppercase tracking-widest">Ritual</div>
+</div>
+<div class="flex-grow p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-sm text-on-surface text-xl cormorant">Shiva Tandava Stotram</h4>
+<button class="text-outline-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm line-clamp-2 italic mb-4">"Jata tavi galaj jala pravaha pavitasthale..."</p>
+<div class="flex gap-4 mb-4">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm text-xs">4.2k</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-outline-variant">headphones</span>
+<span class="font-label-sm text-xs">12.8k</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/5">
+<span class="flex items-center gap-2 text-green-500 font-label-sm text-xs">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                Published
+                            </span>
+<button class="text-primary font-label-md hover:underline decoration-primary/30">Edit Details</button>
+</div>
+</div>
+</div>
+<!-- Stotra Card 2 -->
+<div class="bg-surface-container-low rounded-3xl overflow-hidden flex flex-col sm:flex-row group transition-all duration-500 hover:translate-y-[-4px]">
+<div class="sm:w-40 h-48 sm:h-full relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A macro photograph of burning incense sticks with swirling, silk-like white smoke against a dark, moody background. Warm ember glows at the tip of the sticks create a focal point. The aesthetic is serene, zen-like, and editorial, using a narrow depth of field to evoke a sense of deep meditation and sacred silence." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcuC2Vbkfzh-46kwm5VnNEyyIzA4UfofJ51hVlWOUOCJbntJ4C9XlQAYWZzWrFPWw-CtCGywz7q4jX_0TcT5tqxVU75gxtblYSXnNiSeX_o1QQbMHYBvNaaSPnWYjbEGLEqCnqnmvt2u_1ZGjJ4PZ9l5xnu-Ag022UrlzRQ_IGCxbvYp5yFmREcW9sIwJNZ3axi9SeZXfDXjYuAzbzuMQ7Dpb5smIDL9RlamzFAjLYUM_wbshsRrSlXB4POmLrs4-X2NMVNAZJMi8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 bg-secondary/90 text-on-secondary px-3 py-1 rounded-full font-label-sm text-[10px] uppercase tracking-widest">Mantra</div>
+</div>
+<div class="flex-grow p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-sm text-on-surface text-xl cormorant">Gayatri Mantra Reflection</h4>
+<button class="text-outline-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm line-clamp-2 italic mb-4">A curated meditative guide to the solar awakening of the intellect...</p>
+<div class="flex gap-4 mb-4">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm text-xs">1.8k</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-outline-variant">headphones</span>
+<span class="font-label-sm text-xs">5.4k</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/5">
+<span class="flex items-center gap-2 text-outline-variant font-label-sm text-xs">
+<span class="w-2 h-2 rounded-full bg-outline-variant"></span>
+                                Draft
+                            </span>
+<button class="text-primary font-label-md hover:underline decoration-primary/30">Edit Details</button>
+</div>
+</div>
+</div>
+<!-- Stotra Card 3 -->
+<div class="bg-surface-container-low rounded-3xl overflow-hidden flex flex-col sm:flex-row group transition-all duration-500 hover:translate-y-[-4px]">
+<div class="sm:w-40 h-48 sm:h-full relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A minimalist, top-down view of a copper ritual bowl containing pristine water and floating jasmine petals. The lighting is soft and diffused, highlighting the ripples in the water and the delicate textures of the petals. The color palette is composed of warm earth tones, coppers, and off-whites, creating an atmosphere of purity and ritual grace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzE_0MmFQhXI5XrFSuC-85Xav4iY3R5XhGFP-fM27DgDzMzDdPB_xAppa8KwuvooAJS5gUvVCwTCHXjAun9k-9udStvhEXFZzRtiiEBRD2KtY1sPzcwl_cqFrxiMjNKVwLb-4fvpEKFVXHVQkp1B5rrb16duc_1I6D2Vl_ZKH5B3Va-Br9XEM3dHonr3Pnf9f9TvRNzi9cng-ZkcJbUO1dmfBj6zE-To70xOhus-dlbfeqlGwOpyBYWbvavSLRWSttP0NBGadx9bk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 bg-primary/90 text-on-primary px-3 py-1 rounded-full font-label-sm text-[10px] uppercase tracking-widest">Stotra</div>
+</div>
+<div class="flex-grow p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-sm text-on-surface text-xl cormorant">Mahishasura Mardini</h4>
+<button class="text-outline-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm line-clamp-2 italic mb-4">The rhythmic invocation of the divine feminine energy and protection...</p>
+<div class="flex gap-4 mb-4">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm text-xs">6.1k</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-outline-variant">headphones</span>
+<span class="font-label-sm text-xs">22.0k</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/5">
+<span class="flex items-center gap-2 text-green-500 font-label-sm text-xs">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                Published
+                            </span>
+<button class="text-primary font-label-md hover:underline decoration-primary/30">Edit Details</button>
+</div>
+</div>
+</div>
+<!-- Stotra Card 4 -->
+<div class="bg-surface-container-low rounded-3xl overflow-hidden flex flex-col sm:flex-row group transition-all duration-500 hover:translate-y-[-4px]">
+<div class="sm:w-40 h-48 sm:h-full relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="An abstract digital rendering of sacred geometry patterns—specifically the Sri Yantra—glowing faintly in gold lines against a deep, dark espresso-colored background. The style is modern, technical yet spiritual, with subtle light particles floating around the geometry. High-end, gallery-worthy visual that feels sophisticated and deeply meaningful." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2nvqT9PZMqrif-VkJLpCLzVDFWEx_BdXo6udAgiCnSfoN4we8XnzUO7GEcHCfX0OTSCAv07RtMjWwwSuv3hki4Xq5DJReRSLnmpA-swE04RuSivNU50BqVEo-ilR2aHZ9Ils2CcIAoJD4X087R9ariySGHo-UGiSm4vfS-fVEGRaHMBv6C8DaljGkLB6HRvDzzC3vypLKyVItIH-YzuhsfwQ2iNuTDMs29bl9v31gjXqPtuhohyKidHbNjuhb3alrIwx49elPUL0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent opacity-60"></div>
+<div class="absolute bottom-3 left-3 bg-tertiary/20 text-tertiary border border-tertiary/30 px-3 py-1 rounded-full font-label-sm text-[10px] uppercase tracking-widest">Meditation</div>
+</div>
+<div class="flex-grow p-6 flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-2">
+<h4 class="font-headline-sm text-on-surface text-xl cormorant">Soundscape of Silence</h4>
+<button class="text-outline-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+<p class="font-body-md text-on-surface-variant text-sm line-clamp-2 italic mb-4">A 432Hz spatial audio experience designed for deep somatic release...</p>
+<div class="flex gap-4 mb-4">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm text-xs">3.2k</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-outline-variant">headphones</span>
+<span class="font-label-sm text-xs">15.1k</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-4 border-t border-outline-variant/5">
+<span class="flex items-center gap-2 text-green-500 font-label-sm text-xs">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                Published
+                            </span>
+<button class="text-primary font-label-md hover:underline decoration-primary/30">Edit Details</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Pagination / Footer -->
+<footer class="mt-stack-lg pt-stack-md border-t border-outline-variant/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+<p class="font-label-sm text-outline-variant">© 2024 SacredSpace. Crafted for Mindfulness.</p>
+<div class="flex gap-4">
+<a class="font-label-sm text-outline-variant hover:text-primary transition-all" href="#">Philosophy</a>
+<a class="font-label-sm text-outline-variant hover:text-primary transition-all" href="#">Terms of Ritual</a>
+<a class="font-label-sm text-outline-variant hover:text-primary transition-all" href="#">Support</a>
+</div>
+</footer>
+</main>
+<!-- Interactions Script -->
+<script>
+        // Simple micro-interactions for the tablet dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.group');
+            cards.forEach(card => {
+                card.addEventListener('touchstart', () => {
+                    card.classList.add('scale-[0.98]');
+                });
+                card.addEventListener('touchend', () => {
+                    card.classList.remove('scale-[0.98]');
+                });
+            });
+
+            // Smooth scroll for analytics carousel
+            const carousel = document.querySelector('.snap-x');
+            const nextBtn = document.querySelectorAll('button span:contains("chevron_right")');
+            // This is just a visual placeholder for the carousel logic
+        });
+    </script>
+</body></html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SacredSpace | Search & Explore</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-low": "#f5f3f1",
+                    "primary-fixed-dim": "#dec1a6",
+                    "on-primary-container": "#bfa48a",
+                    "on-primary-fixed-variant": "#57432e",
+                    "surface": "#fbf9f7",
+                    "error-container": "#ffdad6",
+                    "tertiary-container": "#3c4025",
+                    "inverse-primary": "#dec1a6",
+                    "on-tertiary-fixed-variant": "#45492d",
+                    "secondary-fixed-dim": "#e3c198",
+                    "surface-variant": "#e4e2e0",
+                    "error": "#ba1a1a",
+                    "inverse-surface": "#30302f",
+                    "surface-bright": "#fbf9f7",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#f2f0ee",
+                    "primary-fixed": "#fbddc1",
+                    "secondary-fixed": "#ffddb6",
+                    "surface-container-highest": "#e4e2e0",
+                    "surface-tint": "#705a44",
+                    "tertiary-fixed-dim": "#c6c9a5",
+                    "on-background": "#1b1c1b",
+                    "tertiary": "#262a11",
+                    "on-surface": "#1b1c1b",
+                    "primary": "#352512",
+                    "tertiary-fixed": "#e2e6bf",
+                    "surface-container": "#EFECE8",
+                    "on-surface-variant": "#4e453d",
+                    "surface-container-high": "#eae8e6",
+                    "secondary": "#745a38",
+                    "secondary-container": "#fedab0",
+                    "saffron": "#F59E3B",
+                    "outline": "#7A7874",
+                    "surface-dim": "#dbdad8",
+                    "on-secondary-fixed": "#2a1800",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-container": "#4d3a26",
+                    "on-secondary-container": "#785e3c",
+                    "on-primary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#1a1d06",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#5a4223",
+                    "background": "#fbf9f7",
+                    "on-primary-fixed": "#281807",
+                    "outline-variant": "#d1c4ba",
+                    "on-tertiary-container": "#a8ac89",
+                    "gold": "#D4A84B"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "reading-width": "720px",
+                    "section-gap": "64px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "48px",
+                    "unit": "8px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "sanskrit": ["Noto Sans Devanagari"],
+                    "display-lg": ["Cormorant Garamond"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-sm": ["Cormorant Garamond"],
+                    "headline-lg": ["Cormorant Garamond"],
+                    "headline-md": ["Cormorant Garamond"],
+                    "display-lg-mobile": ["Cormorant Garamond"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                    "sanskrit": ["20px", {"lineHeight": "2.0", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-md": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.15", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- TopNavBar (Mobile Shell) -->
+<header class="bg-surface sticky top-0 z-40 border-b border-outline-variant flex justify-between items-center w-full px-margin-mobile py-4 max-w-reading-width mx-auto">
+<h1 class="font-headline-md text-headline-md font-semibold text-primary">SacredSpace</h1>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-gold transition-colors duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<main class="pb-24 pt-4">
+<!-- Search Input -->
+<section class="px-margin-mobile mb-6">
+<div class="relative group">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
+<input class="w-full h-14 pl-12 pr-4 bg-surface-container-low border-b border-outline-variant focus:border-gold focus:ring-0 text-body-md font-body-md transition-all outline-none" placeholder="Search mantras, stotras, or deities..." type="text"/>
+</div>
+</section>
+<!-- Filters (Chip List) -->
+<section class="mb-8">
+<div class="flex overflow-x-auto no-scrollbar gap-3 px-margin-mobile">
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-primary text-on-primary font-label-sm text-label-sm">All</button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm border border-outline-variant hover:bg-surface-container-highest transition-colors">Ganesha</button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm border border-outline-variant">Shiva</button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm border border-outline-variant">Vishnu</button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm border border-outline-variant">Durga</button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm border border-outline-variant">Stotra</button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm border border-outline-variant">Ashtakam</button>
+<button class="flex-shrink-0 px-5 py-2 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm border border-outline-variant">Chalisa</button>
+</div>
+</section>
+<!-- Popular Searches -->
+<section class="px-margin-mobile mb-section-gap">
+<h2 class="font-headline-sm text-headline-sm mb-4 text-primary">Popular Searches</h2>
+<div class="space-y-4">
+<!-- Item 1 -->
+<div class="flex items-center justify-between p-4 bg-surface rounded-lg border border-outline-variant/50 hover:shadow-sm transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A serene digital illustration of Lord Ganesha in a modern, minimalist editorial style. The image uses warm ivory and soft gold tones with clean espresso-colored line work, reflecting a meditative and reverent atmosphere suitable for a sacred app. Soft, high-key lighting illuminates the subject against a textured paper-like background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnC6xvieLXeTxwEKisVuptXBX0oqN9cEzodZrIju42JBDejiPpcYTc90gkH9HXDxB0STmdKhs1rwGpTVVPU_RfXdbPRzEggodNvcU-Fh7HlD3YSLCFYhm41N91lsqMH0sy6PprLk7gd3qmZMrkwZXyuX3CKTeo07io8tPEfPUqtW-dN_h4wENtBeMLgvuOFZg6FS5QCgOw-t11aqreGcQ_mrsg-OcNrJmHXIcgLSRmRXVCFjdIrbGOXnUDW7R6mpSj3W_hyK2ofxI"/>
+</div>
+<div>
+<h3 class="font-body-md text-body-md font-semibold text-primary">Ganesha Atharvashirsha</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Popular this week</p>
+</div>
+</div>
+<div class="flex flex-col items-center gap-1">
+<button class="text-error hover:scale-110 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4.2k</span>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-center justify-between p-4 bg-surface rounded-lg border border-outline-variant/50 hover:shadow-sm transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A minimalist and evocative digital portrait of Lord Shiva in meditation. The aesthetic is clean and editorial, using a palette of warm off-white and deep charcoal for a focused, spiritual feel. The lighting is ethereal and soft, creating a sense of deep calm and cosmic reverence consistent with a high-end literary journal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE6dAeu6HKJZy8LJ-9biSN5wN2vOzKSWaexDWwxTFwQdJ_ffQZXuMsMlIBw4w5qXwgvNjxELpA4VwuDKQfY6UbuYMB25gfx2-FOcWe5xXQTDUwco1v-4ePV4nHnyxX69NmtbKpuM75U39IrsGy5JUZ5CytcSU5Cn1nGaWGpyewxwMF2QIYOZxQCLeqv-F8mDUmsTO84-jPLmZmHJV1TESRBFeRgA6UR1bM_8gqht6S0o3vAFV3Oj4GBuuX8j9HhtoIk3JIiaY3XG4"/>
+</div>
+<div>
+<h3 class="font-body-md text-body-md font-semibold text-primary">Shiva Tandava Stotram</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Trending in Stotras</p>
+</div>
+</div>
+<div class="flex flex-col items-center gap-1">
+<button class="text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+<span class="font-label-sm text-label-sm text-on-surface-variant">8.9k</span>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-center justify-between p-4 bg-surface rounded-lg border border-outline-variant/50 hover:shadow-sm transition-all active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A contemporary graphic interpretation of Hanuman Chalisa themes, featuring a minimalist silhouette of Hanuman against a radiant golden dawn. The style is serene editorial minimalism with rich textures and warm ivory backgrounds. The color palette is restricted to gold, espresso, and saffron, evoking a sense of powerful devotion and ancient wisdom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDf-wk7pFUHU6ukR4Ffsss6iOW6EUb4eJE1hZHCgkTh7eBI7lY-SeJR9hHxicpj5559bqtXPywq9VScVRlQOge8xnCyak_I0Su9ZeGqGB2eEjmmFPS2Dgu-lwkUZqFiN2mtTF8aXEW5p-8tWa-3-Af8AHzk2IDTAhGJjqOjJCV3IpbinRLFpJAa6GMkvlEv1SiqHlxIPG67v4faBCBYHKPLcVomY71lxdJ25Qpu2D-sb9OsXcN0y2EG1TkLoaUvC_bEndN4dvfjFeM"/>
+</div>
+<div>
+<h3 class="font-body-md text-body-md font-semibold text-primary">Hanuman Chalisa</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Daily favorite</p>
+</div>
+</div>
+<div class="flex flex-col items-center gap-1">
+<button class="text-error">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+<span class="font-label-sm text-label-sm text-on-surface-variant">12.1k</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Browse by Deity -->
+<section class="px-margin-mobile mb-section-gap">
+<h2 class="font-headline-sm text-headline-sm mb-6 text-primary">Browse by Deity</h2>
+<div class="grid grid-cols-2 gap-4">
+<!-- Deity 1 -->
+<div class="flex flex-col items-center p-6 bg-surface-container-low rounded-lg border border-outline-variant/30 hover:bg-surface-container transition-colors active:scale-95 duration-150">
+<div class="w-16 h-16 mb-4 flex items-center justify-center text-gold">
+<span class="material-symbols-outlined !text-5xl">potted_plant</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">Ganesha</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">12 Mantras</span>
+</div>
+<!-- Deity 2 -->
+<div class="flex flex-col items-center p-6 bg-surface-container-low rounded-lg border border-outline-variant/30 hover:bg-surface-container transition-colors active:scale-95 duration-150">
+<div class="w-16 h-16 mb-4 flex items-center justify-center text-gold">
+<span class="material-symbols-outlined !text-5xl">water_drop</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">Shiva</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">8 Stotras</span>
+</div>
+<!-- Deity 3 -->
+<div class="flex flex-col items-center p-6 bg-surface-container-low rounded-lg border border-outline-variant/30 hover:bg-surface-container transition-colors active:scale-95 duration-150">
+<div class="w-16 h-16 mb-4 flex items-center justify-center text-gold">
+<span class="material-symbols-outlined !text-5xl">brightness_high</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">Vishnu</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">15 Items</span>
+</div>
+<!-- Deity 4 -->
+<div class="flex flex-col items-center p-6 bg-surface-container-low rounded-lg border border-outline-variant/30 hover:bg-surface-container transition-colors active:scale-95 duration-150">
+<div class="w-16 h-16 mb-4 flex items-center justify-center text-gold">
+<span class="material-symbols-outlined !text-5xl">shield</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">Durga</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">10 Suktams</span>
+</div>
+</div>
+</section>
+<!-- Subtle Sanskrit Quote -->
+<section class="px-margin-mobile text-center max-w-reading-width mx-auto pb-12">
+<p class="font-sanskrit text-sanskrit text-on-surface-variant opacity-60 mb-2">ॐ शान्तिः शान्तिः शान्तिः</p>
+<p class="font-label-sm text-label-sm uppercase tracking-widest text-outline">Om Shanti Shanti Shanti</p>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 md:hidden bg-surface-container-low dark:bg-inverse-surface shadow-sm rounded-t-xl">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-surface-container-high p-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm-mobile">Home</span>
+</a>
+<!-- Browse (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-tertiary-container text-on-secondary-container dark:text-on-tertiary-container rounded-full px-4 py-1 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-sm text-label-sm-mobile">Browse</span>
+</a>
+<!-- Saved -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-surface-container-high p-2 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-label-sm text-label-sm-mobile">Saved</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for search focus
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.01]');
+            searchInput.parentElement.classList.add('shadow-md');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.01]');
+            searchInput.parentElement.classList.remove('shadow-md');
+        });
+
+        // Like button toggle
+        document.querySelectorAll('button .material-symbols-outlined').forEach(icon => {
+            if (icon.innerText === 'favorite') {
+                icon.parentElement.addEventListener('click', function() {
+                    const isFilled = this.querySelector('span').style.fontVariationSettings.includes("'FILL' 1");
+                    this.querySelector('span').style.fontVariationSettings = isFilled ? "'FILL' 0" : "'FILL' 1";
+                    this.classList.toggle('text-error', !isFilled);
+                    this.classList.toggle('text-outline', isFilled);
+                });
+            }
+        });
+    </script>
+</body></html>

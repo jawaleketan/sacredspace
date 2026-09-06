@@ -1,0 +1,142 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { getDeityBySlug, getContentsByDeitySorted } from "~/server/functions/contents";
+import { Breadcrumbs } from "~/components/Breadcrumbs";
+import { DeitySkeleton } from "~/components/Skeleton";
+import { SITE_URL } from "~/lib/constants";
+
+export const Route = createFileRoute("/deity/$slug")({
+  component: DeityPage,
+  pendingComponent: DeitySkeleton,
+  loader: async ({ params }) => {
+    const deity = await getDeityBySlug({ data: params.slug });
+    const contentList = await getContentsByDeitySorted({ data: deity.id });
+    return { deity, contentList };
+  },
+  head: ({ loaderData }) => {
+    const d = loaderData?.deity;
+    if (!d) return {};
+    const desc = d.description?.slice(0, 160) ?? `Explore ${d.name} mantras and stotras`;
+    return {
+      meta: [
+        { title: `${d.name} — SacredSpace` },
+        { name: "description", content: desc },
+        { property: "og:title", content: d.name },
+        { property: "og:description", content: desc },
+        { property: "og:url", content: `${SITE_URL}/deity/${d.slug}` },
+      ],
+    };
+  },
+  errorComponent: () => (
+    <main className="flex min-h-screen items-center justify-center bg-bg">
+      <div className="text-center">
+        <h1 className="font-serif text-3xl font-semibold text-on-surface">Deity not found</h1>
+        <Link to="/" className="mt-4 inline-block text-accent-gold hover:text-accent-saffron">
+          Back to home
+        </Link>
+      </div>
+    </main>
+  ),
+});
+
+function DeityPage() {
+  const { deity, contentList } = Route.useLoaderData();
+  const mantras = contentList.filter((c) => c.type === "mantra");
+  const stotras = contentList.filter((c) => c.type === "stotra");
+
+  return (
+    <main className="min-h-screen bg-bg">
+      <div className="mx-auto max-w-4xl px-4 py-8 md:px-12 md:py-12">
+        <Breadcrumbs items={[
+          { label: "Home", to: "/" },
+          { label: deity.name },
+        ]} />
+
+        <div className="mb-12">
+          <div className="mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-xl bg-surface-container text-4xl font-serif font-semibold text-primary">
+            {deity.imageUrl ? (
+              <img
+                src={deity.imageUrl}
+                alt={deity.name}
+                width={96}
+                height={96}
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              deity.name.charAt(0)
+            )}
+          </div>
+          <h1 className="font-serif text-4xl font-semibold text-on-surface md:text-5xl">
+            {deity.name}
+          </h1>
+          {deity.description && (
+            <p className="mt-4 max-w-2xl text-base leading-relaxed text-on-surface-variant">
+              {deity.description}
+            </p>
+          )}
+        </div>
+
+        {mantras.length > 0 && (
+          <section className="mb-12">
+            <h2 className="mb-4 font-serif text-2xl font-semibold text-on-surface">
+              Mantras
+            </h2>
+            <div className="space-y-3">
+              {mantras.map((item) => (
+                <Link
+                  key={item.id}
+                  to="/mantra/$slug"
+                  params={{ slug: item.slug }}
+                  className="block rounded-lg border border-outline-variant bg-surface-container-lowest p-5 transition-all hover:border-accent-gold/40 hover:shadow-sm"
+                >
+                  <h3 className="font-serif text-lg font-semibold text-on-surface">
+                    {item.title}
+                  </h3>
+                  {item.description && (
+                    <p className="mt-1 line-clamp-2 text-sm text-on-surface-variant leading-relaxed">
+                      {item.description}
+                    </p>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {stotras.length > 0 && (
+          <section>
+            <h2 className="mb-4 font-serif text-2xl font-semibold text-on-surface">
+              Stotras
+            </h2>
+            <div className="space-y-3">
+              {stotras.map((item) => (
+                <Link
+                  key={item.id}
+                  to="/mantra/$slug"
+                  params={{ slug: item.slug }}
+                  className="block rounded-lg border border-outline-variant bg-surface-container-lowest p-5 transition-all hover:border-accent-gold/40 hover:shadow-sm"
+                >
+                  <h3 className="font-serif text-lg font-semibold text-on-surface">
+                    {item.title}
+                  </h3>
+                  {item.description && (
+                    <p className="mt-1 line-clamp-2 text-sm text-on-surface-variant leading-relaxed">
+                      {item.description}
+                    </p>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {contentList.length === 0 && (
+          <p className="py-12 text-center text-on-surface-variant">
+            No mantras or stotras yet.
+          </p>
+        )}
+      </div>
+    </main>
+  );
+}

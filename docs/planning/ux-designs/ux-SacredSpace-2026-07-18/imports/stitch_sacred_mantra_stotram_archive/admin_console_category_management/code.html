@@ -1,0 +1,375 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Category Management | SacredSpace Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "tertiary-fixed": "#e2e6bf",
+                "on-primary-container": "#bfa48a",
+                "inverse-primary": "#dec1a6",
+                "primary-container": "#4d3a26",
+                "on-secondary-fixed-variant": "#5a4223",
+                "surface-dim": "#dbdad8",
+                "surface-container-lowest": "#ffffff",
+                "tertiary-fixed-dim": "#c6c9a5",
+                "gold": "#D4A84B",
+                "error": "#ba1a1a",
+                "on-error": "#ffffff",
+                "surface-bright": "#fbf9f7",
+                "inverse-surface": "#30302f",
+                "on-tertiary-fixed-variant": "#45492d",
+                "surface-tint": "#705a44",
+                "on-tertiary-container": "#a8ac89",
+                "on-surface": "#1b1c1b",
+                "secondary-fixed-dim": "#e3c198",
+                "on-primary": "#ffffff",
+                "tertiary": "#262a11",
+                "secondary-fixed": "#ffddb6",
+                "on-error-container": "#93000a",
+                "on-secondary": "#ffffff",
+                "surface-container-low": "#f5f3f1",
+                "surface-container": "#efedec",
+                "on-tertiary-fixed": "#1a1d06",
+                "saffron": "#F59E3B",
+                "outline-variant": "#d1c4ba",
+                "outline": "#7A7874",
+                "secondary": "#745a38",
+                "error-container": "#ffdad6",
+                "primary-fixed": "#fbddc1",
+                "secondary-container": "#fedab0",
+                "background": "#fbf9f7",
+                "on-background": "#1b1c1b",
+                "surface-variant": "#e4e2e0",
+                "surface": "#fbf9f7",
+                "surface-container-high": "#eae8e6",
+                "on-primary-fixed": "#281807",
+                "on-surface-variant": "#4e453d",
+                "on-secondary-fixed": "#2a1800",
+                "primary": "#352512",
+                "primary-fixed-dim": "#dec1a6",
+                "inverse-on-surface": "#f2f0ee",
+                "tertiary-container": "#3c4025",
+                "on-secondary-container": "#785e3c",
+                "on-tertiary": "#ffffff",
+                "on-primary-fixed-variant": "#57432e",
+                "surface-container-highest": "#e4e2e0"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "margin-desktop": "48px",
+                "section-gap": "64px",
+                "reading-width": "720px",
+                "gutter": "24px",
+                "margin-mobile": "16px",
+                "unit": "8px"
+            },
+            "fontFamily": {
+                "body-lg": ["Inter"],
+                "sanskrit": ["Noto Sans Devanagari"],
+                "headline-sm": ["Cormorant Garamond"],
+                "headline-lg": ["Cormorant Garamond"],
+                "label-sm": ["Inter"],
+                "headline-md": ["Cormorant Garamond"],
+                "body-sm": ["Inter"],
+                "body-md": ["Inter"],
+                "display-lg": ["Cormorant Garamond"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #fbf9f7; /* surface */
+            color: #352512; /* primary */
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .tonal-layer-1 { background-color: #f5f3f1; } /* surface-container-low */
+        .tonal-layer-2 { background-color: #efedec; } /* surface-container */
+        .tonal-layer-3 { background-color: #eae8e6; } /* surface-container-high */
+        
+        /* Custom scrollbar for editorial feel */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #fbf9f7; }
+        ::-webkit-scrollbar-thumb { background: #d1c4ba; border-radius: 10px; }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-hidden">
+<div class="flex h-screen w-full">
+<!-- Sidebar Navigation (SideNavBar Component Logic) -->
+<aside class="hidden md:flex flex-col h-full w-64 bg-surface-container dark:bg-surface-container-high border-r border-outline-variant p-6 space-y-4">
+<div class="mb-8 px-2">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary mb-1">SacredSpace</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<!-- Directory (Active) -->
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-on-primary rounded-lg font-medium translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">folder_shared</span>
+<span class="font-label-sm text-label-sm">Directory</span>
+</a>
+<!-- Analytics -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">insights</span>
+<span class="font-label-sm text-label-sm">Analytics</span>
+</a>
+<!-- Users -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="font-label-sm text-label-sm">Users</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<div class="pt-6 border-t border-outline-variant">
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-on-primary py-3 px-4 rounded-lg font-label-sm text-label-sm hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    New Entry
+                </button>
+<div class="mt-6 flex items-center gap-3 px-2">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a serene administrative user in a minimalist office setting, soft natural lighting, warm ivory background, wearing a neutral-toned linen shirt, high-end editorial photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvPPTZIbPpYXKHt22j_SATtW6eLn2TJVK7SGtPzrvGUIMw4oEUroHBUK5b2ww659sqpx3aGk2gmFhy0MJ30UY0bbGaxkq67RuMm7JpK-ofL1qiahwQnO2KtqTNJ5lmGbAF4HzUF3k4NhdfzIrV2tw6sd6CbcIIXueWPan2lZR0vL4Of5DwdtVDBQpi3tXQYhS9AYgfcjZcyv-TOdy72VilukVUu3zKKUxW5GfGI36q-IzXQ0vycS_zFqdi3NHKiQ3wjzOj_boAC6s">
+</div>
+<div>
+<p class="font-label-sm text-label-sm font-semibold">Admin User</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Super Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col overflow-hidden bg-background">
+<!-- Header Section -->
+<header class="w-full px-margin-desktop py-8 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-outline-variant/30">
+<div class="max-w-2xl">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Category Management</h2>
+<p class="font-body-md text-on-surface-variant">Manage the deity collections and themes that organize the sacred library.</p>
+</div>
+<button class="flex items-center justify-center gap-2 bg-primary text-on-primary px-6 py-3 rounded-lg font-label-sm text-label-sm hover:shadow-md transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined">add_circle</span>
+                    New Category
+                </button>
+</header>
+<!-- Search & Filters -->
+<section class="px-margin-desktop py-6 bg-surface-container-low flex flex-wrap gap-4 items-center">
+<div class="relative flex-1 min-w-[300px]">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container border-none rounded-md focus:ring-1 focus:ring-gold font-body-sm text-body-sm shadow-sm transition-colors" placeholder="Search categories by name or description..." type="text">
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-2 px-4 py-3 bg-surface-container rounded-md border border-outline-variant/30 font-label-sm text-label-sm text-primary hover:text-gold hover:border-gold/50 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Status
+                    </button>
+<button class="flex items-center gap-2 px-4 py-3 bg-surface-container rounded-md border border-outline-variant/30 font-label-sm text-label-sm text-primary hover:text-gold hover:border-gold/50 transition-all active:scale-95">
+<span class="material-symbols-outlined text-[18px]">sort</span>
+                        Sort by Count
+                    </button>
+</div>
+</section>
+<!-- Scrollable Content: Category Grid (Asymmetric Bento Style) -->
+<div class="flex-1 overflow-y-auto p-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Category: Ganesha (Featured Large) -->
+<div class="lg:col-span-8 bg-surface border border-outline-variant/40 rounded-xl p-8 flex flex-col md:flex-row gap-8 hover:shadow-sm transition-shadow group">
+<div class="w-full md:w-48 h-48 rounded-lg overflow-hidden shrink-0 bg-surface-container-high relative">
+<img class="w-full h-full object-cover" data-alt="Close-up artistic rendering of Lord Ganesha, minimal line art style with gold leaf accents on a textured ivory paper background. Serene, intellectual, and reverent atmosphere, soft depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_o8aa60IkxNCnF2G8_IByoeRTjjfiOuxT-fIFxM0TNL6F2MwEiifFZ3A0Cin0Qw6L080ahOPp4tdle5z3_vrKTnTwVoShV7D6XHnYSANNT4lQoW01FaYGXLg6QjMgI3roWWdV4iNFTpTqKDcfW-KXIPr5ro9yXH1tYpEc6zdoxAEYh3BYa6mFJqYPOo8rEqyAhoJ07ezNo7j5PlbQBhASQ0kjcH-yzBKLE3ofmc_BBLFdVqK8z2ZTC33ndDKEgozKmbA3jN3Qs8Y">
+<div class="absolute top-3 left-3 bg-gold text-on-primary px-2 py-1 rounded text-[10px] font-bold tracking-widest uppercase">Popular</div>
+</div>
+<div class="flex-1 flex flex-col">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-md text-headline-md text-primary">Ganesha</h3>
+<span class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded-full text-[10px] font-semibold uppercase tracking-wider">Public</span>
+</div>
+<p class="font-body-md text-on-surface-variant mb-6 leading-relaxed">The Lord of Beginnings and Remover of Obstacles. This category houses the essential Ganesha Atharvashirsha, Beeja mantras, and daily prayers for wisdom.</p>
+<div class="mt-auto flex items-center justify-between border-t border-outline-variant/30 pt-4">
+<div class="flex gap-4">
+<div class="text-center">
+<p class="text-[10px] uppercase text-outline tracking-tighter">Mantras</p>
+<p class="font-semibold text-primary">128</p>
+</div>
+<div class="text-center border-l border-outline-variant/30 pl-4">
+<p class="text-[10px] uppercase text-outline tracking-tighter">Stotras</p>
+<p class="font-semibold text-primary">42</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="p-2 text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-full transition-all" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+<button class="p-2 text-on-surface-variant hover:text-gold hover:bg-surface-variant rounded-full transition-all" title="View"><span class="material-symbols-outlined">visibility</span></button>
+<button class="p-2 text-error hover:bg-error-container rounded-full transition-all" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+</div>
+</div>
+</div>
+</div>
+<!-- Category: Shiva -->
+<div class="lg:col-span-4 bg-surface-container-low border border-outline-variant/20 rounded-xl p-6 flex flex-col hover:shadow-sm transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-[28px]">self_improvement</span>
+</div>
+<span class="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded text-[10px] font-semibold uppercase">Public</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Shiva</h3>
+<p class="font-body-sm text-on-surface-variant mb-6 line-clamp-2">Sacred chants dedicated to the Auspicious One, including the Mahamrityunjaya Mantra and Shiva Tandava.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">85 Items</span>
+<div class="flex gap-1">
+<button class="p-1.5 text-on-surface-variant hover:bg-white rounded-md transition-colors"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="p-1.5 text-on-surface-variant hover:bg-white rounded-md transition-colors"><span class="material-symbols-outlined text-[18px]">visibility</span></button>
+</div>
+</div>
+</div>
+<!-- Category: Lakshmi -->
+<div class="lg:col-span-4 bg-surface border border-outline-variant/40 rounded-xl p-6 flex flex-col hover:shadow-sm transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center text-on-secondary">
+<span class="material-symbols-outlined text-[28px]">spa</span>
+</div>
+<span class="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded text-[10px] font-semibold uppercase">Public</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Lakshmi</h3>
+<p class="font-body-sm text-on-surface-variant mb-6 line-clamp-2">Goddess of wealth, fortune, and prosperity. Includes Sri Suktam and Lakshmi Ashtakam.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">54 Items</span>
+<div class="flex gap-1">
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md transition-colors"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md transition-colors"><span class="material-symbols-outlined text-[18px]">visibility</span></button>
+</div>
+</div>
+</div>
+<!-- Category: Vishnu (Horizontal Wide) -->
+<div class="lg:col-span-8 bg-surface-container-high/40 border border-outline-variant/30 rounded-xl p-6 flex items-center gap-6 hover:bg-white transition-colors">
+<div class="w-20 h-20 rounded-full border-2 border-gold/30 p-1 shrink-0">
+<img class="w-full h-full object-cover rounded-full" data-alt="Stylized golden lotus flower icon on a soft cream background, representing divine preservation and Lord Vishnu, elegant minimalist vector art, warm lighting, premium serene editorial feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmSnv1o95YrWWQVpbl4QP9vLsPF5_5SWfG9e1ctxNLT-9laY4aKbmK1r5iu2XgYQ_JZOOaqDCgZiE9I-D7LC0qiRWnBaNeYcaMoqp1AYQ0JgQ4mAQt5lT-zYrZuqHT57XjFUMf_NwnlyR3s20dp30lI0nMN2buP91R-ftJpjaOxVh12AocKln71Vo7kiKfEw78P5F7g-kTihzrKv2YTVHdk_DGTl_oChGKuesgos-ga13o6gqokZKtP27I8x-SxDzhC3_IDF6xwQo">
+</div>
+<div class="flex-1">
+<div class="flex items-center gap-3 mb-1">
+<h3 class="font-headline-sm text-headline-sm text-primary">Vishnu</h3>
+<span class="text-[10px] text-outline font-medium tracking-widest uppercase">92 Collections</span>
+</div>
+<p class="font-body-sm text-on-surface-variant">The Preserver of the Universe. Features Vishnu Sahasranama and Narayana Kavacham.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-outline text-on-surface-variant hover:border-primary hover:text-primary rounded-lg font-label-sm text-label-sm transition-all">Quick Edit</button>
+<button class="p-2 text-on-surface-variant hover:text-gold transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+</div>
+<!-- Category: Durga -->
+<div class="lg:col-span-4 bg-surface border border-outline-variant/40 rounded-xl p-6 flex flex-col hover:shadow-sm transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-[#8B0000] rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[28px]">shield</span>
+</div>
+<span class="px-2 py-0.5 bg-surface-variant text-outline rounded text-[10px] font-semibold uppercase">Hidden</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Durga</h3>
+<p class="font-body-sm text-on-surface-variant mb-6 line-clamp-2">Protective goddess and divine mother. Includes Devi Mahatmyam and Durga Chalisa.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">76 Items</span>
+<div class="flex gap-1">
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md transition-colors"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md transition-colors"><span class="material-symbols-outlined text-[18px]">visibility</span></button>
+</div>
+</div>
+</div>
+<!-- Category: Hanuman -->
+<div class="lg:col-span-4 bg-surface border border-outline-variant/40 rounded-xl p-6 flex flex-col hover:shadow-sm transition-shadow">
+<div class="flex justify-between items-start mb-4">
+<div class="w-12 h-12 bg-saffron rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[28px]">bolt</span>
+</div>
+<span class="px-2 py-0.5 bg-tertiary-fixed text-on-tertiary-fixed-variant rounded text-[10px] font-semibold uppercase">Public</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-2">Hanuman</h3>
+<p class="font-body-sm text-on-surface-variant mb-6 line-clamp-2">The epitome of devotion and strength. Home to Hanuman Chalisa and Bajrang Baan.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline">112 Items</span>
+<div class="flex gap-1">
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md transition-colors"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-variant rounded-md transition-colors"><span class="material-symbols-outlined text-[18px]">visibility</span></button>
+</div>
+</div>
+</div>
+<!-- Category: Saraswati (Draft) -->
+<div class="lg:col-span-4 bg-surface border-2 border-dashed border-outline-variant rounded-xl p-6 flex flex-col items-center justify-center text-center opacity-60 hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-[48px] text-outline-variant mb-3">auto_stories</span>
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">New Theme?</h3>
+<p class="font-body-sm text-on-surface-variant mb-4">Click to add a custom collection or theme.</p>
+<button class="text-gold font-label-sm text-label-sm font-semibold hover:underline">Start Creating</button>
+</div>
+</div>
+</div>
+<!-- Footer Stats -->
+<footer class="w-full px-margin-desktop py-4 bg-surface border-t border-outline-variant/30 flex items-center justify-between text-on-surface-variant">
+<div class="flex gap-8">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-gold"></div>
+<span class="text-[11px] font-medium uppercase tracking-widest">6 Total Categories</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+<span class="text-[11px] font-medium uppercase tracking-widest">2,410 Total Mantras</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-outline">
+<p class="text-[11px]">Last updated: 12 Oct 2023</p>
+</div>
+</footer>
+</main>
+</div>
+<!-- Mobile Navigation (BottomNavBar Component Logic) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 bg-surface-container-low dark:bg-inverse-surface shadow-sm rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm-mobile">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-tertiary-container text-on-secondary-container dark:text-on-tertiary-container rounded-full px-4 py-1 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-sm text-label-sm-mobile">Browse</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-sm text-label-sm-mobile">Saved</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interactions for the cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+                card.style.transition = 'transform 0.3s ease';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+
+
+
+</body></html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SacredSpace Admin Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .sacred-glow {
+            box-shadow: 0 0 20px rgba(212, 168, 77, 0.15);
+        }
+        .sacred-glow-active {
+            box-shadow: 0 0 30px rgba(212, 168, 77, 0.3);
+        }
+        .glass-card {
+            background: rgba(43, 42, 40, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(230, 226, 222, 0.05);
+        }
+        body {
+            background-color: #141312;
+            color: #e6e2de;
+            -webkit-font-smoothing: antialiased;
+        }
+        .custom-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #141312;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #363533;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-primary": "#402d00",
+                      "secondary": "#ffb870",
+                      "on-surface": "#e6e2de",
+                      "on-primary-fixed-variant": "#5c4200",
+                      "surface-dim": "#141312",
+                      "outline": "#9a8f7e",
+                      "on-secondary-fixed": "#2c1600",
+                      "secondary-fixed-dim": "#ffb870",
+                      "on-tertiary-fixed": "#1b1c1a",
+                      "surface-container": "#201f1e",
+                      "surface-container-high": "#2b2a28",
+                      "on-secondary": "#4a2800",
+                      "primary": "#f2c363",
+                      "inverse-surface": "#e6e2de",
+                      "on-tertiary-fixed-variant": "#474744",
+                      "on-error": "#690005",
+                      "on-tertiary": "#30312e",
+                      "on-error-container": "#ffdad6",
+                      "primary-fixed": "#ffdea2",
+                      "on-primary-fixed": "#261900",
+                      "error": "#ffb4ab",
+                      "tertiary-fixed": "#e4e2de",
+                      "surface-container-low": "#1c1b1a",
+                      "background": "#141312",
+                      "on-secondary-fixed-variant": "#693c00",
+                      "inverse-on-surface": "#31302e",
+                      "tertiary-container": "#afaeaa",
+                      "tertiary": "#cbc9c6",
+                      "surface-bright": "#3a3937",
+                      "tertiary-fixed-dim": "#c8c6c3",
+                      "surface-variant": "#363533",
+                      "on-tertiary-container": "#41423f",
+                      "secondary-container": "#ce7e1a",
+                      "primary-fixed-dim": "#eec060",
+                      "on-secondary-container": "#402300",
+                      "primary-container": "#d4a84b",
+                      "surface-container-highest": "#363533",
+                      "surface": "#141312",
+                      "surface-container-lowest": "#0f0e0d",
+                      "secondary-fixed": "#ffdcbe",
+                      "surface-tint": "#eec060",
+                      "on-background": "#e6e2de",
+                      "outline-variant": "#4e4637",
+                      "on-primary-container": "#563e00",
+                      "inverse-primary": "#7a5900",
+                      "on-surface-variant": "#d2c5b1",
+                      "error-container": "#93000a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-sm": "12px",
+                      "margin-mobile": "20px",
+                      "container-max": "1200px",
+                      "stack-md": "24px",
+                      "margin-desktop": "64px",
+                      "stack-lg": "48px",
+                      "gutter": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Noto Serif"],
+                      "body-md": ["Plus Jakarta Sans"],
+                      "label-md": ["Plus Jakarta Sans"],
+                      "label-sm": ["Plus Jakarta Sans"],
+                      "body-lg": ["Plus Jakarta Sans"],
+                      "headline-lg-mobile": ["Noto Serif"],
+                      "headline-lg": ["Noto Serif"],
+                      "headline-display": ["Noto Serif"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                      "headline-display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface custom-scroll">
+<!-- Top AppBar (Mobile context) -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface-dim/80 backdrop-blur-md px-margin-mobile py-4 flex justify-between items-center">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="A portrait of a serene temple guardian, styled with ethereal lighting and a soft golden rim light. The subject wears traditional saffron textiles and has a peaceful expression. The background is a blurred, deep charcoal sanctuary, emphasizing a spiritual and premium aesthetic with warm tones and meticulous detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJHYmnRheTuuBeniPNLvFKDa7ssdIzizIY49hKVGTr49KBPIEv8hGHU6tr_3v0_X1sNWc1zVq4fTv80q88AnE8GOzzIr7h5l9xojShm0KUzQqTwfQY1yzhno2Tn6MP9cDxkS0mbcvYKQDro-4nduKpMWnOwl4HLvIg4-MNKV94PdarrO6y_glBvccAVF3r1VS_a5g6dp9wFDsaBPa-r65fDZwXpWAOSi0oHdwWOtlEOBaifw2V7Id76dUfRYDPSqz9jxoUMsf6WsE"/>
+</div>
+<div>
+<h1 class="font-headline-md text-headline-md text-primary leading-none">Library</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant">SacredSpace Management</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-32 px-margin-mobile min-h-screen">
+<!-- Stats Summary Horizontal Scroll -->
+<section class="flex gap-4 overflow-x-auto pb-6 -mx-margin-mobile px-margin-mobile no-scrollbar">
+<div class="min-w-[140px] p-4 rounded-xl glass-card flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Total Mantras</span>
+<span class="font-headline-md text-headline-md text-primary">1,284</span>
+</div>
+<div class="min-w-[140px] p-4 rounded-xl glass-card flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Active Seekers</span>
+<span class="font-headline-md text-headline-md text-secondary">42.5k</span>
+</div>
+<div class="min-w-[140px] p-4 rounded-xl glass-card flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Daily Rituals</span>
+<span class="font-headline-md text-headline-md text-primary">892</span>
+</div>
+</section>
+<!-- Sacred Narrative Cards Feed -->
+<div class="flex flex-col gap-stack-md">
+<!-- Card 1: Published -->
+<div class="glass-card rounded-xl overflow-hidden flex flex-col transition-all duration-400 hover:scale-[1.01] active:scale-[0.98]">
+<div class="h-32 relative">
+<img class="w-full h-full object-cover opacity-60" data-alt="A wide cinematic shot of a misty Himalayan mountain range at dawn, with soft golden sunlight piercing through heavy clouds. The visual style is ethereal and serene, with a color palette of deep espresso shadows and radiant saffron highlights. This digital painting evokes a sense of ancient wisdom and tranquil ritual, following a minimalist and tactile aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoodsXzSjjX9DEOkZ5NKHtucidbzk1UiUNkNnlJn9pUFCgpm-0fWz8m8EZn-Plr967EbmJypw0cgIZw8CfRXL-q3-ZNSOfsORnS1WL13roOOH9OijoDkVCGVMF0pIObyNwidFBdj8MsL3BwiRP7cTXR6GkJxxCDvSlKc3kJw2ChvSOAv5eavQlNRqhnZVqY2hrHlHnHixAGjuzrkuINnHb4Vk4Abr03N7Jg9_7jhsbDQW0U85hs_NGrgV2B9knReuFnZtAEQvh_c4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-high to-transparent"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-primary/20 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm backdrop-blur-md border border-primary/30">Published</span>
+</div>
+</div>
+<div class="p-stack-md flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface">Gayatri Mantra</h3>
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">temple_hindu</span>
+<span class="font-label-md text-label-md">Universal Wisdom</span>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-md text-label-md">12,402</span>
+</div>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-surface-container-high bg-surface-variant flex items-center justify-center text-[10px] font-bold">JD</div>
+<div class="w-6 h-6 rounded-full border-2 border-surface-container-high bg-secondary flex items-center justify-center text-[10px] font-bold text-on-secondary">RS</div>
+<div class="w-6 h-6 rounded-full border-2 border-surface-container-high bg-surface-bright flex items-center justify-center text-[10px] font-bold">+5</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2: Draft -->
+<div class="glass-card rounded-xl overflow-hidden flex flex-col transition-all duration-400 hover:scale-[1.01] active:scale-[0.98]">
+<div class="h-32 relative">
+<img class="w-full h-full object-cover opacity-40" data-alt="An abstract visualization of sound vibrations moving through water, captured in a dark, minimalist laboratory setting. The water surface ripples in perfect concentric circles, illuminated by a singular amber light source from below. The mood is scientific yet mystical, focusing on the tactile quality of the liquid and the deep charcoal environment with soft golden glints." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRHmEgAwPpW581pk0VCuzgcy61Sk-M7o8pegn3YDFvb6VMaJD-l5SqiBnw99fg0plSdbmUhLxHrEwZzsGtVoInJqbuwdP7ThPvBcN53jdRuibIEgg1PTzZCT36qgCIOrLQ8l5yO51JpIKoJ-RBHn9j7EZAJE99mNkanZCEzOxCm78lR7FPNgSvgorP70JVx8Ow_jXvJfIHkR0z1LwU7Rv8hZser1-z63PBnFtuoxCe4qxFvwuJyVFwbsMF5i0UEHQshFseaBLz9Qg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-high to-transparent"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-on-surface-variant/20 text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm backdrop-blur-md border border-on-surface-variant/30">Draft</span>
+</div>
+</div>
+<div class="p-stack-md flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface">Shiva Tandava Stotram</h3>
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">cyclone</span>
+<span class="font-label-md text-label-md">Power & Rhythm</span>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">favorite</span>
+<span class="font-label-md text-label-md">0</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Last edit: 2h ago</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Published -->
+<div class="glass-card rounded-xl overflow-hidden flex flex-col transition-all duration-400 hover:scale-[1.01] active:scale-[0.98]">
+<div class="h-32 relative">
+<img class="w-full h-full object-cover opacity-60" data-alt="A macro photograph of an ancient sandalwood bead, showing intricate carvings and natural wood grain. The bead rests on a dark, reflective obsidian surface. The lighting is soft and directional, creating a gentle halo around the object. The color palette is composed of rich browns, deep blacks, and subtle golden highlights, conveying a sense of sacred craftsmanship and tactile sophistication." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLLcoL_NElchGONFjV53rwd2ZhqpE_TDERzBehXk0ZAlVm0avHIB-6NWXxUQahdpEjDjzwAqFTdD-EZUvIzAhbg_LpLy9ECXCqhonStBVDCBisyiAOPH8d9hr6fgPrzeAQmzqcCGDmNyEulIGuNWHAxwnMuVISYOVu1YjfUrYi_BCINR-8q7zpoYrvbKWwcelh8qicYESHWSfFtxMVhq5_kgF4ih0vOMGgbSbLk1Ar6YCee-LzZby6S6DbMPtSEGhWnPSoTyEo0yY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-high to-transparent"></div>
+<div class="absolute top-3 left-3 flex gap-2">
+<span class="bg-primary/20 text-primary px-3 py-1 rounded-full font-label-sm text-label-sm backdrop-blur-md border border-primary/30">Published</span>
+</div>
+</div>
+<div class="p-stack-md flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<h3 class="font-headline-md text-headline-md text-on-surface">Om Mani Padme Hum</h3>
+<span class="material-symbols-outlined text-on-surface-variant">more_vert</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+<span class="font-label-md text-label-md">Compassion</span>
+</div>
+<div class="mt-4 flex justify-between items-center">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-md text-label-md">8,211</span>
+</div>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-surface-container-high bg-primary flex items-center justify-center text-[10px] font-bold text-on-primary">MK</div>
+<div class="w-6 h-6 rounded-full border-2 border-surface-container-high bg-surface-variant flex items-center justify-center text-[10px] font-bold">AL</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center sacred-glow active:scale-95 transition-all duration-400 z-50">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<!-- Bottom Navigation Bar (Mobile context) -->
+<nav class="fixed bottom-0 left-0 w-full bg-surface-container/95 backdrop-blur-xl px-4 py-3 flex justify-around items-center z-50 border-t border-outline-variant/10">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-all duration-400" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary border-t-2 border-primary pt-1 -mt-[2px] transition-all duration-400" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+<span class="font-label-sm text-label-sm font-bold">Library</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-all duration-400" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="font-label-sm text-label-sm">Analytics</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant hover:text-primary transition-all duration-400" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple scroll shadow for header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-lg', 'bg-surface-dim');
+                header.classList.remove('bg-surface-dim/80');
+            } else {
+                header.classList.remove('shadow-lg', 'bg-surface-dim');
+                header.classList.add('bg-surface-dim/80');
+            }
+        });
+    </script>
+</body></html>

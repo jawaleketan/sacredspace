@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SacredSpace | Enhanced Mantra Reader</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#dec1a6",
+                        "error-container": "#ffdad6",
+                        "surface-dim": "#E0DDD8",
+                        "primary-container": "#4d3a26",
+                        "primary": "#352512",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#785e3c",
+                        "surface-bright": "#fbf9f7",
+                        "surface-container-high": "#eae8e6",
+                        "on-primary-fixed": "#281807",
+                        "on-tertiary-fixed": "#1a1d06",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#fedab0",
+                        "tertiary-fixed": "#e2e6bf",
+                        "tertiary-container": "#3c4025",
+                        "saffron": "#F59E3B",
+                        "on-tertiary-container": "#a8ac89",
+                        "on-background": "#1b1c1b",
+                        "secondary-fixed": "#ffddb6",
+                        "on-secondary-fixed": "#2a1800",
+                        "gold": "#D4A84B",
+                        "primary-fixed": "#fbddc1",
+                        "surface-container-low": "#f5f3f1",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#57432e",
+                        "surface-tint": "#705a44",
+                        "outline": "#7A7874",
+                        "surface-variant": "#e4e2e0",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#4e453d",
+                        "background": "#fbf9f7",
+                        "tertiary": "#262a11",
+                        "on-secondary-fixed-variant": "#5a4223",
+                        "surface": "#fbf9f7",
+                        "on-tertiary-fixed-variant": "#45492d",
+                        "tertiary-fixed-dim": "#c6c9a5",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#30302f",
+                        "inverse-primary": "#dec1a6",
+                        "outline-variant": "#d1c4ba",
+                        "on-surface": "#1b1c1b",
+                        "secondary": "#745a38",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f2f0ee",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e4e2e0",
+                        "secondary-fixed-dim": "#e3c198",
+                        "on-primary-container": "#bfa48a",
+                        "surface-container": "#EFECE8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "reading-width": "720px",
+                        "margin-mobile": "16px",
+                        "section-gap": "64px",
+                        "margin-desktop": "48px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Cormorant Garamond"],
+                        "body-sm": ["Inter"],
+                        "headline-sm": ["Cormorant Garamond"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Cormorant Garamond"],
+                        "sanskrit": ["Noto Sans Devanagari"],
+                        "headline-lg": ["Cormorant Garamond"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "display-lg-mobile": ["Cormorant Garamond"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "sanskrit": ["24px", {"lineHeight": "2.0", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.15", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sanskrit-text {
+            font-family: 'Noto Sans Devanagari', serif;
+            transition: font-size 0.2s ease;
+        }
+        .scrolling-shadow {
+            box-shadow: 0 4px 20px -10px rgba(77, 58, 38, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #d1c4ba; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-gold selection:text-white">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-surface dark:bg-surface-dim border-b border-outline-variant">
+<nav class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-reading-width mx-auto">
+<div class="flex items-center space-x-8">
+<span class="font-headline-md text-headline-md font-semibold text-primary dark:text-primary-fixed">SacredSpace</span>
+<div class="hidden md:flex space-x-6">
+<a class="font-body-md text-body-md text-primary dark:text-primary-fixed border-b-2 border-gold pb-1 hover:text-gold transition-colors duration-200" href="#">Browse</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-gold transition-colors duration-200" href="#">Saved</a>
+</div>
+</div>
+<div class="flex items-center space-x-6">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-body-sm focus:ring-1 focus:ring-gold w-64 transition-all duration-300" placeholder="Search mantras..." type="text"/>
+</div>
+<button class="font-body-md text-body-md text-on-surface-variant hover:text-gold transition-colors duration-200">Sign In</button>
+</div>
+</nav>
+</header>
+<main class="min-h-screen pt-12 pb-32">
+<div class="max-w-reading-width mx-auto px-margin-mobile md:px-0">
+<!-- Breadcrumbs & Engagement -->
+<div class="flex justify-between items-center mb-8">
+<div class="flex items-center space-x-2 text-on-surface-variant font-label-sm text-label-sm">
+<a class="hover:text-gold uppercase tracking-widest" href="#">Library</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<a class="hover:text-gold uppercase tracking-widest" href="#">Sanskrit Verses</a>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-medium uppercase tracking-widest">Ganesha Pancharatnam</span>
+</div>
+<div class="flex items-center space-x-4">
+<button class="flex items-center space-x-2 text-on-surface-variant hover:text-gold transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">favorite</span>
+<span class="font-label-sm text-label-sm">4.2k</span>
+</button>
+<button class="flex items-center space-x-2 text-on-surface-variant hover:text-gold transition-colors">
+<span class="material-symbols-outlined">share</span>
+<span class="font-label-sm text-label-sm">Share</span>
+</button>
+</div>
+</div>
+<!-- Title Section -->
+<div class="text-center mb-16">
+<h1 class="font-display-lg text-display-lg text-primary mb-4">श्री गणेश पञ्चरत्नम्</h1>
+<p class="font-headline-md text-headline-md text-on-surface-variant mb-6">Ganesha Pancharatnam</p>
+<div class="flex justify-center space-x-3">
+<span class="px-4 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest">Devotional</span>
+<span class="px-4 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest">Morning</span>
+<span class="px-4 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm uppercase tracking-widest">Sanskrit</span>
+</div>
+</div>
+<!-- Enhanced Controls (Floating/Sticky Side) -->
+<div class="flex justify-between items-center bg-surface-bright p-4 rounded-xl mb-12 border border-outline-variant shadow-sm">
+<div class="flex items-center space-x-6">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-tighter">Sanskrit Scale</span>
+<div class="flex items-center space-x-3">
+<button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-gold hover:text-white transition-colors" onclick="changeFontSize(-2)">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="font-label-sm text-label-sm w-8 text-center" id="font-size-display">100%</span>
+<button class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-gold hover:text-white transition-colors" onclick="changeFontSize(2)">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+<div class="h-10 w-px bg-outline-variant"></div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant mb-1 uppercase tracking-tighter">View Options</span>
+<div class="flex space-x-2">
+<button class="px-3 py-1 rounded-lg bg-primary text-white font-label-sm text-label-sm">Original</button>
+<button class="px-3 py-1 rounded-lg bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm hover:bg-outline-variant">Transliteration</button>
+</div>
+</div>
+</div>
+<div class="hidden lg:block italic font-headline-sm text-on-surface-variant opacity-60">
+                    "The Five Jewels of Ganesha"
+                </div>
+</div>
+<!-- Main Reading Canvas -->
+<div class="space-y-section-gap" id="mantra-canvas">
+<!-- Verse 1 -->
+<article class="group relative">
+<div class="absolute -left-12 top-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="font-label-sm text-label-sm text-gold">01</span>
+</div>
+<div class="space-y-8 text-center md:text-left">
+<p class="sanskrit-text text-primary leading-relaxed font-sanskrit text-sanskrit" data-base-size="24">
+                            मुदाकरात्तमोदकं सदा विमुक्तिसाधकं<br/>
+                            कलाधरावतंसकं विलासिलोक रक्षकम् ।<br/>
+                            अनायकैकनायकं विनाशितेभदैत्यकं<br/>
+                            नताशुभाशुनाशकं नमामि तं विनायकम् ॥ १ ॥
+                        </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed italic border-l-2 border-gold/20 pl-6">
+                            Mudākarātta Modakaṃ Sadā Vimukti Sādhakaṃ<br/>
+                            Kalādharāvataṃsakaṃ Vilāsiloka Rakshakam |<br/>
+                            Anāyakaika Nāyakaṃ Vināśitebha Daityakaṃ<br/>
+                            Natāśubhāśu Nāśakaṃ Namāmi Taṃ Vināyakam || 1 ||
+                        </p>
+<p class="font-body-md text-body-md text-primary leading-relaxed max-w-2xl">
+                            I salute Ganesha, the lord who holds the modaka in his hand with joy, who always bestows liberation, who wears the crescent moon on his head, who protects this world of appearances, who is the sole leader of those who have no leader, who destroyed the elephant demon, and who quickly destroys the obstacles of those who bow down.
+                        </p>
+</div>
+</article>
+<!-- Verse 2 -->
+<article class="group relative">
+<div class="absolute -left-12 top-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="font-label-sm text-label-sm text-gold">02</span>
+</div>
+<div class="space-y-8 text-center md:text-left">
+<p class="sanskrit-text text-primary leading-relaxed font-sanskrit text-sanskrit" data-base-size="24">
+                            नतेतरातिभीकरं नवोदितार्कभास्वरं<br/>
+                            नमत्सुरारिनिर्जरं नताधिकापदुद्धरम् ।<br/>
+                            सुरेश्वरं निधीश्वरं गजेश्वरं गणेश्वरं<br/>
+                            महेश्वरं तमाश्रये परात्परं निरन्तरम् ॥ २ ॥
+                        </p>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed italic border-l-2 border-gold/20 pl-6">
+                            Natetarātibhīkaraṃ Navoditārkabhāsvaraṃ<br/>
+                            Namatsurārinirjaraṃ Natādhikāpaduddharam |<br/>
+                            Sureśvaraṃ Nidhīśvaraṃ Gajeśvaraṃ Gaṇeśvaraṃ<br/>
+                            Maheśvaraṃ Tamāśraye Parātparaṃ Nirantaram || 2 ||
+                        </p>
+<p class="font-body-md text-body-md text-primary leading-relaxed max-w-2xl">
+                            I seek shelter in that Supreme Lord Ganesha, who is terrible to those who do not bow, who shines like the newly risen sun, who is saluted by both gods and demons, who rescues his devotees from great calamities, the lord of gods, the lord of treasures, the lord of elephants, the lord of Ganas, and the great lord of all.
+                        </p>
+</div>
+</article>
+<div class="flex justify-center py-12">
+<div class="w-16 h-px bg-outline-variant"></div>
+<div class="mx-4 text-gold opacity-50">
+<span class="material-symbols-outlined">auto_awesome</span>
+</div>
+<div class="w-16 h-px bg-outline-variant"></div>
+</div>
+</div>
+<!-- Word Meanings Section -->
+<section class="mt-section-gap bg-surface-container-low rounded-2xl p-8 md:p-12">
+<h3 class="font-headline-lg text-headline-lg text-primary mb-8 text-center">Word Analysis</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/30 hover:-translate-y-1 transition-transform">
+<span class="font-sanskrit text-xl text-gold mb-2 block">मुदा (Muda)</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">With Joy</p>
+<p class="font-body-sm text-body-sm text-primary">Derived from the root 'mud', meaning happiness or delight.</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/30 hover:-translate-y-1 transition-transform">
+<span class="font-sanskrit text-xl text-gold mb-2 block">विमुक्ति (Vimukti)</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Liberation</p>
+<p class="font-body-sm text-body-sm text-primary">Total freedom from the cycle of birth and death (Samsara).</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/30 hover:-translate-y-1 transition-transform">
+<span class="font-sanskrit text-xl text-gold mb-2 block">रक्षकम् (Rakshakam)</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Protector</p>
+<p class="font-body-sm text-body-sm text-primary">One who guards or preserves his devotees from harm.</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/30 hover:-translate-y-1 transition-transform">
+<span class="font-sanskrit text-xl text-gold mb-2 block">विनायकम् (Vinayakam)</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Remover of Obstacles</p>
+<p class="font-body-sm text-body-sm text-primary">The supreme leader who has no leader above him.</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/30 hover:-translate-y-1 transition-transform">
+<span class="font-sanskrit text-xl text-gold mb-2 block">सुरेश्वरं (Sureshvaram)</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Lord of Gods</p>
+<p class="font-body-sm text-body-sm text-primary">From 'Sura' (gods) and 'Ishvara' (lord).</p>
+</div>
+<div class="bg-white p-6 rounded-xl shadow-sm border border-outline-variant/30 hover:-translate-y-1 transition-transform">
+<span class="font-sanskrit text-xl text-gold mb-2 block">निरन्तरम् (Nirantaram)</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Eternal</p>
+<p class="font-body-sm text-body-sm text-primary">Without interruption, continuous, or everlasting.</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Immersive Audio Player -->
+<div class="fixed bottom-0 left-0 w-full z-50 bg-primary text-white border-t border-primary-container shadow-2xl">
+<div class="max-w-reading-width mx-auto px-margin-mobile md:px-0 py-4">
+<div class="flex flex-col md:flex-row items-center justify-between gap-4">
+<!-- Track Info -->
+<div class="flex items-center space-x-4 w-full md:w-1/4">
+<div class="w-12 h-12 bg-primary-container rounded-lg flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover opacity-80" data-alt="A serene, high-end illustration of Lord Ganesha in a minimalist, editorial style. Warm ivory background with elegant espresso and gold line work. Soft, diffuse lighting creates a meditative and intellectual atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYPpU0FqtvMtFYPTUQIT6t1_nD2qJciApEzXeyOLv1HHDgh1KJ716Ek2__jUfM4mtM7Tlb3mxQs6s02xSjxJ7U99m3wWguDF7hyOi02t3ayBIP4p80Sb2G09tOTFqrlfZmgGxsgztw_Yh93BOJWz2wyNvCMCj5ClkCcOiQtgQ9UF-F4ukRxp8l4zqBZnBPCJnmnAcLNiKkiWZrq_tPziC0oDe2VArrHLCpMj6h17yytftu1m4GSKrr3LVnUJPJrB75TE8SiFIhTFo"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest">Now Chanting</span>
+<span class="font-headline-sm text-headline-sm truncate">Ganesha Pancharatnam</span>
+</div>
+</div>
+<!-- Controls -->
+<div class="flex flex-col items-center flex-grow w-full md:max-w-md">
+<div class="flex items-center space-x-8 mb-2">
+<button class="text-primary-fixed-dim hover:text-gold transition-colors">
+<span class="material-symbols-outlined">shuffle</span>
+</button>
+<button class="text-white hover:text-gold transition-colors">
+<span class="material-symbols-outlined">skip_previous</span>
+</button>
+<button class="w-12 h-12 bg-gold text-primary rounded-full flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg" id="play-btn">
+<span class="material-symbols-outlined font-bold" id="play-icon">play_arrow</span>
+</button>
+<button class="text-white hover:text-gold transition-colors">
+<span class="material-symbols-outlined">skip_next</span>
+</button>
+<button class="text-primary-fixed-dim hover:text-gold transition-colors">
+<span class="material-symbols-outlined">repeat</span>
+</button>
+</div>
+<div class="w-full flex items-center space-x-3">
+<span class="font-label-sm text-[10px] text-primary-fixed-dim">01:24</span>
+<div class="relative h-1.5 flex-grow bg-primary-container rounded-full overflow-hidden group cursor-pointer">
+<div class="absolute top-0 left-0 h-full bg-gold w-1/3"></div>
+<div class="absolute top-0 right-0 h-full bg-transparent w-full group-hover:bg-white/5"></div>
+</div>
+<span class="font-label-sm text-[10px] text-primary-fixed-dim">04:12</span>
+</div>
+</div>
+<!-- Secondary Controls -->
+<div class="hidden md:flex items-center justify-end space-x-6 w-1/4">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined text-primary-fixed-dim text-lg">volume_up</span>
+<div class="w-24 h-1 bg-primary-container rounded-full overflow-hidden">
+<div class="bg-primary-fixed-dim h-full w-3/4"></div>
+</div>
+</div>
+<button class="text-primary-fixed-dim hover:text-gold transition-colors">
+<span class="material-symbols-outlined">playlist_play</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Side Navigation Bar (Hidden on Mobile) -->
+<aside class="hidden md:flex fixed left-0 top-0 h-screen w-64 flex-col p-6 space-y-4 bg-surface-container dark:bg-surface-container-high border-r border-outline-variant z-40 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+<div class="flex items-center space-x-3 mb-8">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">spa</span>
+</div>
+<div>
+<span class="font-headline-sm text-headline-sm font-bold text-primary block">SacredSpace</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Reader Mode</span>
+</div>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-gold">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 bg-primary text-on-primary rounded-lg font-medium translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">menu_book</span>
+<span class="font-label-sm text-label-sm">Library</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-gold">favorite</span>
+<span class="font-label-sm text-label-sm">Saved Verses</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-gold">history</span>
+<span class="font-label-sm text-label-sm">Recent Recitals</span>
+</a>
+<div class="pt-4 pb-2 px-4">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-widest">Collections</span>
+</div>
+<a class="flex items-center space-x-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-gold">star</span>
+<span class="font-label-sm text-label-sm">Morning Routine</span>
+</a>
+</nav>
+<div class="mt-auto space-y-4">
+<button class="w-full py-3 bg-secondary-container text-on-secondary-container rounded-lg font-medium flex items-center justify-center space-x-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+<span class="font-label-sm text-label-sm">New Entry</span>
+</button>
+<div class="flex items-center space-x-3 p-2">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up of a calm, thoughtful person's avatar in a minimalist, high-end illustration style, soft lighting, cream and earthy tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCL_3E25JfctG19Cq70lASP16e5VRLtBGdD63roVmAR7fGu6Gb7cC-krW0DTRnP3MOtjUzanuF5BLGLwlCfkLI5IdeZIC8U78jX7NsCSCYnQ-uf5DEpLQRczEeq5SGDjhpmSYqfzUef6HMSC3g_Ag_qgd_qomGDzAzNOe_4OwcyW3J1-KQXAuCSFPlIsmKiUyDtgZEwzi2d9tJD0COUNyW0HKFBD_FHIZLzM1FFeK9g1JLSvVRJAqUY50odIZqRjhvR0W3NH9_6tyI"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-semibold">Advait V.</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Practitioner</span>
+</div>
+<button class="ml-auto text-on-surface-variant hover:text-primary">
+<span class="material-symbols-outlined text-lg">settings</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Bottom Nav for Mobile -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 md:hidden bg-surface-container-low dark:bg-inverse-surface shadow-sm rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm-mobile">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-tertiary-container text-on-secondary-container dark:text-on-tertiary-container rounded-full px-4 py-1 scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-sm text-label-sm-mobile">Browse</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-sm text-label-sm-mobile">Saved</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for Play Button
+        const playBtn = document.getElementById('play-btn');
+        const playIcon = document.getElementById('play-icon');
+        let isPlaying = false;
+
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            playIcon.textContent = isPlaying ? 'pause' : 'play_arrow';
+            playBtn.classList.toggle('bg-saffron');
+            playBtn.classList.toggle('bg-gold');
+        });
+
+        // Dynamic Text Scaling
+        let currentScale = 100;
+        const fontDisplay = document.getElementById('font-size-display');
+        const sanskritTexts = document.querySelectorAll('.sanskrit-text');
+
+        function changeFontSize(delta) {
+            currentScale = Math.min(Math.max(currentScale + delta * 5, 60), 180);
+            fontDisplay.textContent = `${currentScale}%`;
+            
+            sanskritTexts.forEach(el => {
+                const baseSize = parseInt(el.getAttribute('data-base-size'));
+                const newSize = (baseSize * currentScale) / 100;
+                el.style.fontSize = `${newSize}px`;
+                el.style.lineHeight = '1.8';
+            });
+        }
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('scrolling-shadow');
+                header.classList.add('bg-white/80');
+                header.classList.add('backdrop-blur-md');
+            } else {
+                header.classList.remove('scrolling-shadow');
+                header.classList.remove('bg-white/80');
+                header.classList.remove('backdrop-blur-md');
+            }
+        });
+    </script>
+</body></html>

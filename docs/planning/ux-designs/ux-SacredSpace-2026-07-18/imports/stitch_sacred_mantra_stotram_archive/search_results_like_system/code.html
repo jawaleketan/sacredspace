@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Search SacredSpace | Mantras &amp; Stotras</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "surface-dim": "#E0DDD8",
+                "surface-container-low": "#f5f3f1",
+                "outline-variant": "#d1c4ba",
+                "inverse-on-surface": "#f2f0ee",
+                "secondary-fixed-dim": "#e3c198",
+                "surface-container-lowest": "#ffffff",
+                "on-primary-fixed-variant": "#57432e",
+                "on-tertiary-fixed-variant": "#45492d",
+                "surface-container": "#efedec",
+                "on-secondary": "#ffffff",
+                "error": "#ba1a1a",
+                "surface-tint": "#705a44",
+                "on-secondary-fixed-variant": "#5a4223",
+                "tertiary-container": "#3c4025",
+                "background": "#fbf9f7",
+                "primary": "#352512",
+                "surface": "#fbf9f7",
+                "primary-container": "#4d3a26",
+                "primary-fixed-dim": "#dec1a6",
+                "on-error": "#ffffff",
+                "on-tertiary-container": "#a8ac89",
+                "surface-variant": "#e4e2e0",
+                "gold": "#D4A84B",
+                "tertiary": "#262a11",
+                "tertiary-fixed-dim": "#c6c9a5",
+                "on-primary-container": "#bfa48a",
+                "tertiary-fixed": "#e2e6bf",
+                "outline": "#7A7874",
+                "on-surface": "#1b1c1b",
+                "on-primary-fixed": "#281807",
+                "error-container": "#ffdad6",
+                "saffron": "#F59E3B",
+                "on-background": "#1b1c1b",
+                "on-error-container": "#93000a",
+                "on-tertiary-fixed": "#1a1d06",
+                "surface-container-high": "#eae8e6",
+                "on-surface-variant": "#4e453d",
+                "inverse-surface": "#30302f",
+                "surface-container-highest": "#e4e2e0",
+                "on-secondary-fixed": "#2a1800",
+                "primary-fixed": "#fbddc1",
+                "inverse-primary": "#dec1a6",
+                "surface-bright": "#fbf9f7",
+                "on-secondary-container": "#785e3c",
+                "on-tertiary": "#ffffff",
+                "secondary": "#745a38",
+                "secondary-container": "#fedab0",
+                "secondary-fixed": "#ffddb6",
+                "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "section-gap": "64px",
+                "margin-mobile": "16px",
+                "margin-desktop": "48px",
+                "unit": "8px",
+                "gutter": "24px",
+                "reading-width": "720px"
+            },
+            "fontFamily": {
+                "headline-sm": ["Cormorant Garamond"],
+                "body-lg": ["Inter"],
+                "sanskrit": ["Noto Sans Devanagari"],
+                "headline-md": ["Cormorant Garamond"],
+                "body-sm": ["Inter"],
+                "label-sm": ["Inter"],
+                "headline-lg": ["Cormorant Garamond"],
+                "display-lg-mobile": ["Cormorant Garamond"],
+                "body-md": ["Inter"],
+                "display-lg": ["Cormorant Garamond"]
+            },
+            "fontSize": {
+                "headline-sm": ["20px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                "body-lg": ["18px", { "lineHeight": "1.7", "fontWeight": "400" }],
+                "sanskrit": ["20px", { "lineHeight": "2.0", "fontWeight": "400" }],
+                "headline-md": ["26px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                "body-sm": ["14px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                "label-sm": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "600" }],
+                "display-lg-mobile": ["36px", { "lineHeight": "1.15", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                "body-md": ["16px", { "lineHeight": "1.7", "fontWeight": "400" }],
+                "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #d1c4ba;
+            border-radius: 10px;
+        }
+        .fade-in { animation: fadeIn 0.6s ease-out forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen selection:bg-gold selection:text-white">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant sticky top-0 z-50">
+<nav class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-reading-width mx-auto">
+<div class="font-headline-md text-headline-md font-semibold text-primary dark:text-primary-fixed">SacredSpace</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-body-md text-body-md text-primary dark:text-primary-fixed border-b-2 border-gold pb-1 transition-opacity opacity-80" href="#">Browse</a>
+</div>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-sm text-label-sm hover:opacity-90 transition-all">
+                Sign In
+            </button>
+</nav>
+</header>
+<main class="max-w-reading-width mx-auto px-margin-mobile md:px-0 py-12">
+<!-- Search Section -->
+<section class="mb-12">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-6 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-gold transition-colors">search</span>
+<input class="w-full pl-16 pr-6 py-6 bg-surface-container-low border-b-2 border-outline-variant focus:border-gold focus:ring-0 text-headline-sm font-headline-sm text-primary transition-all rounded-t-lg" id="search-input" placeholder="Search mantras, stotras, or deities..." type="text"/>
+</div>
+<!-- Filters -->
+<div class="mt-6 flex flex-wrap gap-3 overflow-x-auto custom-scrollbar pb-2">
+<span class="text-label-sm font-label-sm text-outline-variant uppercase pt-3 mr-2">Filters:</span>
+<!-- Category Chips -->
+<button class="px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface-variant hover:border-gold hover:text-gold transition-all text-label-sm font-label-sm">All</button>
+<button class="px-4 py-2 rounded-full border border-gold bg-gold/10 text-gold transition-all text-label-sm font-label-sm">Ganesha</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface-variant hover:border-gold hover:text-gold transition-all text-label-sm font-label-sm">Shiva</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface-variant hover:border-gold hover:text-gold transition-all text-label-sm font-label-sm">Vishnu</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface-variant hover:border-gold hover:text-gold transition-all text-label-sm font-label-sm">Durga</button>
+<div class="w-px h-6 bg-outline-variant/30 self-center mx-2"></div>
+<button class="px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface-variant hover:border-gold hover:text-gold transition-all text-label-sm font-label-sm">Stotra</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface-variant hover:border-gold hover:text-gold transition-all text-label-sm font-label-sm">Ashtakam</button>
+<button class="px-4 py-2 rounded-full border border-outline-variant bg-surface text-on-surface-variant hover:border-gold hover:text-gold transition-all text-label-sm font-label-sm">Chalisa</button>
+</div>
+</section>
+<!-- Empty State (Initial View) -->
+<div class="fade-in" id="initial-state">
+<h3 class="font-headline-md text-headline-md text-primary mb-8 border-l-4 border-gold pl-6">Popular Searches</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Suggestion Item -->
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-dim flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A serene close-up photograph of a Ganesha idol made of smooth, warm terracotta. The lighting is soft and golden, highlighting the intricate details of the carving. The background is a blurred wash of warm cream and sienna tones, creating a tranquil and reverent atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_ulQl74LJHpjNttKQDIdUWV9ZqSL48U74LySX01LDeOrhqYV5t9Pj7pLgNzNXNSBBNYGH82TFSSuyqqwnIuEHpnejbFLmBjp9h86om3kqARkdJbDPxaBBDlG8z-vgpWbc-4dKcioAKAb5pnFQffUMCEMI-SvTQdZkbgwwFAWD1S8ru8zhYoBF5NlmwYclu2tMgUMOA8hD4KV_hMZmz0gHYjQ_Dusscj0ZPj9L_A8_7SIOMPPBEnzUDssKdF17YmpNDN9KWnFppeE"/>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary group-hover:text-gold transition-colors">Ganesha Atharvashirsha</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Popular this week</p>
+</div>
+</div>
+<div class="flex flex-col items-center gap-1 min-w-[48px]">
+<span class="material-symbols-outlined text-[#ED4956]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">4.2k</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-dim flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A meditative and spiritual artistic depiction of Lord Shiva in deep dhyana. The lighting is cold lunar silver, with a focus on the third eye and the crescent moon in his hair. The overall style is high-end editorial minimalism with soft shadows and rich textures of stone and water." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPt7-wdMn44SzRnFtJDGZoquw3LlugNY7ppX9M7L2_hZLJ8DJrNI30yjd4kQ2fa7nIaNOGEK-lSliQ6fyjBLn8BQfthNYTl-PdYWLhoXh2k7z8XpsodVY-QVF5Ee8nITWXETutfy8De61b_ZmMMVeR78OnxRFZhDgwBwRSiN1BPpw1dW3p2p3p8XeXg_VX998-3_3ezKA8HZVEdAGk9EcHb9PZFSoTRv40MM2HHzZx93G9Ithxsg8fO06vfJmN10NpXtJZFooNg6Y"/>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary group-hover:text-gold transition-colors">Shiva Tandava Stotram</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Recommended for focus</p>
+</div>
+</div>
+<div class="flex flex-col items-center gap-1 min-w-[48px]">
+<span class="material-symbols-outlined text-[#ED4956]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">8.1k</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-dim flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="An ethereal and artistic close-up of a Hanuman murti, focusing on the calm and devoted expression. The style is cinematic and spiritual, with warm saffron and golden hues filling the frame. The lighting is low-key and dramatic, suggesting a peaceful temple interior at sunset." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2lDDnrh5WQahqQzV6V_YMrxCW50CwrBsIEdRGMmrY9NB9F-nOpxM4CGUOOA7tbWLnECjSrMuyrYK7qnxiRLnMndCV1n4gn86BUMQC8__obWZ3HcMkD3MlEooaDQZgHTJJIZYj2WvA2rQZB-aH6aaiLb0HjaEkn9Bt33q0NJei3q7v1iEFmHwYWsyOYUiMkI5WXrr3jfzL_-nxc8LKfCrIJG8JeEJ9HF99ksOudhMbxJs8HJ5CJGcrD9w_IAqHX5w6LNgNIwugKMM"/>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary group-hover:text-gold transition-colors">Hanuman Chalisa</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Eternal Classic</p>
+</div>
+</div>
+<div class="flex flex-col items-center gap-1 min-w-[48px]">
+<span class="material-symbols-outlined text-[#ED4956]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">15.4k</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container transition-colors cursor-pointer group">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-dim flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="A beautiful, soft-focus image of a blooming lotus flower floating on dark, still water. The petals are a delicate shade of ivory and pink, illuminated by a single beam of light. The composition is minimal and editorial, evoking purity and spiritual awakening." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAgaewZhf0JXn6-G4WY-J09GQS9hg9-VQaOPMXhbwgdY2g5HjNFhK3I3XEwtbyW7e7D8Xa4CehjQIb01eEIKdFOwXIcijuidLyvLfxqBY1LBv0mJr1ho79srK1gOpY4Icae3TBeJfO0oeYC8tr9vsi6Pd9kDPzPAGxRNwmhJ1G3g46vXx3dqdmk7q7z60kvjwvXbIXQMRhA1HzEoP4hu98KjPNDFjJrawwBorHjVJTkVulo4ndrhWiw7ZEqCSDraVZ0zFlJ_QJ6Iw"/>
+</div>
+<div>
+<h4 class="font-headline-sm text-headline-sm text-primary group-hover:text-gold transition-colors">Saraswati Vandana</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Knowledge &amp; Wisdom</p>
+</div>
+</div>
+<div class="flex flex-col items-center gap-1 min-w-[48px]">
+<span class="material-symbols-outlined text-[#ED4956]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">2.9k</span>
+</div>
+</div>
+</div>
+<div class="mt-section-gap">
+<h3 class="font-headline-md text-headline-md text-primary mb-8">Browse by Deity</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Deity Card -->
+<div class="bg-surface-container-low p-6 rounded-xl text-center hover:shadow-sm hover:-translate-y-1 transition-all cursor-pointer border border-transparent hover:border-outline-variant">
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-4 text-on-secondary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">spa</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">Ganesha</span>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl text-center hover:shadow-sm hover:-translate-y-1 transition-all cursor-pointer border border-transparent hover:border-outline-variant">
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-4 text-on-secondary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">clear_night</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">Shiva</span>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl text-center hover:shadow-sm hover:-translate-y-1 transition-all cursor-pointer border border-transparent hover:border-outline-variant">
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-4 text-on-secondary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sunny</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">Vishnu</span>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl text-center hover:shadow-sm hover:-translate-y-1 transition-all cursor-pointer border border-transparent hover:border-outline-variant">
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-4 text-on-secondary-container">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">Durga</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Search Results (Hidden by default) -->
+<div class="hidden fade-in" id="results-state">
+<div class="flex justify-between items-baseline mb-8">
+<h3 class="font-headline-md text-headline-md text-primary">Search Results <span class="text-outline text-body-lg font-body-lg ml-2">(12 found)</span></h3>
+<button class="text-label-sm font-label-sm text-gold hover:underline">Sort by Relevance</button>
+</div>
+<div class="space-y-6">
+<!-- Result Card -->
+<article class="bg-white p-8 rounded-xl border border-outline-variant/30 hover:border-gold hover:shadow-lg transition-all group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<div class="flex flex-col items-center gap-1 bg-surface-container-low/80 backdrop-blur-sm px-3 py-2 rounded-xl">
+<span class="material-symbols-outlined text-[#ED4956]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">3.1k</span>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-label-sm font-label-sm rounded-full">Ganesha</span>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm rounded-full">Ashtakam</span>
+</div>
+<h4 class="font-headline-lg text-headline-lg text-primary group-hover:text-gold transition-colors">Ganesha Sankata Nashana Stotram</h4>
+<div class="space-y-2">
+<p class="font-sanskrit text-sanskrit text-on-surface/80">प्रणम्य शिरसा देवं गौरीपुत्रं विनायकम् ।</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">"Salutations to the Lord, the son of Gauri, the remover of obstacles. The devotee who daily remembers Him..."</p>
+</div>
+</div>
+</article>
+<article class="bg-white p-8 rounded-xl border border-outline-variant/30 hover:border-gold hover:shadow-lg transition-all group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<div class="flex flex-col items-center gap-1 bg-surface-container-low/80 backdrop-blur-sm px-3 py-2 rounded-xl">
+<span class="material-symbols-outlined text-[#ED4956]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">8.7k</span>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-label-sm font-label-sm rounded-full">Ganesha</span>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm rounded-full">Mantra</span>
+</div>
+<h4 class="font-headline-lg text-headline-lg text-primary group-hover:text-gold transition-colors">Vakratunda Mahakaya</h4>
+<div class="space-y-2">
+<p class="font-sanskrit text-sanskrit text-on-surface/80">वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ ।</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">"O Lord of the curved trunk and massive body, whose brilliance is equal to millions of suns..."</p>
+</div>
+</div>
+</article>
+<article class="bg-white p-8 rounded-xl border border-outline-variant/30 hover:border-gold hover:shadow-lg transition-all group cursor-pointer relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<div class="flex flex-col items-center gap-1 bg-surface-container-low/80 backdrop-blur-sm px-3 py-2 rounded-xl">
+<span class="material-symbols-outlined text-[#ED4956]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">5.4k</span>
+</div>
+</div>
+<div class="flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-label-sm font-label-sm rounded-full">Ganesha</span>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant text-label-sm font-label-sm rounded-full">Aarti</span>
+</div>
+<h4 class="font-headline-lg text-headline-lg text-primary group-hover:text-gold transition-colors">Jai Ganesh Deva</h4>
+<div class="space-y-2">
+<p class="font-sanskrit text-sanskrit text-on-surface/80">जय गणेश, जय गणेश, जय गणेश देवा ।</p>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">"Glory to Lord Ganesha, glory to Lord Ganesha. Mother is Parvati, Father is Maha-Deva..."</p>
+</div>
+</div>
+</article>
+</div>
+</div>
+<!-- No Results State (Hidden by default) -->
+<div class="hidden text-center py-section-gap fade-in" id="no-results-state">
+<div class="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center mx-auto mb-8 text-outline-variant">
+<span class="material-symbols-outlined text-5xl">search_off</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-primary mb-4">No Sacred Texts Found</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12 max-w-md mx-auto">We couldn't find any results for your query. Try broadening your search or browse our deity directories.</p>
+<button class="bg-gold text-white px-10 py-4 rounded-full font-headline-sm text-headline-sm hover:opacity-90 transition-all shadow-md active:scale-95">
+                Browse All Deities
+            </button>
+</div>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-4 pt-2 md:hidden bg-surface-container-low dark:bg-inverse-surface shadow-sm rounded-t-xl">
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-surface-container-high p-2 rounded-lg">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-secondary-container dark:bg-tertiary-container text-on-secondary-container dark:text-on-tertiary-container rounded-full px-4 py-1 scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-label-sm text-label-sm">Browse</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant dark:hover:bg-surface-container-high p-2 rounded-lg">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-sm text-label-sm">Saved</span>
+</div>
+</nav>
+<footer class="mt-section-gap border-t border-outline-variant py-12 px-margin-mobile">
+<div class="max-w-reading-width mx-auto text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 SacredSpace. All scriptures and translations curated with reverence.</p>
+</div>
+</footer>
+<script>
+        const searchInput = document.getElementById('search-input');
+        const initialState = document.getElementById('initial-state');
+        const resultsState = document.getElementById('results-state');
+        const noResultsState = document.getElementById('no-results-state');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            if (query === "") {
+                initialState.classList.remove('hidden');
+                resultsState.classList.add('hidden');
+                noResultsState.classList.add('hidden');
+            } else if (query === "ganesha") {
+                initialState.classList.add('hidden');
+                resultsState.classList.remove('hidden');
+                noResultsState.classList.add('hidden');
+            } else if (query.length > 5) {
+                // Mock no results for long queries
+                initialState.classList.add('hidden');
+                resultsState.classList.add('hidden');
+                noResultsState.classList.remove('hidden');
+            }
+        });
+
+        // Interactive micro-effects for filters
+        document.querySelectorAll('button.rounded-full').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if(!this.classList.contains('bg-gold')) {
+                    // Reset others in group
+                    this.parentElement.querySelectorAll('button').forEach(b => {
+                        b.classList.remove('border-gold', 'bg-gold/10', 'text-gold');
+                        b.classList.add('border-outline-variant', 'bg-surface', 'text-on-surface-variant');
+                    });
+                    // Set active
+                    this.classList.remove('border-outline-variant', 'bg-surface', 'text-on-surface-variant');
+                    this.classList.add('border-gold', 'bg-gold/10', 'text-gold');
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SacredSpace Admin - Create Deity Category</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&amp;family=Inter:wght@300;400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "error-container": "#ffdad6",
+                "on-error": "#ffffff",
+                "on-secondary": "#ffffff",
+                "surface-bright": "#fbf9f7",
+                "on-tertiary-fixed-variant": "#45492d",
+                "secondary-container": "#fedab0",
+                "on-tertiary-container": "#a8ac89",
+                "surface": "#fbf9f7",
+                "on-secondary-container": "#785e3c",
+                "saffron": "#F59E3B",
+                "on-primary-container": "#bfa48a",
+                "secondary-fixed-dim": "#e3c198",
+                "inverse-on-surface": "#f2f0ee",
+                "on-primary-fixed": "#281807",
+                "surface-variant": "#e4e2e0",
+                "inverse-surface": "#30302f",
+                "on-secondary-fixed-variant": "#5a4223",
+                "surface-container-lowest": "#ffffff",
+                "on-tertiary-fixed": "#1a1d06",
+                "surface-container-highest": "#e4e2e0",
+                "on-tertiary": "#ffffff",
+                "error": "#ba1a1a",
+                "surface-dim": "#E0DDD8",
+                "secondary-fixed": "#ffddb6",
+                "on-surface-variant": "#4e453d",
+                "outline-variant": "#d1c4ba",
+                "on-primary": "#ffffff",
+                "on-secondary-fixed": "#2a1800",
+                "primary-fixed-dim": "#dec1a6",
+                "tertiary-container": "#3c4025",
+                "tertiary": "#262a11",
+                "on-background": "#1b1c1b",
+                "tertiary-fixed": "#e2e6bf",
+                "gold": "#D4A84B",
+                "tertiary-fixed-dim": "#c6c9a5",
+                "secondary": "#745a38",
+                "surface-tint": "#705a44",
+                "inverse-primary": "#dec1a6",
+                "on-error-container": "#93000a",
+                "on-surface": "#1b1c1b",
+                "primary-container": "#4d3a26",
+                "on-primary-fixed-variant": "#57432e",
+                "outline": "#7A7874",
+                "surface-container": "#EFECE8",
+                "surface-container-high": "#eae8e6",
+                "background": "#fbf9f7",
+                "primary-fixed": "#fbddc1",
+                "primary": "#352512"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "reading-width": "720px",
+                "margin-desktop": "48px",
+                "gutter": "24px",
+                "unit": "8px",
+                "section-gap": "64px",
+                "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                "headline-md": ["Cormorant Garamond"],
+                "body-md": ["Inter"],
+                "display-lg-mobile": ["Cormorant Garamond"],
+                "body-sm": ["Inter"],
+                "label-sm": ["Inter"],
+                "display-lg": ["Cormorant Garamond"],
+                "headline-lg": ["Cormorant Garamond"],
+                "body-lg": ["Inter"],
+                "sanskrit": ["Noto Sans Devanagari"],
+                "headline-sm": ["Cormorant Garamond"]
+              },
+              "fontSize": {
+                "headline-md": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                "display-lg-mobile": ["36px", {"lineHeight": "1.15", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "body-sm": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                "body-lg": ["18px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                "sanskrit": ["20px", {"lineHeight": "2.0", "fontWeight": "400"}],
+                "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #fbf9f7;
+            color: #1b1c1b;
+        }
+        .scrolling-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .scrolling-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scrolling-content::-webkit-scrollbar-thumb {
+            background: #d1c4ba;
+            border-radius: 10px;
+        }
+        .tonal-layer {
+            background: linear-gradient(180deg, rgba(239, 236, 232, 0.5) 0%, rgba(239, 236, 232, 0) 100%);
+        }
+    </style>
+</head>
+<body class="flex min-h-screen overflow-hidden">
+<!-- SideNavBar Component -->
+<aside class="hidden md:flex flex-col h-screen w-64 bg-surface-container border-r border-outline-variant p-6 space-y-4 flex-shrink-0">
+<div class="mb-8 px-2">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">SacredSpace</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Admin Console</p>
+</div>
+<nav class="flex-grow space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary text-on-primary rounded-lg font-medium translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">folder_shared</span>
+<span class="font-label-sm text-label-sm">Directory</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">insights</span>
+<span class="font-label-sm text-label-sm">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="font-label-sm text-label-sm">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<div class="pt-6 border-t border-outline-variant">
+<div class="flex items-center gap-3 px-2">
+<div class="w-8 h-8 rounded-full overflow-hidden bg-secondary-container">
+<img class="w-full h-full object-cover" data-alt="A clean, professional headshot of a curator for a spiritual platform, set against a soft, out-of-focus background of a peaceful study with warm natural light. The lighting is flattering and high-key, reflecting a serene editorial aesthetic with muted earth tones and a calm, intellectual atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCp2QibStENuSaOCoeecu5FOPZyJDdt1sRm4rNKpz95zGf-sYeuGpKNVWmTexAXt_bcwv_KunP0E24YaTCBUTsIxUscBZfT-aeNt47jYtvMXQhVa9vFq0Uso0ArWM6SMJFmkPXOiWCHBRKYxweMbqW782KAOouvwp7yGNbbLxwbtyIdAYvme5JDDq6gDbaItKm_VI7jKSXPsLFgPQVdnWKnR2MbU7v4j8Khm-gcwhZE-BK9I-zr9g-QSosXsvnRKdBbJSFut-WItRk"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[11px] font-semibold">Admin User</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Editor in Chief</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col h-screen overflow-hidden bg-background">
+<!-- Sticky Header for Content -->
+<header class="w-full px-margin-mobile md:px-margin-desktop py-6 flex items-center justify-between z-10 bg-background/80 backdrop-blur-sm border-b border-outline-variant/30">
+<div>
+<h2 class="font-headline-md text-headline-md text-primary">New Deity Category</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Define a new divine focus for the digital sanctuary.</p>
+</div>
+<div class="hidden md:flex gap-4"><button class="px-6 py-2 border border-outline text-primary font-label-sm text-label-sm rounded-lg hover:bg-surface-container transition-colors">Cancel</button>
+<button class="px-8 py-2 bg-primary text-on-primary font-label-sm text-label-sm rounded-lg shadow-md hover:opacity-90 transition-opacity flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">save</span>
+    Save Category
+</button></div>
+</header>
+<!-- Scrolling Form Container -->
+<div class="flex-grow overflow-y-auto scrolling-content px-margin-mobile md:px-margin-desktop py-10">
+<div class="max-w-reading-width mx-auto space-y-section-gap pb-24 space-y-[64px]">
+<!-- Section 1: Identity -->
+<section class="space-y-6 animate-fade-in">
+<div class="flex items-center gap-4 mb-2">
+<span class="w-8 h-[1px] bg-gold"></span>
+<h3 class="font-label-sm text-label-sm tracking-widest text-primary uppercase">01 Divine Identity</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div class="flex flex-col space-y-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant ml-1" for="cat-name">Category Name</label>
+<input class="w-full bg-surface-container border-none focus:ring-1 focus:ring-gold rounded-lg py-3 px-4 font-body-md text-body-md text-primary placeholder:text-outline" id="cat-name" placeholder="e.g. Ganesha" type="text"/>
+</div>
+<div class="flex flex-col space-y-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant ml-1" for="sans-name">Sanskrit Name</label>
+<input class="w-full bg-surface-container border-none focus:ring-1 focus:ring-gold rounded-lg py-3 px-4 font-sanskrit text-sanskrit text-primary placeholder:text-outline/50" id="sans-name" placeholder="गजानन" type="text"/>
+</div>
+</div>
+<div class="flex flex-col space-y-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant ml-1" for="primary-attr">Primary Attribute / Domain</label>
+<input class="w-full bg-surface-container border-none focus:ring-1 focus:ring-gold rounded-lg py-3 px-4 font-body-md text-body-md text-primary placeholder:text-outline" id="primary-attr" placeholder="e.g. Remover of Obstacles, Lord of New Beginnings" type="text"/>
+</div>
+</section>
+<!-- Section 2: Narrative -->
+<section class="space-y-6">
+<div class="flex items-center gap-4 mb-2">
+<span class="w-8 h-[1px] bg-gold"></span>
+<h3 class="font-label-sm text-label-sm tracking-widest text-primary uppercase">02 Sacred Narrative</h3>
+</div>
+<div class="flex flex-col space-y-2">
+<label class="font-label-sm text-label-sm text-on-surface-variant ml-1">Introduction &amp; Symbolism</label>
+<div class="w-full bg-surface-container rounded-lg min-h-[300px] flex flex-col border border-outline-variant/30 overflow-hidden">
+<!-- Rich Text Toolbar -->
+<div class="flex items-center gap-4 p-3 border-b border-outline-variant/30 bg-surface-container-high/50"><div class="flex items-center gap-2 px-4 py-2">
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors material-symbols-outlined text-[20px] text-on-surface-variant">format_bold</button>
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors material-symbols-outlined text-[20px] text-on-surface-variant">format_italic</button>
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors material-symbols-outlined text-[20px] text-on-surface-variant">format_list_bulleted</button>
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors material-symbols-outlined text-[20px] text-on-surface-variant">link</button>
+<span class="w-[1px] h-6 bg-outline-variant/30 mx-2"></span>
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors material-symbols-outlined text-[20px] text-on-surface-variant">translate</button>
+<button class="p-2 rounded hover:bg-surface-container-highest transition-colors material-symbols-outlined text-[20px] text-on-surface-variant">info</button>
+</div></div>
+<textarea class="flex-grow w-full bg-transparent border-none focus:ring-0 p-6 font-body-lg text-body-lg leading-relaxed placeholder:text-outline/40 placeholder:font-light italic" placeholder="Begin the editorial narrative here... Describe the historical and spiritual significance of this deity."></textarea>
+</div>
+</div>
+</section>
+<!-- Section 3: Visuals -->
+<section class="space-y-6">
+<div class="flex items-center gap-4 mb-2">
+<span class="w-8 h-[1px] bg-gold"></span>
+<h3 class="font-label-sm text-label-sm tracking-widest text-primary uppercase">03 Visual Presence</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<div class="md:col-span-2 relative group cursor-pointer overflow-hidden rounded-xl h-64 bg-surface-container-high flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/50 hover:border-gold/50 transition-all">
+<div class="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity bg-gold/10"></div>
+<span class="material-symbols-outlined text-[48px] text-outline-variant group-hover:text-gold transition-colors mb-2">add_photo_alternate</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Upload Category Cover</p>
+<p class="font-body-sm text-[12px] text-outline mt-1">Recommended: 1200 x 600px, Minimalist Aesthetic</p>
+</div>
+<!-- Mini Preview/Tonal Card -->
+<div class="h-64 rounded-xl bg-surface-container-low border border-outline-variant overflow-hidden flex flex-col">
+<div class="flex-grow bg-surface-container-high flex items-center justify-center relative">
+<span class="material-symbols-outlined text-outline-variant/30 text-[48px]">image</span>
+<div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-primary/60 to-transparent">
+<p class="text-on-primary font-headline-sm text-[16px]">Preview: Deity Name</p>
+</div>
+</div>
+<div class="p-4 bg-surface-container-lowest">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-[10px] text-gold uppercase tracking-widest">God Card Preview</span>
+<span class="material-symbols-outlined text-[16px] text-outline">open_in_new</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Metadata bento -->
+<section class="space-y-6">
+<div class="flex items-center gap-4 mb-2">
+<span class="w-8 h-[1px] bg-gold"></span>
+<h3 class="font-label-sm text-label-sm tracking-widest text-primary uppercase">04 Curated Metadata</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="p-4 rounded-lg bg-surface-container border border-outline-variant/20 flex flex-col space-y-2">
+<label class="font-label-sm text-[11px] text-gold font-bold uppercase tracking-tighter">Color Vibe</label>
+<select class="bg-transparent border-none focus:ring-0 font-body-md text-primary px-0 py-1">
+<option>Saffron &amp; Gold</option>
+<option>Deep Espresso</option>
+<option>Morning Mist (Blue)</option>
+<option>Lotus Pink</option>
+</select>
+</div>
+<div class="p-4 rounded-lg bg-surface-container border border-outline-variant/20 flex flex-col space-y-2">
+<label class="font-label-sm text-[11px] text-gold font-bold uppercase tracking-tighter">Access Level</label>
+<select class="bg-transparent border-none focus:ring-0 font-body-md text-primary px-0 py-1">
+<option>Public (Universal)</option>
+<option>Initiates Only</option>
+<option>Private (Draft)</option>
+</select>
+</div>
+<div class="p-4 rounded-lg bg-surface-container border border-outline-variant/20 flex flex-col space-y-2">
+<label class="font-label-sm text-[11px] text-gold font-bold uppercase tracking-tighter">Display Weight</label>
+<select class="bg-transparent border-none focus:ring-0 font-body-md text-primary px-0 py-1">
+<option>Featured Large</option>
+<option>Standard List</option>
+<option>Compact Entry</option>
+</select>
+</div>
+</div>
+</section>
+</div>
+</div>
+<!-- Mobile Footer Actions (Persistent) -->
+<div class="md:hidden fixed bottom-0 left-0 w-full bg-surface-container-low border-t border-outline-variant p-4 flex gap-4 z-50">
+<button class="flex-1 py-3 border border-outline-variant text-on-surface-variant font-label-sm text-label-sm rounded-lg bg-surface-container-lowest">Cancel</button>
+<button class="flex-1 py-3 bg-primary text-on-primary font-label-sm text-label-sm rounded-lg">Save</button>
+</div>
+</main>
+<!-- Interactive micro-interactions -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Subtle hover lift for bento-style metadata cards
+            const metaCards = document.querySelectorAll('.p-4.rounded-lg');
+            metaCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.classList.add('shadow-sm', '-translate-y-0.5');
+                    card.classList.replace('border-outline-variant/20', 'border-gold/30');
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.classList.remove('shadow-sm', '-translate-y-0.5');
+                    card.classList.replace('border-gold/30', 'border-outline-variant/20');
+                });
+            });
+
+            // Input focus highlighting
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.addEventListener('focus', () => {
+                    const parent = input.closest('div');
+                    if(parent) parent.classList.add('transition-all', 'duration-300');
+                });
+            });
+        });
+    </script>
+</body></html>

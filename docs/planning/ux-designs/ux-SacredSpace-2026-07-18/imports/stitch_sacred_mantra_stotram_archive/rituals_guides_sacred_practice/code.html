@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rituals &amp; Guides | SacredSpace</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "saffron": "#F59E3B",
+                    "on-primary-fixed": "#281807",
+                    "surface-container": "#EFECE8",
+                    "on-tertiary-fixed-variant": "#45492d",
+                    "on-primary-fixed-variant": "#57432e",
+                    "gold": "#D4A84B",
+                    "secondary-container": "#fedab0",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#262a11",
+                    "on-primary-container": "#bfa48a",
+                    "primary-fixed-dim": "#dec1a6",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#ffddb6",
+                    "surface-container-low": "#f5f3f1",
+                    "primary-fixed": "#fbddc1",
+                    "primary-container": "#4d3a26",
+                    "error-container": "#ffdad6",
+                    "surface-bright": "#fbf9f7",
+                    "inverse-surface": "#30302f",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#dbdad8",
+                    "surface-container-lowest": "#ffffff",
+                    "background": "#fbf9f7",
+                    "tertiary-fixed": "#e2e6bf",
+                    "surface-variant": "#e4e2e0",
+                    "outline": "#7A7874",
+                    "inverse-on-surface": "#f2f0ee",
+                    "on-tertiary-container": "#a8ac89",
+                    "on-secondary-fixed": "#2a1800",
+                    "inverse-primary": "#dec1a6",
+                    "tertiary-container": "#3c4025",
+                    "surface-tint": "#705a44",
+                    "tertiary-fixed-dim": "#c6c9a5",
+                    "secondary": "#745a38",
+                    "primary": "#352512",
+                    "on-secondary-fixed-variant": "#5a4223",
+                    "surface-container-highest": "#e4e2e0",
+                    "secondary-fixed-dim": "#e3c198",
+                    "on-surface": "#1b1c1b",
+                    "on-secondary-container": "#785e3c",
+                    "on-surface-variant": "#4e453d",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface": "#fbf9f7",
+                    "surface-container-high": "#eae8e6",
+                    "outline-variant": "#d1c4ba",
+                    "on-background": "#1b1c1b",
+                    "on-tertiary-fixed": "#1a1d06"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "64px",
+                    "margin-desktop": "48px",
+                    "gutter": "24px",
+                    "unit": "8px",
+                    "margin-mobile": "16px",
+                    "reading-width": "720px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Cormorant Garamond"],
+                    "display-lg": ["Cormorant Garamond"],
+                    "headline-sm": ["Cormorant Garamond"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "sanskrit": ["Noto Sans Devanagari"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Cormorant Garamond"],
+                    "display-lg-mobile": ["Cormorant Garamond"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                    "sanskrit": ["20px", {"lineHeight": "2.0", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "headline-md": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.15", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .guide-card:hover .guide-image {
+            transform: scale(1.02);
+        }
+        .glass-nav {
+            backdrop-filter: blur(8px);
+            background-color: rgba(251, 249, 247, 0.85);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fbf9f7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1c4ba;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-surface text-primary font-body-md selection:bg-secondary-container selection:text-primary">
+<!-- Top Navigation Bar -->
+<header class="fixed w-full z-50 bg-surface">
+<nav class="flex justify-between items-center px-margin-desktop py-4 max-w-[1440px] mx-auto">
+<div class="flex items-center gap-12">
+<a class="font-headline-md text-headline-md text-primary tracking-tight" href="#">SacredSpace</a>
+<div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-400" href="#">Collections</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-400" href="#">Mantras</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-400" href="#">Stotras</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-medium transition-all" href="#">Rituals</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant">search</span>
+<input class="bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-1 focus:ring-outline w-64 transition-all duration-300" placeholder="Find a guide..." type="text"/>
+</div>
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container transition-colors rounded-full" data-icon="dark_mode">dark_mode</button>
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container transition-colors rounded-full" data-icon="account_circle">account_circle</button>
+</div>
+</nav>
+</header>
+<main class="pt-24">
+<!-- Hero Section -->
+<section class="relative h-[614px] flex items-center justify-center overflow-hidden bg-surface">
+<div class="absolute inset-0 opacity-20">
+
+</div>
+<div class="relative z-10 text-center max-w-3xl px-margin-mobile">
+<span class="font-label-sm text-label-sm uppercase tracking-[0.2em] text-gold mb-6 block" data-aos="fade-up">Sacred Practices</span>
+<h1 class="font-display-lg text-display-lg text-primary mb-6" data-aos="fade-up" data-aos-delay="100">Rituals &amp; Guides</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed mb-10" data-aos="fade-up" data-aos-delay="200">
+                    Discover the profound depth of Vedic traditions. Our curated guides help you integrate ancient wisdom into modern daily life through step-by-step ritual instructions.
+                </p>
+<div class="flex justify-center gap-4" data-aos="fade-up" data-aos-delay="300">
+<a class="bg-primary text-on-primary px-8 py-3 rounded-lg font-medium hover:bg-primary-container transition-colors duration-300" href="#guides">Explore Guides</a>
+<a class="border border-outline-variant text-primary px-8 py-3 rounded-lg font-medium hover:bg-surface-container transition-colors duration-300" href="#philosophy">Our Philosophy</a>
+</div>
+</div>
+</section>
+<!-- Category Filter -->
+<section class="py-12 bg-surface">
+<div class="max-w-[1440px] mx-auto px-margin-desktop">
+<div class="flex flex-wrap justify-center gap-3">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-label-sm text-label-sm transition-all shadow-sm">All Guides</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-label-sm text-label-sm transition-all border border-outline-variant">Daily</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-label-sm text-label-sm transition-all border border-outline-variant">Festivals</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-label-sm text-label-sm transition-all border border-outline-variant">Meditation</button>
+<button class="px-6 py-2 rounded-full bg-surface-container-low text-on-surface-variant hover:bg-surface-container font-label-sm text-label-sm transition-all border border-outline-variant">Puja</button>
+</div>
+</div>
+</section>
+<!-- Featured Guides Grid -->
+<section class="py-section-gap px-margin-desktop max-w-[1440px] mx-auto" id="guides">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+<!-- Card 1 -->
+<article class="guide-card group flex flex-col cursor-pointer bg-surface-container-lowest rounded-lg overflow-hidden border border-transparent hover:border-outline-variant transition-all duration-500">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="guide-image w-full h-full object-cover transition-transform duration-700 ease-out" data-alt="A serene morning scene in a traditional Indian courtyard. Warm sunrise light filters through carved stone pillars, illuminating a small brass altar with fresh marigolds and a water vessel. The atmosphere is peaceful, spiritual, and deeply quiet, capturing a high-end minimalist editorial aesthetic in shades of ivory and gold." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYSEXdKW9Of5PNXgQUx8tOkCVrAfl2qSd2SMuYaQbA-2fuecbrpaHunZMk_sFqIE_kyO75qM3uaqOXyvrBDeRxGwnwm9QDjhcw-AUn7gjS1wQyAYN2yhgl_jj0PZwkFlmJH4UswFY_MM1Yu-S9LcN0SxF1VoF1Ip0rWvAYLSwFbZ7afKMUG43wRrxIPCmPhbITALUYCUToVmp7eD86jpSa5ecdnhz-mODSGdYXBnORqk_ccCMpfi0uN9xs_NrD0J_rEN0RtU0kXBI"/>
+<div class="absolute top-4 right-4">
+<span class="bg-saffron/90 text-on-primary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Daily</span>
+</div>
+</div>
+<div class="p-8 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">Daily Morning Sandhyavandanam</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-3">A guide to the ancient morning prayer, focusing on breath control (Pranayama) and solar meditation to align your day with cosmic rhythms.</p>
+<div class="mt-auto pt-4 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">schedule</span> 15 mins
+                            </span>
+<a class="text-gold font-label-sm text-label-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all" href="#">
+                                READ GUIDE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="guide-card group flex flex-col cursor-pointer bg-surface-container-lowest rounded-lg overflow-hidden border border-transparent hover:border-outline-variant transition-all duration-500">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="guide-image w-full h-full object-cover transition-transform duration-700 ease-out" data-alt="Close up of a beautifully decorated Ganesha idol made of eco-friendly clay. The idol is adorned with a single red hibiscus flower and surrounded by sacred dharba grass. The lighting is soft and ambient, emphasizing textures and the serene expression of the deity. Minimalist composition with a neutral, warm ivory background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxFr6jGar9e943im5WpmGTRNFa1JSKAcSLKosTzDNcRtv0qJJEJ47TZRNby--9Hi9GwGaYVR-8tgsvEX26B2XikViXKwHGpR8zy7Les10BIRQ6wGPpo-oNtcrWmnRbGqnbLwUnfjXdjyCTb9g71hnPU0bOTaRN6aWINNA5u3phiPCsdFzX1EybfNVZI1ZaWmrpsdEIH1ZPGz_oAn3o8ZP41Rcb26lFJX6we-yxrKXveLDrbLPilFiTgo9hNQ2YJM2X-GopO7VoJlo"/>
+<div class="absolute top-4 right-4">
+<span class="bg-saffron/90 text-on-primary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Festivals</span>
+</div>
+</div>
+<div class="p-8 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">Ganesha Chaturthi Puja Guide</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-3">Everything you need for a traditional home worship of Ganesha, including the 16-step Shodashopachara ritual and offerings.</p>
+<div class="mt-auto pt-4 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">schedule</span> 45 mins
+                            </span>
+<a class="text-gold font-label-sm text-label-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all" href="#">
+                                READ GUIDE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="guide-card group flex flex-col cursor-pointer bg-surface-container-lowest rounded-lg overflow-hidden border border-transparent hover:border-outline-variant transition-all duration-500">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="guide-image w-full h-full object-cover transition-transform duration-700 ease-out" data-alt="A minimalist photograph of a copper singing bowl and an ancient Sanskrit manuscript on handmade paper. The setting is a clean, modern meditation room with light wood floors and soft shadows. The visual style is elegant, intellectual, and serene, focusing on the tactile quality of the materials and the warmth of the light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtD2YOHgFNcro-97LcrpbKE-UThqSMLWNrH8gYgMKcHWvIeSpVUqAkkU2SGMtivUwogIWAXlE-hPOrm8ZZbvpPAKRHry_Tdw5RmkA8jIvSD4BeJZHzmwdHsIujKTZy5R5vvG3ZiipaojinWMfCFyVhzatbOhMz9tLZlSPNm0LDSSFH3lB2Pn-0k_LsJtjLIqnCsEH8ATO-vjF97qO8OhxIEsYET0iHlFMU_3LBIO0kYNiouFFkdJd20uXBHXPeA_nVvG_mV35P-qY"/>
+<div class="absolute top-4 right-4">
+<span class="bg-saffron/90 text-on-primary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Vedic Chanting</span>
+</div>
+</div>
+<div class="p-8 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">Intro to Vedic Chanting</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-3">Learn the three essential accents (Svaras) and the foundational rules of Vedic phonetics to begin your journey with mantra recitation.</p>
+<div class="mt-auto pt-4 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">schedule</span> 20 mins
+                            </span>
+<a class="text-gold font-label-sm text-label-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all" href="#">
+                                READ GUIDE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Card 4 -->
+<article class="guide-card group flex flex-col cursor-pointer bg-surface-container-lowest rounded-lg overflow-hidden border border-transparent hover:border-outline-variant transition-all duration-500">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="guide-image w-full h-full object-cover transition-transform duration-700 ease-out" data-alt="A minimalist overhead shot of a puja thali made of hammered silver. On the thali are precisely arranged elements: a small clay lamp, a handful of rice, and a small sandalwood stick. The background is a dark espresso wood grain, providing a rich contrast to the silver. High-end product photography style for a spiritual brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJukWRKpEDwK5eHWQaGUyBv267qkpu0Ue8I-W6Sfr2q8DEXSYIeEdgTjzYazPCcZEIerF53lXNlzA9oqZsVNHNaYLsxQyn5ZIO9ZMNfSLOpF4rwDaNKCzv84QiGnMXb49_iz275Rkqq7kDRF6yl8n5-EqRgmt4nQcxw4q61oRWzgt8NOg9jb6yN_AyVKAPaJ6YyVdiV_UXjuyM5gq7NVH_-akdDyYR3b7ripWYfqhJpZCSuHbuBBAXU2oDE4FbkA43qJiLE1ZX_5g"/>
+<div class="absolute top-4 right-4">
+<span class="bg-saffron/90 text-on-primary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Puja</span>
+</div>
+</div>
+<div class="p-8 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">Evening Arati Essentials</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-3">An exploration of the symbolism of light in Hindu tradition and a guide to performing a simple, soulful evening Arati at home.</p>
+<div class="mt-auto pt-4 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">schedule</span> 10 mins
+                            </span>
+<a class="text-gold font-label-sm text-label-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all" href="#">
+                                READ GUIDE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Card 5 -->
+<article class="guide-card group flex flex-col cursor-pointer bg-surface-container-lowest rounded-lg overflow-hidden border border-transparent hover:border-outline-variant transition-all duration-500">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="guide-image w-full h-full object-cover transition-transform duration-700 ease-out" data-alt="Macro photography of a single drop of water falling into a clear vessel, creating perfect concentric ripples. The lighting is cool-toned yet warm at the edges, suggesting a pre-dawn ritual bath or purification. The focus is sharp and crystalline, symbolizing clarity and spiritual awakening. Minimalist editorial layout." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbY3bOmL-kvdACoo-v_g3lc02xQzsdf6RexQ0zz4qMVGjcP9K7AHR4FLKgWxAitGAZmLglrbqwfqMTDcgS1LOReCw4X92LtBDIEddsbH5QAL7IVl4uICC7As3lUIM_Rgby5mY_g0I60WuU79vcjVZq_HXMUVe1K0MrHL0NsYsUygkgBAyXcEpbdwzRL6mYwMqrtgmVmk8GAt10FwSSRU_K2fUyIWKyIFtgMXQuOgOKVvlDi3QU6I4HT59mmlzGFBLBSiZRpZqws9c"/>
+<div class="absolute top-4 right-4">
+<span class="bg-saffron/90 text-on-primary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Meditation</span>
+</div>
+</div>
+<div class="p-8 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">Prana Pratishtha: Breath of Life</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-3">A meditative guide on the internal ritual of consecration, learning to honor the divinity within your own breath and body.</p>
+<div class="mt-auto pt-4 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">schedule</span> 30 mins
+                            </span>
+<a class="text-gold font-label-sm text-label-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all" href="#">
+                                READ GUIDE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+<!-- Card 6 -->
+<article class="guide-card group flex flex-col cursor-pointer bg-surface-container-lowest rounded-lg overflow-hidden border border-transparent hover:border-outline-variant transition-all duration-500">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img class="guide-image w-full h-full object-cover transition-transform duration-700 ease-out" data-alt="A beautiful spread of diverse autumn grains and seasonal fruits arranged on a woven palm leaf. A small flame in a clay diya illuminates the offerings. The color palette consists of warm browns, deep oranges, and soft creams. The composition is balanced and elegant, representing a harvest festival ritual or thanksgiving." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAel2C8t-qgB5-zMJwKLDGQRRoK90irgd9gFEnEeIY54agQSLTeqG6dayKW0ZIl0uqw4mO9lKRRf24oW0H1y0MOE7BbBj-l2DG57KTTJ1JcmlB1KRDUe1dFHoH1M6hmLCTzaG6Lye-RCUF48vdwQ3AB0kBmCXaZ3d948lmgxc3YjHgdxW5x2K9N5SmiNxBzpEEyvUDZGCTvJo0cPTHa4fzPaRfoUZphfx5eT_f9IFV7JFo3hTj83uRfyXMrXlqCFWsKHScZomq-6ag"/>
+<div class="absolute top-4 right-4">
+<span class="bg-saffron/90 text-on-primary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Festivals</span>
+</div>
+</div>
+<div class="p-8 flex flex-col flex-grow">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-3">Seasonal Samvatsara Guide</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-6 line-clamp-3">Understand how to align your lifestyle and food habits with the changing seasons according to Ayurvedic and Vedic traditions.</p>
+<div class="mt-auto pt-4 flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">schedule</span> 25 mins
+                            </span>
+<a class="text-gold font-label-sm text-label-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all" href="#">
+                                READ GUIDE <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- Educational Philosophy Section -->
+<section class="bg-surface-container-low py-section-gap" id="philosophy">
+<div class="max-w-[reading-width] mx-auto px-margin-mobile text-center">
+<div class="mb-10 inline-block px-4 py-1 bg-primary text-on-primary text-[10px] tracking-widest uppercase font-bold rounded-sm">Wisdom</div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-8">The Alchemy of Ritual</h2>
+<div class="space-y-6 font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+<p>In the Vedic tradition, a ritual is more than a sequence of actions; it is <em>Yajna</em>—a sacred offering that connects the microcosm of the individual to the macrocosm of the universe. Every gesture, every syllable, and every breath is designed to refine our consciousness.</p>
+<p>Through consistent practice, the 'outer ritual' becomes an 'inner movement.' We perform these rites not out of dogma, but as a technology for mindfulness. They serve as anchors in the drift of daily life, reminding us of the sacredness that permeates all existence.</p>
+<p>Our guides are designed to be accessible yet authentic, providing the historical context and philosophical meaning alongside practical instructions. Whether you have five minutes or an hour, there is a path to presence through ritual.</p>
+</div>
+<div class="mt-12">
+<button class="bg-primary text-on-primary px-10 py-4 rounded-lg font-medium hover:bg-primary-container transition-all shadow-sm">Join Our Fellowship</button>
+</div>
+</div>
+</section>
+<!-- Newsletter / CTA Section -->
+<section class="py-section-gap bg-surface border-y border-outline-variant/30">
+<div class="max-w-[1440px] mx-auto px-margin-desktop text-center">
+<h2 class="font-headline-md text-headline-md text-primary mb-4">Deepen Your Study</h2>
+<p class="text-on-surface-variant mb-10 max-w-xl mx-auto">Receive a monthly ritual guide, seasonal wisdom, and exclusive translations of rare Vedic texts directly to your inbox.</p>
+<form class="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+<input class="flex-grow bg-surface-container-low border border-outline-variant rounded-lg px-6 py-4 focus:ring-1 focus:ring-primary focus:border-primary transition-all outline-none" placeholder="Your email address" type="email"/>
+<button class="bg-primary text-on-primary px-8 py-4 rounded-lg font-medium hover:bg-primary-container transition-all" type="submit">Subscribe</button>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest text-primary py-stack-lg w-full flex flex-col items-center gap-base">
+<div class="max-w-[1440px] mx-auto px-margin-desktop w-full flex flex-col items-center gap-8">
+<a class="font-headline-sm text-headline-sm text-primary" href="#">SacredSpace</a>
+<nav class="flex gap-10">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors duration-400" href="#">Philosophy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors duration-400" href="#">Terms of Ritual</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors duration-400" href="#">Contact Seeker Support</a>
+</nav>
+<div class="flex gap-6">
+<a class="text-outline-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="text-outline-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+<a class="text-outline-variant hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">rss_feed</span></a>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-4">© 2024 SacredSpace. Crafted for Mindfulness.</p>
+</div>
+</footer>
+<!-- FAB for quick search or help -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all group">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="absolute right-full mr-4 bg-primary text-on-primary px-4 py-2 rounded-lg text-sm whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">Guide Assistant</span>
+</button>
+</div>
+<script>
+        // Simple scroll reveal effect
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('[data-aos="fade-up"]').forEach(el => {
+            el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10', 'ease-out');
+            observer.observe(el);
+        });
+
+        // Sticky nav transition
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('glass-nav', 'shadow-sm');
+            } else {
+                header.classList.remove('glass-nav', 'shadow-sm');
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#1c1b1a",
+                        "on-primary": "#402d00",
+                        "secondary-container": "#ce7e1a",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "surface-bright": "#3a3937",
+                        "outline-variant": "#4e4637",
+                        "on-surface-variant": "#d2c5b1",
+                        "on-secondary": "#4a2800",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#ffdcbe",
+                        "surface-dim": "#141312",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#30312e",
+                        "surface-container-highest": "#363533",
+                        "on-tertiary-fixed": "#1b1c1a",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#563e00",
+                        "tertiary-fixed-dim": "#c8c6c3",
+                        "tertiary-fixed": "#e4e2de",
+                        "on-background": "#e6e2de",
+                        "tertiary": "#cbc9c6",
+                        "on-secondary-container": "#402300",
+                        "tertiary-container": "#afaeaa",
+                        "surface": "#141312",
+                        "primary-fixed-dim": "#eec060",
+                        "on-tertiary-container": "#41423f",
+                        "on-secondary-fixed": "#2c1600",
+                        "surface-variant": "#363533",
+                        "surface-container": "#201f1e",
+                        "outline": "#9a8f7e",
+                        "primary-container": "#d4a84b",
+                        "on-primary-fixed-variant": "#5c4200",
+                        "on-surface": "#e6e2de",
+                        "on-primary-fixed": "#261900",
+                        "inverse-on-surface": "#31302e",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#ffb870",
+                        "inverse-primary": "#7a5900",
+                        "surface-tint": "#eec060",
+                        "secondary": "#ffb870",
+                        "surface-container-lowest": "#0f0e0d",
+                        "on-secondary-fixed-variant": "#693c00",
+                        "primary": "#f2c363",
+                        "inverse-surface": "#e6e2de",
+                        "primary-fixed": "#ffdea2",
+                        "background": "#141312",
+                        "surface-container-high": "#2b2a28"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "margin-mobile": "20px",
+                        "stack-md": "24px",
+                        "stack-sm": "12px",
+                        "stack-lg": "48px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Noto Serif"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Noto Serif"],
+                        "headline-display": ["Noto Serif"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Noto Serif"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sacred-glow {
+            text-shadow: 0 0 15px rgba(242, 195, 99, 0.3);
+        }
+        .active-verse-glow {
+            box-shadow: 0 0 30px rgba(212, 168, 75, 0.1);
+        }
+        .reading-canvas {
+            max-width: 720px;
+        }
+        body {
+            background-color: #141312; /* Deep Charcoal/Espresso */
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f0e0d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #363533;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4e4637;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-surface selection:bg-primary/30">
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md">
+<div class="flex justify-between items-center px-desktop py-base max-w-container-max mx-auto">
+<div class="flex items-center gap-stack-md">
+<span class="font-headline-md text-headline-md text-primary">SacredSpace</span>
+<nav class="hidden md:flex gap-gutter items-center">
+<a class="font-body-md text-body-md text-primary border-b-2 border-primary pb-1 transition-all duration-400" href="#">Mantras</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all duration-400" href="#">Collections</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all duration-400" href="#">Stotras</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-all duration-400" href="#">Rituals</a>
+</nav>
+</div>
+<div class="flex items-center gap-gutter">
+<!-- Text Scale Controls -->
+<div class="flex items-center bg-surface-container rounded-full px-base py-1 border border-outline/10">
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors" id="decrease-text">
+<span class="material-symbols-outlined text-[20px]">text_decrease</span>
+</button>
+<span class="px-2 font-label-sm text-on-surface-variant">Aa</span>
+<button class="p-1 text-on-surface-variant hover:text-primary transition-colors" id="increase-text">
+<span class="material-symbols-outlined text-[20px]">text_increase</span>
+</button>
+</div>
+<!-- Theme Toggle & Account -->
+<div class="flex gap-stack-sm">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="dark_mode">dark_mode</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-stack-lg pb-stack-lg min-h-screen flex flex-col items-center">
+<!-- Spiritual Header -->
+<div class="reading-canvas w-full px-margin-mobile md:px-0 text-center mt-stack-lg mb-stack-lg">
+<div class="inline-block px-4 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary font-label-sm mb-stack-sm">
+                RITUAL READING
+            </div>
+<h1 class="font-headline-display text-headline-display text-on-surface mb-stack-sm">Gayatri Mantra</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant italic max-w-md mx-auto">
+                The universal prayer for enlightenment, seeking the divine light to guide our intellect.
+            </p>
+</div>
+<!-- Mantra Body -->
+<article class="reading-canvas w-full px-margin-mobile md:px-0 space-y-stack-lg transition-all duration-700" id="mantra-content">
+<!-- Verse Section 1 (Current) -->
+<section class="relative p-stack-md rounded-xl bg-surface-container/30 border border-secondary-container/40 active-verse-glow transition-all duration-500">
+<div class="absolute -left-12 top-1/2 -translate-y-1/2 hidden lg:flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary animate-pulse"></div>
+<span class="font-label-sm text-primary">I</span>
+</div>
+<div class="space-y-stack-md text-center">
+<div class="sacred-glow font-headline-lg text-headline-lg text-primary leading-relaxed tracking-wide">
+                        ॐ भूर्भुवः स्वः ।
+                    </div>
+<div class="font-body-lg text-body-lg text-on-surface/80">
+                        Oṃ bhūr bhuvaḥ svaḥ
+                    </div>
+<div class="text-on-surface-variant font-label-md max-w-sm mx-auto leading-relaxed border-t border-outline/5 pt-stack-sm">
+                        Invocation of the three planes of existence: physical, astral, and celestial.
+                    </div>
+</div>
+</section>
+<!-- Verse Section 2 -->
+<section class="p-stack-md rounded-xl hover:bg-surface-container/20 border border-transparent transition-all duration-500 group">
+<div class="space-y-stack-md text-center">
+<div class="font-headline-lg text-headline-lg text-on-surface group-hover:text-on-surface/90 leading-relaxed tracking-wide">
+                        तत्सवितुर्वरेण्यं ।
+                    </div>
+<div class="font-body-lg text-body-lg text-on-surface/60 group-hover:text-on-surface/80">
+                        Tat savitur vareṇyaṃ
+                    </div>
+<div class="text-on-surface-variant/40 group-hover:text-on-surface-variant font-label-md max-w-sm mx-auto leading-relaxed border-t border-outline/5 pt-stack-sm transition-colors">
+                        Meditating upon the adorable glory of the radiant solar deity.
+                    </div>
+</div>
+</section>
+<!-- Verse Section 3 -->
+<section class="p-stack-md rounded-xl hover:bg-surface-container/20 border border-transparent transition-all duration-500 group">
+<div class="space-y-stack-md text-center">
+<div class="font-headline-lg text-headline-lg text-on-surface leading-relaxed tracking-wide">
+                        भर्गो देवस्य धीमहि ।
+                    </div>
+<div class="font-body-lg text-body-lg text-on-surface/60">
+                        Bhargo devasya dhīmahi
+                    </div>
+<div class="text-on-surface-variant/40 font-label-md max-w-sm mx-auto leading-relaxed border-t border-outline/5 pt-stack-sm">
+                        May that divine light illuminate our meditation.
+                    </div>
+</div>
+</section>
+<!-- Verse Section 4 -->
+<section class="p-stack-md rounded-xl hover:bg-surface-container/20 border border-transparent transition-all duration-500 group">
+<div class="space-y-stack-md text-center">
+<div class="font-headline-lg text-headline-lg text-on-surface leading-relaxed tracking-wide">
+                        धियो यो नः प्रचोदयात् ॥
+                    </div>
+<div class="font-body-lg text-body-lg text-on-surface/60">
+                        Dhiyo yo naḥ pracodayāt
+                    </div>
+<div class="text-on-surface-variant/40 font-label-md max-w-sm mx-auto leading-relaxed border-t border-outline/5 pt-stack-sm">
+                        Inspire our intellect and guide us toward awakening.
+                    </div>
+</div>
+</section>
+<!-- Word Analysis Section -->
+<section class="mt-stack-lg pt-stack-lg border-t border-outline/10">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-stack-md flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">menu_book</span>
+                    Word Analysis
+                </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<div class="bg-surface-container-low p-stack-sm rounded-lg border border-outline/5">
+<div class="font-label-md text-primary mb-1">Savituḥ</div>
+<p class="text-on-surface-variant text-label-sm">Derived from "Savitṛ", referring to the Sun as the progenitor and stimulator of life.</p>
+</div>
+<div class="bg-surface-container-low p-stack-sm rounded-lg border border-outline/5">
+<div class="font-label-md text-primary mb-1">Vareṇyaṃ</div>
+<p class="text-on-surface-variant text-label-sm">"The most excellent" or "worthy of being adored," from the root "vṛ" (to choose).</p>
+</div>
+<div class="bg-surface-container-low p-stack-sm rounded-lg border border-outline/5">
+<div class="font-label-md text-primary mb-1">Bhargaḥ</div>
+<p class="text-on-surface-variant text-label-sm">Radiance, luster, or the spiritual light that destroys ignorance.</p>
+</div>
+<div class="bg-surface-container-low p-stack-sm rounded-lg border border-outline/5">
+<div class="font-label-md text-primary mb-1">Dhīmahi</div>
+<p class="text-on-surface-variant text-label-sm">An ancient optative verb form meaning "we meditate" or "may we absorb."</p>
+</div>
+</div>
+</section>
+<!-- Media Card Asymmetric Layout -->
+<section class="grid grid-cols-3 gap-gutter mt-stack-lg h-64">
+<div class="col-span-2 relative rounded-xl overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim to-transparent z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A macro photography shot of incense smoke swirling in a dark, atmospheric meditation room. Warm amber light catches the smoke trails, creating a sense of ancient ritual and tranquility. The background is a deep espresso wood texture, softly blurred. Cinematic lighting with gold accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNM-Y-YE5tBf8-qB_hl_Wt62WUbF3SP8YbC_lPY1m8LIUK73wq9a5tAcbY2TA76sU9kyVf-e8n1hN9AorQU01kMUZKI-NVNuJxnS7PLPT0uQwpsrsMSjgtxlOpNQVk32MNZ1eSdOh2pkBYvuZbDjNqu1AE-PaOM-l2UEfJqy81S-uMtCz3kgsu0zNpdVjQ26HNfTQrllw6cY0SoNmbq2dLfy4e7_b5ief8ksejcSQD8DBrskBuHEiNmj4FIbBVTDdbSzAInPWYaWU"/>
+<div class="absolute bottom-4 left-4 z-20">
+<span class="font-label-sm text-primary-fixed uppercase tracking-widest">Ritual Context</span>
+<h4 class="font-headline-sm text-on-surface">The Morning Sandhya</h4>
+</div>
+</div>
+<div class="col-span-1 bg-primary/5 border border-primary/10 rounded-xl p-stack-sm flex flex-col justify-center items-center text-center">
+<span class="material-symbols-outlined text-primary text-[40px] mb-2" style="font-variation-settings: 'FILL' 1;">timer</span>
+<div class="text-on-surface font-headline-sm">108</div>
+<div class="text-on-surface-variant font-label-sm">Recommended Repetitions</div>
+</div>
+</section>
+</article>
+</main>
+<!-- Chant Mode Sticky Bottom Bar -->
+<footer class="fixed bottom-0 w-full z-50 transform transition-transform duration-500 translate-y-0" id="bottom-bar">
+<div class="bg-surface-container-high/90 backdrop-blur-xl border-t border-outline/10 shadow-2xl">
+<div class="max-w-container-max mx-auto px-desktop py-stack-sm flex items-center justify-between">
+<!-- Audio Controls -->
+<div class="flex items-center gap-stack-md">
+<button class="w-12 h-12 bg-primary text-on-primary rounded-full flex items-center justify-center hover:scale-105 transition-all shadow-lg active-verse-glow">
+<span class="material-symbols-outlined text-[32px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+<div class="hidden md:block">
+<div class="text-on-surface font-label-md">Sacred Chants Ensemble</div>
+<div class="text-on-surface-variant text-label-sm">Traditional Vedic Rhythm (432Hz)</div>
+</div>
+</div>
+<!-- Chant Counter -->
+<div class="flex items-center gap-gutter">
+<div class="flex items-center gap-stack-sm bg-surface/40 px-stack-md py-2 rounded-full border border-outline/5">
+<span class="text-on-surface-variant font-label-sm">Japa Count</span>
+<span class="text-primary font-bold font-headline-md" id="japa-count">08</span>
+<span class="text-on-surface-variant/40 font-label-sm">/ 108</span>
+</div>
+<div class="h-8 w-[1px] bg-outline/10 mx-base"></div>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-md">Guide</span>
+</button>
+</div>
+<!-- Action Controls -->
+<div class="flex items-center gap-stack-md">
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors px-4 py-2 rounded-lg hover:bg-surface-bright">
+<span class="material-symbols-outlined">bookmark</span>
+<span class="font-label-sm hidden lg:inline">Save Ritual</span>
+</button>
+<button class="bg-secondary-container text-on-secondary-container px-6 py-2 rounded-full font-label-md hover:brightness-110 transition-all">
+                        Focus Mode
+                    </button>
+</div>
+</div>
+</div>
+</footer>
+<!-- Subtle Background Atmosphere -->
+
+<script>
+        // Micro-interactions
+        const content = document.getElementById('mantra-content');
+        const incBtn = document.getElementById('increase-text');
+        const decBtn = document.getElementById('decrease-text');
+        let currentSize = 100;
+
+        incBtn.addEventListener('click', () => {
+            if(currentSize < 150) {
+                currentSize += 10;
+                content.style.fontSize = `${currentSize}%`;
+            }
+        });
+
+        decBtn.addEventListener('click', () => {
+            if(currentSize > 80) {
+                currentSize -= 10;
+                content.style.fontSize = `${currentSize}%`;
+            }
+        });
+
+        // Simple scroll behavior for bottom bar
+        let lastScroll = 0;
+        const bottomBar = document.getElementById('bottom-bar');
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            if (currentScroll > lastScroll && currentScroll > 100) {
+                bottomBar.classList.add('translate-y-full');
+            } else {
+                bottomBar.classList.remove('translate-y-full');
+            }
+            lastScroll = currentScroll;
+        });
+
+        // Japa Count Interaction
+        const counterEl = document.getElementById('japa-count');
+        let count = 8;
+        setInterval(() => {
+            // Simulate progression
+            if(Math.random() > 0.8) {
+                count = (count + 1) % 109;
+                counterEl.innerText = count.toString().padStart(2, '0');
+            }
+        }, 3000);
+    </script>
+</body></html>

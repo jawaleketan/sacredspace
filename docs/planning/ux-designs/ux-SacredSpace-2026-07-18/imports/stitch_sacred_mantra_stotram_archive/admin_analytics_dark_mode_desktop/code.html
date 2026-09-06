@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SacredSpace | Admin Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#1c1b1a",
+                        "on-primary": "#402d00",
+                        "secondary-container": "#ce7e1a",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "surface-bright": "#3a3937",
+                        "outline-variant": "#4e4637",
+                        "on-surface-variant": "#d2c5b1",
+                        "on-secondary": "#4a2800",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#ffdcbe",
+                        "surface-dim": "#141312",
+                        "error": "#ffb4ab",
+                        "on-tertiary": "#30312e",
+                        "surface-container-highest": "#363533",
+                        "on-tertiary-fixed": "#1b1c1a",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#563e00",
+                        "tertiary-fixed-dim": "#c8c6c3",
+                        "tertiary-fixed": "#e4e2de",
+                        "on-background": "#e6e2de",
+                        "tertiary": "#cbc9c6",
+                        "on-secondary-container": "#402300",
+                        "tertiary-container": "#afaeaa",
+                        "surface": "#141312",
+                        "primary-fixed-dim": "#eec060",
+                        "on-tertiary-container": "#41423f",
+                        "on-secondary-fixed": "#2c1600",
+                        "surface-variant": "#363533",
+                        "surface-container": "#201f1e",
+                        "outline": "#9a8f7e",
+                        "primary-container": "#d4a84b",
+                        "on-primary-fixed-variant": "#5c4200",
+                        "on-surface": "#e6e2de",
+                        "on-primary-fixed": "#261900",
+                        "inverse-on-surface": "#31302e",
+                        "on-error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#ffb870",
+                        "inverse-primary": "#7a5900",
+                        "surface-tint": "#eec060",
+                        "secondary": "#ffb870",
+                        "surface-container-lowest": "#0f0e0d",
+                        "on-secondary-fixed-variant": "#693c00",
+                        "primary": "#f2c363",
+                        "inverse-surface": "#e6e2de",
+                        "primary-fixed": "#ffdea2",
+                        "background": "#141312",
+                        "surface-container-high": "#2b2a28"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "margin-mobile": "20px",
+                        "stack-md": "24px",
+                        "stack-sm": "12px",
+                        "stack-lg": "48px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "margin-desktop": "64px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Noto Serif"],
+                        "headline-md": ["Noto Serif"],
+                        "headline-sm": ["Noto Serif"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .sacred-glow {
+            position: relative;
+        }
+        .sacred-glow::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            background: theme('colors.primary');
+            opacity: 0.15;
+            filter: blur(8px);
+            border-radius: inherit;
+            z-index: -1;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .chart-bar-glow {
+            filter: drop-shadow(0 0 4px rgba(242, 195, 99, 0.4));
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md transition-colors duration-400">
+<!-- Sidebar Navigation -->
+<aside class="flex flex-col h-screen fixed left-0 top-0 py-stack-md px-base bg-surface-container-low w-64 border-r border-outline-variant/10">
+<div class="mb-stack-lg px-4">
+<h1 class="font-headline-sm text-headline-sm text-primary">SacredSpace</h1>
+<p class="font-label-sm text-label-sm text-on-surface-variant opacity-70">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-bright transition-all duration-400" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-bright transition-all duration-400" href="#">
+<span class="material-symbols-outlined">auto_stories</span>
+<span class="font-label-md">Library</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold bg-surface-container-high transition-all duration-400" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<span class="font-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-bright transition-all duration-400" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-bright transition-all duration-400" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-stack-md border-t border-outline-variant/5">
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-bright transition-all duration-400">
+<span class="material-symbols-outlined">light_mode</span>
+<span class="font-label-md">Light Mode</span>
+</button>
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-error hover:bg-error-container/10 transition-all duration-400">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md">Logout</span>
+</button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen p-stack-lg">
+<header class="flex justify-between items-center mb-stack-lg">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Analytics Overview</h2>
+<p class="text-on-surface-variant font-body-md">Reflecting the rhythm of the sanctuary's growth.</p>
+</div>
+<div class="flex items-center gap-base">
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-label-md sacred-glow transition-all duration-400 hover:scale-[1.02]">
+                    Generate Report
+                </button>
+</div>
+</header>
+<!-- Metrics Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-stack-lg">
+<div class="bg-surface-container p-stack-md rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">favorite</span>
+</div>
+<span class="text-primary font-label-sm">+12%</span>
+</div>
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider mb-1">Total Mantras</p>
+<p class="text-3xl font-headline-md">12,482</p>
+</div>
+<div class="bg-surface-container p-stack-md rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-secondary-container/10 rounded-lg text-secondary">
+<span class="material-symbols-outlined">visibility</span>
+</div>
+<span class="text-secondary font-label-sm">+5.4%</span>
+</div>
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider mb-1">Ritual Depth</p>
+<p class="text-3xl font-headline-md">48.5m</p>
+</div>
+<div class="bg-surface-container p-stack-md rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-tertiary-container/10 rounded-lg text-tertiary">
+<span class="material-symbols-outlined">group</span>
+</div>
+<span class="text-tertiary font-label-sm">+8%</span>
+</div>
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider mb-1">Active Seekers</p>
+<p class="text-3xl font-headline-md">2,914</p>
+</div>
+<div class="bg-surface-container p-stack-md rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-start mb-4">
+<div class="p-2 bg-error-container/10 rounded-lg text-error">
+<span class="material-symbols-outlined">bolt</span>
+</div>
+<span class="text-error font-label-sm">-2%</span>
+</div>
+<p class="text-on-surface-variant font-label-sm uppercase tracking-wider mb-1">Session Frequency</p>
+<p class="text-3xl font-headline-md">1.4h</p>
+</div>
+</div>
+<!-- Main Analytics Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Growth Chart (Gold Theme) -->
+<div class="lg:col-span-2 bg-surface-container p-stack-lg rounded-xl border border-outline-variant/10">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-headline-sm">Engagement Resonance</h3>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-label-sm text-on-surface-variant">Mantras</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="text-label-sm text-on-surface-variant">Stotras</span>
+</div>
+</div>
+</div>
+<!-- Visual Mock of a line chart -->
+<div class="relative h-64 w-full flex items-end justify-between px-4">
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-10">
+<div class="border-b border-on-surface"></div>
+<div class="border-b border-on-surface"></div>
+<div class="border-b border-on-surface"></div>
+<div class="border-b border-on-surface"></div>
+</div>
+<!-- Mock Bars with Gold/Saffron -->
+<div class="w-8 bg-primary/20 rounded-t-sm h-[40%] relative chart-bar-glow">
+<div class="absolute bottom-0 w-full bg-primary h-[60%] rounded-t-sm transition-all duration-700 hover:h-[70%]"></div>
+</div>
+<div class="w-8 bg-primary/20 rounded-t-sm h-[60%] relative chart-bar-glow">
+<div class="absolute bottom-0 w-full bg-primary h-[80%] rounded-t-sm transition-all duration-700 hover:h-[90%]"></div>
+</div>
+<div class="w-8 bg-secondary/20 rounded-t-sm h-[30%] relative">
+<div class="absolute bottom-0 w-full bg-secondary h-[50%] rounded-t-sm transition-all duration-700 hover:h-[60%]"></div>
+</div>
+<div class="w-8 bg-primary/20 rounded-t-sm h-[80%] relative chart-bar-glow">
+<div class="absolute bottom-0 w-full bg-primary h-[90%] rounded-t-sm transition-all duration-700 hover:h-[100%]"></div>
+</div>
+<div class="w-8 bg-secondary/20 rounded-t-sm h-[50%] relative">
+<div class="absolute bottom-0 w-full bg-secondary h-[70%] rounded-t-sm transition-all duration-700 hover:h-[80%]"></div>
+</div>
+<div class="w-8 bg-primary/20 rounded-t-sm h-[45%] relative chart-bar-glow">
+<div class="absolute bottom-0 w-full bg-primary h-[75%] rounded-t-sm transition-all duration-700 hover:h-[85%]"></div>
+</div>
+<div class="w-8 bg-secondary/20 rounded-t-sm h-[65%] relative">
+<div class="absolute bottom-0 w-full bg-secondary h-[85%] rounded-t-sm transition-all duration-700 hover:h-[95%]"></div>
+</div>
+</div>
+<div class="flex justify-between px-4 mt-4 text-label-sm text-on-surface-variant">
+<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+</div>
+</div>
+<!-- Ritual Participation -->
+<div class="bg-surface-container p-stack-lg rounded-xl border border-outline-variant/10">
+<h3 class="font-headline-sm mb-6">Popular Rituals</h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-surface-bright">
+<img class="w-full h-full object-cover" data-alt="A macro shot of burning incense smoke curling in slow motion, backlit by a warm golden light in a dark, moody sanctuary space. Minimalist aesthetic with focus on texture and atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiMhe0AEtoiRslGVoJIWVK9ie-g09LScO4_ZrSj2WKpDL8ylR-KvL2bWgXF7FMhA2wWaJd0FB9F0FzUOnb6W2JmNjxaNEsrjocMAW4XNjPJEXIWhl9Fz1kucY2KdmC5Rd8FdU6cCCCeuqganbtwwb9Q13gO6W3EAXqMxIp5eIc47HnhqliGTQmka-DTCLzV6DLBXiVfiAxRsgJMkuPxVRj-qNMLYChkIYaqIH_i0HZy86IbgQkXyZxZNBSaSSpl-u9lGG_dpaVQ2o"/>
+</div>
+<div>
+<p class="font-label-md">Morning Gratitude</p>
+<p class="text-label-sm text-on-surface-variant">1.2k Seekers</p>
+</div>
+</div>
+<span class="text-primary material-symbols-outlined">trending_up</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-surface-bright">
+<img class="w-full h-full object-cover" data-alt="A top-down view of a singing bowl resting on a weathered stone surface, illuminated by a single spotlight from above. Deep espresso and gold tones. Serene and high-end artistic photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDajBpwWBmM4qUPjnEMMe0BEOJWPI7tTwlcePaL1tGbCUzBEIbud5Pm13YOLCVDPxNpaJzxEg7pNvNALBXn8C9T-8KajAT0-_9DsDqxLLCh3lMgAlLUdCAcMrWQeVMfdvWSJqTcBEYsiubBzrQnim8b3P3erGWgt3LOAeyvr0Wyc349__bTxuVqB4R6RW-FdFQ8xlUiNWhKfaPe2g2KQq42_sw2rq4VcMMmPOcjzb40MKtpgqeBaYkZLNDAnemWNCGqHZZDWLnCLQA"/>
+</div>
+<div>
+<p class="font-label-md">Deep Resonance</p>
+<p class="text-label-sm text-on-surface-variant">842 Seekers</p>
+</div>
+</div>
+<span class="text-secondary material-symbols-outlined">trending_up</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg overflow-hidden bg-surface-bright">
+<img class="w-full h-full object-cover" data-alt="An ethereal close up of a lotus flower made of white translucent glass, glowing softly from within against a dark charcoal background. Cinematic lighting, soft glow, minimalist ritualistic vibe." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFRN61HDlsS2hMTfrif-Mh1ywDYcyV_7I38tHvRhwOtBzaPoNk6cBr-7E3hpbiwys4TTiSGbc6Ovqkz9KGl8suebg4zfDmKXPn0j19OXDCj_6UTjyQCbrtAMJPfpTXz-fSKHJNjLQm8HqCeIOW6dQPbyInvvMQOu-AaPTcUcWubbtUBXHhDHlSy9uyqL-1ntIh_eiuIH_pP6munKlWKj4lVNBODKk3gQNAcJB5qnQbYqq_BSuGHg0_QRZ2Tn8hwhK4OLkZsZjDO5g"/>
+</div>
+<div>
+<p class="font-label-md">Solar Cleansing</p>
+<p class="text-label-sm text-on-surface-variant">630 Seekers</p>
+</div>
+</div>
+<span class="text-on-surface-variant material-symbols-outlined">horizontal_rule</span>
+</div>
+</div>
+<button class="w-full mt-stack-md py-3 text-primary border border-primary/20 rounded-lg font-label-md hover:bg-primary/5 transition-all duration-400">
+                    View All Rituals
+                </button>
+</div>
+</div>
+<!-- Geographic Engagement -->
+<div class="mt-stack-lg bg-surface-container rounded-xl border border-outline-variant/10 overflow-hidden">
+<div class="flex flex-col md:flex-row">
+<div class="md:w-1/3 p-stack-lg">
+<h3 class="font-headline-sm mb-4">Global Reach</h3>
+<p class="text-on-surface-variant font-body-md mb-8">SacredSpace is being embraced by souls across 42 countries.</p>
+<div class="space-y-4">
+<div class="flex justify-between items-center">
+<span class="font-label-md">India</span>
+<div class="flex-1 mx-4 h-1 bg-surface-bright rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[85%]"></div>
+</div>
+<span class="font-label-md">85%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-md">United States</span>
+<div class="flex-1 mx-4 h-1 bg-surface-bright rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[62%]"></div>
+</div>
+<span class="font-label-md">62%</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-md">Germany</span>
+<div class="flex-1 mx-4 h-1 bg-surface-bright rounded-full overflow-hidden">
+<div class="h-full bg-tertiary w-[38%]"></div>
+</div>
+<span class="font-label-md">38%</span>
+</div>
+</div>
+</div>
+<div class="md:w-2/3 relative min-h-[400px] bg-surface-bright">
+<!-- Map Component -->
+<div class="absolute inset-0 grayscale opacity-40 mix-blend-screen" data-alt="A minimalist abstract world map rendered in thin gold outlines on a deep charcoal background. Small glowing points of saffron light indicate active user clusters. High-end data visualization aesthetic." data-location="Global" style="background-image: url('https://www.gstatic.com/labs-code/stitch/stitch-placeholder-300x300.svg')">
+</div>
+<!-- Mock Pins -->
+<div class="absolute top-1/2 left-1/3 w-3 h-3 bg-primary rounded-full animate-pulse sacred-glow"></div>
+<div class="absolute top-1/4 left-1/2 w-3 h-3 bg-secondary rounded-full animate-pulse sacred-glow"></div>
+<div class="absolute top-2/3 right-1/4 w-3 h-3 bg-primary rounded-full animate-pulse sacred-glow"></div>
+</div>
+</div>
+</div>
+<footer class="mt-stack-lg py-stack-md flex justify-between items-center border-t border-outline-variant/10 text-on-surface-variant font-label-sm">
+<p>© 2024 SacredSpace Admin Console</p>
+<div class="flex gap-stack-md">
+<a class="hover:text-primary transition-colors" href="#">Privacy Rituals</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Presence</a>
+</div>
+</footer>
+</main>
+<script>
+        // Micro-interaction for bar hover
+        document.querySelectorAll('.chart-bar-glow div').forEach(bar => {
+            bar.addEventListener('mouseenter', () => {
+                bar.parentElement.style.filter = 'drop-shadow(0 0 8px rgba(242, 195, 99, 0.7))';
+            });
+            bar.addEventListener('mouseleave', () => {
+                bar.parentElement.style.filter = 'drop-shadow(0 0 4px rgba(242, 195, 99, 0.4))';
+            });
+        });
+    </script>
+</body></html>

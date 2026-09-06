@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ganesha Stotra | SacredSpace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@100..900&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-heart {
+            font-variation-settings: 'FILL' 1 !important;
+        }
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .reading-column {
+            max-width: 720px;
+        }
+        /* Custom scrollbar for serene feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1c4ba;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e4e2e0",
+                        "tertiary": "#262a11",
+                        "surface-container-high": "#eae8e6",
+                        "secondary-fixed-dim": "#e3c198",
+                        "tertiary-fixed-dim": "#c6c9a5",
+                        "on-primary-container": "#bfa48a",
+                        "inverse-surface": "#30302f",
+                        "surface-bright": "#fbf9f7",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "outline": "#7A7874",
+                        "secondary-fixed": "#ffddb6",
+                        "on-primary-fixed": "#281807",
+                        "surface-dim": "#dbdad8",
+                        "gold": "#D4A84B",
+                        "error": "#ba1a1a",
+                        "background": "#fbf9f7",
+                        "on-surface": "#1b1c1b",
+                        "surface-tint": "#705a44",
+                        "surface-container": "#efedec",
+                        "on-secondary-fixed-variant": "#5a4223",
+                        "on-primary-fixed-variant": "#57432e",
+                        "primary": "#352512",
+                        "on-surface-variant": "#4e453d",
+                        "on-tertiary-container": "#a8ac89",
+                        "error-container": "#ffdad6",
+                        "surface": "#fbf9f7",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#d1c4ba",
+                        "on-secondary-container": "#785e3c",
+                        "saffron": "#F59E3B",
+                        "primary-fixed-dim": "#dec1a6",
+                        "primary-fixed": "#fbddc1",
+                        "secondary": "#745a38",
+                        "on-tertiary-fixed": "#1a1d06",
+                        "primary-container": "#4d3a26",
+                        "secondary-container": "#fedab0",
+                        "tertiary-container": "#3c4025",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed": "#2a1800",
+                        "tertiary-fixed": "#e2e6bf",
+                        "on-background": "#1b1c1b",
+                        "surface-container-low": "#f5f3f1",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f2f0ee",
+                        "inverse-primary": "#dec1a6",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e4e2e0",
+                        "on-tertiary-fixed-variant": "#45492d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "64px",
+                        "reading-width": "720px",
+                        "unit": "8px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Cormorant Garamond"],
+                        "sanskrit": ["Noto Sans Devanagari"],
+                        "headline-sm": ["Cormorant Garamond"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Cormorant Garamond"],
+                        "display-lg": ["Cormorant Garamond"],
+                        "display-lg-mobile": ["Cormorant Garamond"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                        "headline-md": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "sanskrit": ["20px", {"lineHeight": "2.0", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.15", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.7", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="bg-surface dark:bg-surface-dim border-b border-outline-variant fixed top-0 w-full z-40">
+<nav class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-4 max-w-reading-width mx-auto">
+<div class="flex items-center gap-4">
+<a class="text-on-surface-variant hover:text-gold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<span class="font-headline-md text-headline-md font-semibold text-primary dark:text-primary-fixed">SacredSpace</span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-on-surface-variant hover:text-gold transition-colors duration-200" href="#">Browse</a>
+<a class="font-body-md text-body-md text-primary dark:text-primary-fixed border-b-2 border-gold pb-1" href="#">Saved</a>
+<button class="font-body-md text-body-md text-primary dark:text-primary-fixed hover:text-gold transition-colors duration-200">Sign In</button>
+</div>
+<div class="md:hidden">
+<span class="material-symbols-outlined text-primary">search</span>
+</div>
+</nav>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<aside class="hidden md:flex flex-col h-full w-64 bg-surface-container dark:bg-surface-container-high border-r border-outline-variant fixed left-0 top-0 pt-24 p-6 space-y-4">
+<div class="mb-8">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container">person</span>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm font-bold text-primary">Admin Console</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">SacredSpace</p>
+</div>
+</div>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-on-primary rounded-lg font-medium translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">folder_shared</span>
+<span class="font-label-sm text-label-sm">Directory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="font-label-sm text-label-sm">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-sm text-label-sm">Users</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-highest rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</nav>
+<div class="pt-8">
+<button class="w-full bg-primary text-on-primary py-3 rounded-lg font-medium flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+                New Entry
+            </button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-grow pt-24 pb-32 md:pl-64 flex justify-center px-margin-mobile">
+<article class="reading-column w-full">
+<!-- Hero Header -->
+<header class="mb-section-gap text-center">
+<div class="mb-6 flex justify-center">
+<div class="w-24 h-24 rounded-full bg-surface-container-highest flex items-center justify-center shadow-sm relative group overflow-hidden">
+
+<span class="material-symbols-outlined text-5xl text-gold relative z-10" style="font-variation-settings: 'FILL' 1;">temple_hindu</span>
+</div>
+</div>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-2">Ganesha Stotra</h1>
+<p class="font-headline-sm text-headline-sm text-on-surface-variant italic">The Auspicious Hymn to Lord Ganesha</p>
+<div class="mt-4 flex justify-center gap-2">
+<span class="px-3 py-1 bg-surface-container-low border border-outline-variant rounded-full font-label-sm text-label-sm text-on-surface-variant">Lord Ganesha</span>
+<span class="px-3 py-1 bg-surface-container-low border border-outline-variant rounded-full font-label-sm text-label-sm text-on-surface-variant">Protection</span>
+<span class="px-3 py-1 bg-surface-container-low border border-outline-variant rounded-full font-label-sm text-label-sm text-on-surface-variant">Success</span>
+</div>
+</header>
+<!-- Introduction -->
+<section class="mb-12 p-8 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm text-center">
+<p class="font-body-lg text-body-lg text-on-surface leading-relaxed">
+                    The Ganesha Stotra, attributed to Sage Narada, is a powerful prayer for the removal of all obstacles. Recited daily, it is said to bring wisdom, wealth, and spiritual liberation to the seeker.
+                </p>
+</section>
+<!-- Verses Container -->
+<div class="space-y-16">
+<!-- Verse 1 -->
+<div class="group relative">
+<div class="absolute -left-8 top-1 text-outline-variant font-headline-sm hidden md:block">01</div>
+<div class="text-center">
+<p class="font-sanskrit text-sanskrit text-primary mb-6 selection:bg-secondary-container">
+                            प्रणम्य शिरसा देवं गौरीपुत्रं विनायकम् ।<br/>
+                            भक्तावासं स्मरेन्नित्यमायुष्कामार्थसिद्धये ॥ १ ॥
+                        </p>
+<p class="font-body-md text-body-md text-on-surface-variant italic mb-4">
+                            praṇamya śirasā devaṃ gaurīputraṃ vināyakam ।<br/>
+                            bhaktāvāsaṃ smarennityamāyuṣkāmārthasiddhaye ॥ 1 ॥
+                        </p>
+<div class="px-6 py-4 bg-surface-container border-l-2 border-gold rounded-r-lg">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                                Bowing with his head, one should daily remember the Lord, the son of Gauri, Vinayaka, who lives in the hearts of his devotees, for the attainment of long life, desires, and wealth.
+                            </p>
+</div>
+</div>
+</div>
+<!-- Verse 2 -->
+<div class="group relative">
+<div class="absolute -left-8 top-1 text-outline-variant font-headline-sm hidden md:block">02</div>
+<div class="text-center">
+<p class="font-sanskrit text-sanskrit text-primary mb-6 selection:bg-secondary-container">
+                            प्रथमं वक्रतुण्डं च एकदन्तं द्वितीयकम् ।<br/>
+                            तृतीयं कृष्णपिङ्गाक्षं गजवक्त्रं चतुर्थकम् ॥ २ ॥
+                        </p>
+<p class="font-body-md text-body-md text-on-surface-variant italic mb-4">
+                            prathamaṃ vakratuṇḍaṃ ca ekadantaṃ dvitīyakam ।<br/>
+                            tṛtīyaṃ kṛṣṇapiṅgākṣaṃ gajavaktraṃ caturthakam ॥ 2 ॥
+                        </p>
+<div class="px-6 py-4 bg-surface-container border-l-2 border-gold rounded-r-lg">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                                First, the one with the twisted trunk; second, the one with a single tusk; third, the one with dark brown eyes; and fourth, the one with an elephant's head.
+                            </p>
+</div>
+</div>
+</div>
+<!-- Verse 3 -->
+<div class="group relative">
+<div class="absolute -left-8 top-1 text-outline-variant font-headline-sm hidden md:block">03</div>
+<div class="text-center">
+<p class="font-sanskrit text-sanskrit text-primary mb-6 selection:bg-secondary-container">
+                            लम्बोदरं पञ्चमं च षष्ठं विकटमेव च ।<br/>
+                            सप्तमं विघ्नराजं च धूम्रवर्णं तथाष्टमम् ॥ ३ ॥
+                        </p>
+<p class="font-body-md text-body-md text-on-surface-variant italic mb-4">
+                            lambodaraṃ pañcamaṃ ca ṣaṣṭhaṃ vikaṭameva ca ।<br/>
+                            saptamaṃ vighnarājaṃ ca dhūmravarṇaṃ tathāṣṭamam ॥ 3 ॥
+                        </p>
+<div class="px-6 py-4 bg-surface-container border-l-2 border-gold rounded-r-lg">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                                Fifth, the one with a large belly; sixth, the one who is formidable; seventh, the king of obstacles; and eighth, the one with a smoke-colored complexion.
+                            </p>
+</div>
+</div>
+</div>
+<!-- Verse 4 -->
+<div class="group relative">
+<div class="absolute -left-8 top-1 text-outline-variant font-headline-sm hidden md:block">04</div>
+<div class="text-center">
+<p class="font-sanskrit text-sanskrit text-primary mb-6 selection:bg-secondary-container">
+                            नवमं भालचन्द्रं च दशमं तु विनायकम् ।<br/>
+                            एकादशं गणपतिं द्वादशं तु गजाननम् ॥ ४ ॥
+                        </p>
+<p class="font-body-md text-body-md text-on-surface-variant italic mb-4">
+                            navamaṃ bhālacandraṃ ca daśamaṃ tu vināyakam ।<br/>
+                            ekādaśaṃ gaṇapatiṃ dvādaśaṃ tu gajānanam ॥ 4 ॥
+                        </p>
+<div class="px-6 py-4 bg-surface-container border-l-2 border-gold rounded-r-lg">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                                Ninth, the one with the moon on his forehead; tenth, the leader of obstacles; eleventh, the lord of the Ganas; and twelfth, the one with the elephant face.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Quote -->
+<footer class="mt-section-gap mb-12 text-center">
+<div class="h-px w-32 bg-outline-variant mx-auto mb-8"></div>
+<p class="font-headline-md text-headline-md text-primary opacity-60">ॐ गम गणपतये नमः</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mt-2">Om Gam Ganapataye Namaha</p>
+</footer>
+</article>
+</main>
+<!-- Bottom Action Toolbar / Mobile BottomNavBar -->
+<div class="fixed bottom-0 left-0 w-full z-50 flex flex-col md:items-end md:pr-12 md:pb-12 pointer-events-none">
+<!-- Desktop Floating Actions -->
+<div class="hidden md:flex flex-col gap-4 pointer-events-auto">
+<button class="w-14 h-14 bg-surface shadow-lg rounded-full flex items-center justify-center text-on-surface-variant hover:text-gold transition-all duration-300 transform hover:scale-110 border border-outline-variant/30" onclick="toggleHeart(this)">
+<span class="material-symbols-outlined text-2xl">favorite</span>
+</button>
+<button class="w-14 h-14 bg-surface shadow-lg rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-300 transform hover:scale-110 border border-outline-variant/30">
+<span class="material-symbols-outlined text-2xl">share</span>
+</button>
+<button class="w-14 h-14 bg-surface shadow-lg rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary transition-all duration-300 transform hover:scale-110 border border-outline-variant/30">
+<span class="material-symbols-outlined text-2xl">bookmark</span>
+</button>
+</div>
+<!-- Mobile BottomNavBar -->
+<div class="md:hidden w-full bg-surface-container-low dark:bg-inverse-surface shadow-sm rounded-t-xl px-4 pb-4 pt-2 flex justify-around items-center pointer-events-auto">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm-mobile">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-label-sm text-label-sm-mobile">Browse</span>
+</a>
+<div class="relative -top-6">
+<button class="w-14 h-14 bg-gold text-on-primary rounded-full shadow-lg flex items-center justify-center active:scale-95 transition-transform duration-150" onclick="toggleHeart(this)">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<a class="flex flex-col items-center justify-center bg-secondary-container dark:bg-tertiary-container text-on-secondary-container dark:text-on-tertiary-container rounded-full px-4 py-1 active:scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-sm text-label-sm-mobile">Saved</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant" href="#">
+<span class="material-symbols-outlined">share</span>
+<span class="font-label-sm text-label-sm-mobile">Share</span>
+</a>
+</div>
+</div>
+<!-- Script for micro-interactions -->
+<script>
+        function toggleHeart(btn) {
+            const icon = btn.querySelector('.material-symbols-outlined');
+            const isActive = icon.classList.contains('active-heart');
+            
+            if (isActive) {
+                icon.classList.remove('active-heart');
+                icon.style.color = 'inherit';
+                icon.style.fontVariationSettings = "'FILL' 0";
+            } else {
+                icon.classList.add('active-heart');
+                icon.style.color = '#D4A84B'; // Gold
+                icon.style.fontVariationSettings = "'FILL' 1";
+                
+                // Add a small splash effect
+                const splash = document.createElement('div');
+                splash.className = 'absolute inset-0 rounded-full bg-gold/20 animate-ping';
+                btn.appendChild(splash);
+                setTimeout(() => splash.remove(), 1000);
+            }
+        }
+
+        // Ambient background drift effect
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            document.body.style.backgroundPosition = `${x * 10}px ${y * 10}px`;
+        });
+    </script>
+</body></html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SacredSpace - Enter Chant Mode</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#93000a",
+                    "on-tertiary-fixed": "#1b1c1a",
+                    "on-secondary-fixed": "#2c1600",
+                    "surface-container-high": "#2b2a28",
+                    "on-primary": "#402d00",
+                    "secondary-fixed": "#ffdcbe",
+                    "surface-bright": "#3a3937",
+                    "error": "#ffb4ab",
+                    "primary-fixed": "#ffdea2",
+                    "on-tertiary-fixed-variant": "#474744",
+                    "surface-variant": "#363533",
+                    "surface": "#141312",
+                    "surface-container-highest": "#363533",
+                    "on-surface-variant": "#d2c5b1",
+                    "tertiary-container": "#afaeaa",
+                    "on-error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#693c00",
+                    "inverse-on-surface": "#31302e",
+                    "surface-tint": "#eec060",
+                    "outline": "#9a8f7e",
+                    "primary-fixed-dim": "#eec060",
+                    "surface-dim": "#141312",
+                    "primary": "#f2c363",
+                    "surface-container-low": "#1c1b1a",
+                    "secondary-fixed-dim": "#ffb870",
+                    "on-secondary-container": "#402300",
+                    "surface-container-lowest": "#0f0e0d",
+                    "tertiary-fixed-dim": "#c8c6c3",
+                    "secondary": "#ffb870",
+                    "on-primary-fixed": "#261900",
+                    "on-secondary": "#4a2800",
+                    "primary-container": "#d4a84b",
+                    "secondary-container": "#ce7e1a",
+                    "on-tertiary-container": "#41423f",
+                    "inverse-surface": "#e6e2de",
+                    "on-primary-fixed-variant": "#5c4200",
+                    "inverse-primary": "#7a5900",
+                    "tertiary": "#cbc9c6",
+                    "tertiary-fixed": "#e4e2de",
+                    "on-tertiary": "#30312e",
+                    "on-surface": "#e6e2de",
+                    "on-primary-container": "#563e00",
+                    "outline-variant": "#4e4637",
+                    "on-error": "#690005",
+                    "surface-container": "#201f1e",
+                    "on-background": "#e6e2de",
+                    "background": "#141312"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "stack-lg": "48px",
+                    "margin-desktop": "64px",
+                    "gutter": "24px",
+                    "container-max": "1200px",
+                    "stack-sm": "12px",
+                    "stack-md": "24px",
+                    "margin-mobile": "20px"
+            },
+            "fontFamily": {
+                    "label-md": ["Plus Jakarta Sans"],
+                    "headline-md": ["Noto Serif"],
+                    "headline-display": ["Noto Serif"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Noto Serif"],
+                    "headline-lg-mobile": ["Noto Serif"],
+                    "body-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-display": ["48px", {"lineHeight": "56px", "letterSpacing": "-02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #141312; /* Base Level 0 */
+            color: #e6e2de;
+            overflow: hidden;
+        }
+
+        .sacred-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(212, 168, 75, 0.15) 0%, rgba(212, 168, 75, 0) 70%);
+            filter: blur(40px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .wave-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            height: 120px;
+        }
+
+        .wave-bar {
+            width: 4px;
+            background-color: #f2c363;
+            border-radius: 2px;
+            animation: wave-animation 1.5s ease-in-out infinite;
+        }
+
+        @keyframes wave-animation {
+            0%, 100% { height: 10px; opacity: 0.3; }
+            50% { height: 60px; opacity: 1; }
+        }
+
+        .shimmer-text {
+            background: linear-gradient(90deg, #d2c5b1 0%, #f2c363 50%, #d2c5b1 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-card {
+            background: rgba(43, 42, 40, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(230, 226, 222, 0.05);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col min-h-screen items-center justify-center p-6 md:p-margin-desktop">
+<!-- Atmospheric Background Elements -->
+<div class="sacred-glow top-1/4 left-1/4"></div>
+<div class="sacred-glow bottom-1/4 right-1/4"></div>
+<!-- Hero Visualization Section -->
+<main class="relative z-10 w-full max-w-container-max flex flex-col items-center text-center">
+<!-- Abstract Representation: Mantra Reader Visualization -->
+<div class="relative w-full max-w-md aspect-square flex items-center justify-center mb-stack-lg fade-in-up">
+<div class="absolute inset-0 rounded-full border border-primary/10 animate-[pulse_6s_ease-in-out_infinite]"></div>
+<div class="absolute inset-8 rounded-full border border-primary/20 animate-[pulse_4s_ease-in-out_infinite]"></div>
+<!-- Mantra Centerpiece -->
+<div class="glass-card w-48 h-48 rounded-full flex flex-col items-center justify-center shadow-2xl relative overflow-hidden">
+<div class="absolute inset-0 bg-primary/5"></div>
+<span class="text-primary font-headline-display text-[48px] select-none">ॐ</span>
+<div class="wave-container mt-2">
+<div class="wave-bar" style="animation-delay: 0.1s"></div>
+<div class="wave-bar" style="animation-delay: 0.3s"></div>
+<div class="wave-bar" style="animation-delay: 0.5s"></div>
+<div class="wave-bar" style="animation-delay: 0.2s"></div>
+<div class="wave-bar" style="animation-delay: 0.4s"></div>
+</div>
+</div>
+<!-- Floating Transliteration Particles -->
+<div class="absolute -top-4 left-1/4 glass-card px-4 py-2 rounded-full text-label-sm font-label-sm text-on-surface-variant opacity-60">
+                Om Mani Padme Hum
+            </div>
+<div class="absolute bottom-10 right-10 glass-card px-4 py-2 rounded-full text-label-sm font-label-sm text-on-surface-variant opacity-60">
+                Compassion
+            </div>
+</div>
+<!-- Copy Section -->
+<section class="max-w-xl fade-in-up" style="animation-delay: 0.2s">
+<h1 class="font-headline-display text-headline-display md:text-[56px] text-primary mb-stack-md leading-tight">
+                Immersive Practice
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg leading-relaxed">
+                Enter Chant Mode for a distraction-free experience with transliteration and word-by-word meanings.
+            </p>
+</section>
+<!-- Feature Chips -->
+<div class="flex flex-wrap justify-center gap-gutter mb-stack-lg fade-in-up" style="animation-delay: 0.4s">
+<div class="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-body-md" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-label-md text-label-md text-on-surface">Adaptive Focus</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-body-md" style="font-variation-settings: 'FILL' 1;">translate</span>
+<span class="font-label-md text-label-md text-on-surface">Direct Meaning</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-body-md" style="font-variation-settings: 'FILL' 1;">volume_up</span>
+<span class="font-label-md text-label-md text-on-surface">Sonic Clarity</span>
+</div>
+</div>
+<!-- Primary CTA -->
+<div class="fade-in-up" style="animation-delay: 0.6s">
+<button class="group relative px-10 py-5 rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md transition-all duration-500 hover:scale-105 active:scale-95 shadow-lg overflow-hidden" onclick="window.location.href='#'">
+<div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+<span class="relative flex items-center gap-3">
+                    Enter the Sanctuary
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</span>
+</button>
+<p class="mt-stack-md font-label-sm text-label-sm text-outline opacity-50 uppercase tracking-widest">
+                Final Step • Journey Begins
+            </p>
+</div>
+</main>
+<!-- Content Interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Micro-interaction: Wave height variation
+            const bars = document.querySelectorAll('.wave-bar');
+            setInterval(() => {
+                bars.forEach(bar => {
+                    const randomHeight = Math.floor(Math.random() * 50) + 15;
+                    bar.style.height = `${randomHeight}px`;
+                });
+            }, 800);
+
+            // Subtle mouse parallax for the sacred glow
+            document.addEventListener('mousemove', (e) => {
+                const glows = document.querySelectorAll('.sacred-glow');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                glows.forEach((glow, index) => {
+                    const factor = (index + 1) * 20;
+                    glow.style.transform = `translate(${x * factor}px, ${y * factor}px)`;
+                });
+            });
+        });
+    </script>
+<!-- Suppression of Nav Shell as per "Task-Focused / Onboarding" Rule -->
+</body></html>

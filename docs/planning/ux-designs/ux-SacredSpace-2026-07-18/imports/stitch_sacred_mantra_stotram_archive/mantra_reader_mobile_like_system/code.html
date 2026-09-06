@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SacredSpace - Mantra Reader</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#e4e2e0",
+                    "tertiary": "#262a11",
+                    "surface-container-high": "#eae8e6",
+                    "secondary-fixed-dim": "#e3c198",
+                    "tertiary-fixed-dim": "#c6c9a5",
+                    "on-primary-container": "#bfa48a",
+                    "inverse-surface": "#30302f",
+                    "surface-bright": "#fbf9f7",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "outline": "#7A7874",
+                    "secondary-fixed": "#ffddb6",
+                    "on-primary-fixed": "#281807",
+                    "surface-dim": "#dbdad8",
+                    "gold": "#D4A84B",
+                    "error": "#ba1a1a",
+                    "background": "#fbf9f7",
+                    "on-surface": "#1b1c1b",
+                    "surface-tint": "#705a44",
+                    "surface-container": "#efedec",
+                    "on-secondary-fixed-variant": "#5a4223",
+                    "on-primary-fixed-variant": "#57432e",
+                    "primary": "#352512",
+                    "on-surface-variant": "#4e453d",
+                    "on-tertiary-container": "#a8ac89",
+                    "error-container": "#ffdad6",
+                    "surface": "#fbf9f7",
+                    "surface-container-lowest": "#ffffff",
+                    "outline-variant": "#d1c4ba",
+                    "on-secondary-container": "#785e3c",
+                    "saffron": "#F59E3B",
+                    "primary-fixed-dim": "#dec1a6",
+                    "primary-fixed": "#fbddc1",
+                    "secondary": "#745a38",
+                    "on-tertiary-fixed": "#1a1d06",
+                    "tertiary-fixed": "#e2e6bf",
+                    "on-background": "#1b1c1b",
+                    "surface-container-low": "#f5f3f1",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#f2f0ee",
+                    "inverse-primary": "#dec1a6",
+                    "on-primary": "#ffffff",
+                    "surface-variant": "#e4e2e0",
+                    "on-tertiary-fixed-variant": "#45492d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "64px",
+                    "reading-width": "720px",
+                    "unit": "8px",
+                    "margin-desktop": "48px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Cormorant Garamond"],
+                    "sanskrit": ["Noto Sans Devanagari"],
+                    "headline-sm": ["Cormorant Garamond"],
+                    "body-sm": ["Inter"],
+                    "headline-lg": ["Cormorant Garamond"],
+                    "display-lg": ["Cormorant Garamond"],
+                    "display-lg-mobile": ["Cormorant Garamond"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                    "headline-md": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "sanskrit": ["24px", {"lineHeight": "2.2", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.15", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.7", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sanskrit-glow {
+            text-shadow: 0 0 20px rgba(212, 168, 75, 0.15);
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .parallax-bg {
+            background-attachment: fixed;
+        }
+        /* Custom scroll snap for mobile reading */
+        .snap-container {
+            scroll-snap-type: y mandatory;
+        }
+        .snap-item {
+            scroll-snap-align: start;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden selection:bg-gold selection:text-white">
+<!-- Top Navigation Bar -->
+<header class="bg-surface border-b border-outline-variant flex justify-between items-center w-full px-margin-mobile py-4 sticky top-0 z-40">
+<h1 class="font-headline-md text-headline-md font-semibold text-primary">SacredSpace</h1>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-gold transition-colors duration-200">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="text-on-surface-variant hover:text-gold transition-colors duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="max-w-reading-width mx-auto pb-32">
+<!-- Header Section -->
+<section class="px-margin-mobile pt-8 pb-4">
+<nav class="flex items-center gap-2 mb-4">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Shiva Mantras</span>
+<span class="material-symbols-outlined text-outline text-[16px]">chevron_right</span>
+<span class="font-label-sm text-label-sm text-gold uppercase tracking-widest">Maha Mrityunjaya</span>
+</nav>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-primary mb-2">Maha Mrityunjaya Mantra</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic">The Great Death-Conquering Mantra</p>
+</section>
+<!-- Visual Anchor (Deity Card) -->
+<section class="px-margin-mobile mb-8">
+<div class="relative w-full aspect-[4/5] rounded-xl overflow-hidden shadow-sm group">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent z-10"></div>
+<div class="absolute inset-0 parallax-bg" data-alt="A serene and powerful digital painting of Lord Shiva in a deep meditative state. He is positioned in the center, surrounded by ethereal Himalayan peaks shrouded in soft morning mist. The lighting is low-key with golden highlights touching the edges of his silhouette, reflecting a warm, sacred glow against a backdrop of deep earthy browns and muted cream tones. The atmosphere is quiet, reverent, and deeply spiritual." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC4vx4TIMxw-65-5ZIo1UB_n5BkUJrzeaLbH5hoqPJPhZ-lqgMer6w2j9m3Z0o9pfIIAT9cHtlPETOf2HGBu15nyljGa1i6j0UaXIAW17RSxkyglI3jv9avNU8vgS1w4m2iOAWtQUQ1ptJMaEDe3nZegFGz3OQxE5r7EldAcN2nYoCWaB9pK8aEXeX_rRaiLbhAM2mrPE2_CaLXYJY5gsvvzhlOlLBFcfUsRwocUM6bfAeoZPTqksQvyS2OSIy6nbaz3Vo4Avp96DY')"></div>
+<div class="absolute bottom-6 left-6 right-6 z-20">
+<div class="flex items-center gap-2 mb-1">
+<span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-white/80 uppercase">Sacred Vibration</span>
+</div>
+<p class="text-white font-headline-sm text-headline-sm">Focus: Protection &amp; Healing</p>
+</div>
+</div>
+</section>
+<!-- Mantra Reading Section -->
+<section class="px-margin-mobile space-y-12">
+<!-- Verse 1 -->
+<div class="space-y-6 text-center py-8 border-b border-outline-variant/30">
+<div class="sanskrit-glow font-sanskrit text-sanskrit text-primary leading-[3rem]">
+                    ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम् ।<br/>
+                    उर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय मामृतात् ॥
+                </div>
+<div class="space-y-4">
+<p class="font-body-lg text-body-lg text-on-surface-variant tracking-wide">
+                        oṃ tryambakaṃ yajāmahe sugandhiṃ puṣṭivardhanam |<br/>
+                        urvārukamiva bandhanānmṛtyormukṣīya māmṛtāt ||
+                    </p>
+<div class="bg-surface-container-low p-6 rounded-lg">
+<p class="font-body-md text-body-md text-on-surface italic leading-relaxed">
+                            "We worship the three-eyed One, who is fragrant and who nourishes all. Like the fruit falls off from the bondage of the stem, may we be liberated from death, from mortality."
+                        </p>
+</div>
+</div>
+</div>
+<!-- Detailed Breakdown (Editorial Style) -->
+<div class="grid grid-cols-1 gap-4">
+<h3 class="font-headline-sm text-headline-sm text-primary border-l-4 border-gold pl-4">Word Meanings</h3>
+<div class="flex flex-col gap-3">
+<div class="flex justify-between items-center py-3 border-b border-outline-variant/20">
+<span class="font-label-sm text-label-sm text-gold">Tryambakaṃ</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-right">The Three-Eyed One</span>
+</div>
+<div class="flex justify-between items-center py-3 border-b border-outline-variant/20">
+<span class="font-label-sm text-label-sm text-gold">Yajāmahe</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-right">We Worship</span>
+</div>
+<div class="flex justify-between items-center py-3 border-b border-outline-variant/20">
+<span class="font-label-sm text-label-sm text-gold">Puṣṭivardhanam</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-right">Nourisher of Growth</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Audio Player Contextual -->
+<section class="px-margin-mobile mt-12 mb-8">
+<div class="bg-primary-container text-on-primary-container p-6 rounded-xl flex items-center justify-between shadow-md">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-primary-container/70">Audio Chanting</span>
+<span class="font-body-md text-body-md font-medium text-surface">108 Repetitions</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-12 h-12 bg-gold text-primary rounded-full flex items-center justify-center hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Floating Action Buttons Cluster -->
+<div class="fixed bottom-24 right-margin-mobile flex flex-col gap-3 z-50">
+<button class="w-12 h-12 bg-surface border border-outline-variant rounded-full flex items-center justify-center shadow-lg text-on-surface-variant active:scale-90 transition-transform">
+<span class="material-symbols-outlined">share</span>
+</button>
+<div class="flex items-center gap-2 group">
+<span class="font-label-sm text-label-sm text-error font-semibold bg-surface px-2 py-1 rounded-full shadow-sm border border-outline-variant/30">2.5k</span>
+<button class="w-12 h-12 bg-surface border border-error/20 rounded-full flex items-center justify-center shadow-lg text-error active:scale-90 transition-transform" id="heartBtn">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<button class="w-14 h-14 bg-gold text-primary-container rounded-full flex items-center justify-center shadow-[0_8px_30px_rgb(212,168,75,0.3)] active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+<!-- Bottom Navigation Bar (Mandatory Shell) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-center items-center gap-12 px-4 pb-4 pt-2 md:hidden bg-surface-container-low shadow-sm rounded-t-xl border-t border-outline-variant/10">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm-mobile mt-1">Home</span>
+</a>
+<!-- Browse (Active) -->
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-6 py-1" href="#">
+<span class="material-symbols-outlined" data-icon="explore" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="font-label-sm text-label-sm-mobile mt-1">Browse</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions
+        const heartBtn = document.getElementById('heartBtn');
+        let isHearted = true; // Started as active solid heart per request
+
+        heartBtn.addEventListener('click', () => {
+            isHearted = !isHearted;
+            const icon = heartBtn.querySelector('.material-symbols-outlined');
+            if (isHearted) {
+                icon.style.fontVariationSettings = "'FILL' 1";
+                heartBtn.classList.remove('text-on-surface-variant');
+                heartBtn.classList.add('text-error');
+                heartBtn.classList.add('border-error/20');
+            } else {
+                icon.style.fontVariationSettings = "'FILL' 0";
+                heartBtn.classList.add('text-on-surface-variant');
+                heartBtn.classList.remove('text-error');
+                heartBtn.classList.remove('border-error/20');
+            }
+        });
+
+        // Simple scroll observer for header transparency
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-sm');
+                header.style.backgroundColor = 'rgba(251, 249, 247, 0.95)';
+                header.style.backdropFilter = 'blur(8px)';
+            } else {
+                header.classList.remove('shadow-sm');
+                header.style.backgroundColor = '#fbf9f7';
+                header.style.backdropFilter = 'none';
+            }
+        });
+    </script>
+</body></html>

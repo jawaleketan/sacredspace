@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SacredSpace - Onboarding Resonance</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sacred-glow {
+            box-shadow: 0 0 40px 10px rgba(212, 168, 75, 0.15);
+        }
+        .heart-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0.8; }
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .resonance-ring {
+            border: 1px solid rgba(212, 168, 75, 0.2);
+            border-radius: 50%;
+            position: absolute;
+            animation: expand 4s linear infinite;
+        }
+        @keyframes expand {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#93000a",
+                        "on-tertiary-fixed": "#1b1c1a",
+                        "on-secondary-fixed": "#2c1600",
+                        "surface-container-high": "#2b2a28",
+                        "on-primary": "#402d00",
+                        "secondary-fixed": "#ffdcbe",
+                        "surface-bright": "#3a3937",
+                        "error": "#ffb4ab",
+                        "primary-fixed": "#ffdea2",
+                        "on-tertiary-fixed-variant": "#474744",
+                        "surface-variant": "#363533",
+                        "surface": "#141312",
+                        "surface-container-highest": "#363533",
+                        "on-surface-variant": "#d2c5b1",
+                        "tertiary-container": "#afaeaa",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#693c00",
+                        "inverse-on-surface": "#31302e",
+                        "surface-tint": "#eec060",
+                        "outline": "#9a8f7e",
+                        "primary-fixed-dim": "#eec060",
+                        "surface-dim": "#141312",
+                        "primary": "#f2c363",
+                        "surface-container-low": "#1c1b1a",
+                        "secondary-fixed-dim": "#ffb870",
+                        "on-secondary-container": "#402300",
+                        "surface-container": "#201f1e",
+                        "on-background": "#e6e2de",
+                        "background": "#141312",
+                        "gold": "#d4a84b",
+                        "espresso": "#31302e"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-md": ["Noto Serif"],
+                        "headline-display": ["Noto Serif"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Noto Serif"],
+                        "headline-lg-mobile": ["Noto Serif"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-display": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col items-center justify-center selection:bg-gold selection:text-espresso overflow-hidden">
+<!-- Subtle Ambient Background Layer -->
+<div class="fixed inset-0 z-0 pointer-events-none opacity-20">
+
+</div>
+<!-- Main Onboarding Content Canvas -->
+<main class="relative z-10 w-full max-w-lg px-margin-mobile md:px-gutter flex flex-col items-center justify-between min-h-[751px]">
+<!-- Header Branding (Suppressed Nav for Onboarding) -->
+<div class="w-full pt-12 flex justify-center fade-in-up" style="animation-delay: 0.1s;">
+<span class="font-headline-md text-headline-md font-semibold text-primary tracking-widest uppercase">SacredSpace</span>
+</div>
+<!-- Visual Centerpiece: The Heart/Resonance Visualization -->
+<div class="relative flex-1 flex items-center justify-center w-full py-stack-lg fade-in-up" style="animation-delay: 0.2s;">
+<!-- Atmospheric Rings -->
+<div class="resonance-ring w-48 h-48" style="animation-delay: 0s;"></div>
+<div class="resonance-ring w-48 h-48" style="animation-delay: 1s;"></div>
+<div class="resonance-ring w-48 h-48" style="animation-delay: 2s;"></div>
+<!-- The Focused Action Card -->
+<div class="relative z-20 bg-surface-container border border-outline/10 p-8 rounded-3xl sacred-glow max-w-sm w-full text-center">
+<div class="mb-6 flex justify-center">
+<div class="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center shadow-inner border border-outline/5 relative">
+<span class="material-symbols-outlined text-6xl text-error heart-pulse" style="font-variation-settings: 'FILL' 1;">
+                            favorite
+                        </span>
+<!-- Subtle Glow Behind Heart -->
+<div class="absolute inset-0 bg-error/10 blur-xl rounded-full"></div>
+</div>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-4">Share the Resonance</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed px-2">
+                    Tap the heart to like a mantra and join the collective resonance of seekers around the world.
+                </p>
+<!-- Mock Social Context -->
+<div class="mt-8 pt-6 border-t border-outline/5 flex items-center justify-center space-x-3">
+<div class="flex -space-x-3">
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-high bg-surface-bright overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A close-up, high-quality portrait of a serene woman with a peaceful expression, set against a dark, warm-toned studio background. Her features are highlighted by a soft, amber light-leak, reflecting the SacredSpace aesthetic of tranquility and wisdom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAllyXEdde4m0UhDJDQTHvqjURJ-t6TruKi_BsjyItnu9qWyxseitePcItaRF7XttL6gN9ebjSizPOiPgOpxjw279tz0mAe1FPv-89sBzELGx-ziMmTXSU6tF7xI6VDrPLlhzYFW-w1HTdgKzuk-woeDx40IfKfCm5OzMrJ_vCkkiO5Xywkg_qkNpE9VbdpiMRPHnAdxDAgYqyybmcUOGJoxP6dC32l7D9IEDg9GONMsl2TLgLHqoLi9XXxBuO_QB3qccixSS7nq-Q"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-high bg-surface-bright overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of an older man with kind eyes and a grey beard, looking directly at the camera with a sense of calm authority. The lighting is low-key with organic gold highlights, consistent with a premium, minimalist digital sanctuary design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBS86dIcd52bvy5AB0aY3Qa4B8i39SBmoYbzJWmaE3CF3WKPYztIseBxvXzoNIZKuoaUZDeCFtMsrNrO8hLXxpBHRT7xR36XErZDkZPk9QvIEn2f4hHNtStWTv0LU466rg3u11XXbp1z0jzB7NjIazzVlDAw3cJec-ceQd1F2DYbi-M1CJ6JGIFDjOPd7_Raymp_YgIOk1gSlBUEyKV7_7Uf_xh4efEkJbiViPzbi7GFNqqgJi6wE-avbRh_GWwTWi4ehQTnIF6oQA"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-surface-container-high bg-surface-bright overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A serene digital portrait of a person in meditative thought, with soft-focus bokeh lights in the background that look like floating embers. The color palette is deep charcoal and warm ivory, conveying an atmosphere of intellectual clarity and craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYlHYpJHiRWV4N7sa4feIR7KpcP8hbN3IfA0MVqBGqYRY6kZheoxEdz6drodgiX7qT_EeDjsJn3mkManXPVTQUDpxFDZ4t6O9CGdDraPIlwiJaVemyitF9ZjdXh_Pi2xyAl__7eM9ZNH88xlnjKwGKbq53cx2d014j3Gh9eNNiVlfInAO8Q4fKW_kcmbsqMaX67FC0FpfBeRxByOk2ek7KSuzVGaFpQQ9JsBmHdZMryY8C9Mzw_k3qx9MMkUxmsbNzLxjdv1FST0s"/>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-outline">+1,204 others resonating</span>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="w-full pb-12 flex flex-col items-center space-y-10 fade-in-up" style="animation-delay: 0.3s;">
+<!-- Pagination Dots -->
+<div class="flex space-x-3">
+<div class="w-1.5 h-1.5 rounded-full bg-outline/20"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-outline/20"></div>
+<div class="w-8 h-1.5 rounded-full bg-gold transition-all duration-500"></div>
+<div class="w-1.5 h-1.5 rounded-full bg-outline/20"></div>
+</div>
+<!-- Primary Navigation Action -->
+<div class="w-full flex justify-between items-center max-w-xs">
+<button class="text-on-surface-variant font-label-md text-label-md hover:text-on-surface transition-colors duration-300">
+                    Back
+                </button>
+<button class="group relative flex items-center justify-center px-10 py-4 bg-gold text-espresso font-label-md text-label-md rounded-full sacred-glow hover:scale-[1.02] transition-all duration-[400ms] ease-in-out">
+<span>Next</span>
+<span class="material-symbols-outlined ml-2 text-[18px] group-hover:translate-x-1 transition-transform duration-300">
+                        arrow_forward
+                    </span>
+</button>
+</div>
+</div>
+</main>
+<!-- Micro-interaction Script -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const heartIcon = document.querySelector('.heart-pulse');
+            const nextButton = document.querySelector('button.bg-gold');
+
+            // Subtle interaction for the heart when "Next" is hovered to guide the eye
+            nextButton.addEventListener('mouseenter', () => {
+                heartIcon.style.animationDuration = '0.8s';
+                heartIcon.style.color = '#ff4d4d'; // Brighter red on hover
+            });
+
+            nextButton.addEventListener('mouseleave', () => {
+                heartIcon.style.animationDuration = '2s';
+                heartIcon.style.color = ''; 
+            });
+
+            // Prevent scroll on onboarding
+            document.body.style.overflow = 'hidden';
+        });
+    </script>
+</body></html>

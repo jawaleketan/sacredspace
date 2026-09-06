@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SacredSpace - Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .sacred-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(212, 168, 75, 0.15) 0%, rgba(212, 168, 75, 0) 70%);
+            filter: blur(40px);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .serene-transition {
+            transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "error-container": "#93000a",
+                "on-tertiary-fixed": "#1b1c1a",
+                "on-secondary-fixed": "#2c1600",
+                "surface-container-high": "#2b2a28",
+                "on-primary": "#402d00",
+                "secondary-fixed": "#ffdcbe",
+                "surface-bright": "#3a3937",
+                "error": "#ffb4ab",
+                "primary-fixed": "#ffdea2",
+                "on-tertiary-fixed-variant": "#474744",
+                "surface-variant": "#363533",
+                "surface": "#141312",
+                "surface-container-highest": "#363533",
+                "on-surface-variant": "#d2c5b1",
+                "tertiary-container": "#afaeaa",
+                "on-error-container": "#ffdad6",
+                "on-secondary-fixed-variant": "#693c00",
+                "inverse-on-surface": "#31302e",
+                "surface-tint": "#eec060",
+                "outline": "#9a8f7e",
+                "primary-fixed-dim": "#eec060",
+                "surface-dim": "#141312",
+                "primary": "#f2c363",
+                "surface-container-low": "#1c1b1a",
+                "secondary-fixed-dim": "#ffb870",
+                "on-secondary-container": "#402300",
+                "surface-container-lowest": "#0f0e0d",
+                "tertiary-fixed-dim": "#c8c6c3",
+                "secondary": "#ffb870",
+                "on-primary-fixed": "#261900",
+                "on-secondary": "#4a2800",
+                "primary-container": "#d4a84b",
+                "secondary-container": "#ce7e1a",
+                "on-tertiary-container": "#41423f",
+                "inverse-surface": "#e6e2de",
+                "on-primary-fixed-variant": "#5c4200",
+                "inverse-primary": "#7a5900",
+                "tertiary": "#cbc9c6",
+                "tertiary-fixed": "#e4e2de",
+                "on-tertiary": "#30312e",
+                "on-surface": "#e6e2de",
+                "on-primary-container": "#563e00",
+                "outline-variant": "#4e4637",
+                "on-error": "#690005",
+                "surface-container": "#201f1e",
+                "on-background": "#e6e2de",
+                "background": "#141312"
+            },
+            "fontFamily": {
+                "label-md": ["Plus Jakarta Sans"],
+                "headline-md": ["Noto Serif"],
+                "headline-display": ["Noto Serif"],
+                "body-lg": ["Plus Jakarta Sans"],
+                "label-sm": ["Plus Jakarta Sans"],
+                "headline-lg": ["Noto Serif"],
+                "headline-lg-mobile": ["Noto Serif"],
+                "body-md": ["Plus Jakarta Sans"]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col font-body-md overflow-hidden">
+<!-- Subtle Ambient Background -->
+<div class="fixed inset-0 z-0">
+<div class="sacred-glow top-[-10%] left-[-10%]"></div>
+<div class="sacred-glow bottom-[-10%] right-[-10%]"></div>
+<div class="absolute inset-0 opacity-10 bg-[radial-gradient(#d4a84b_0.5px,transparent_0.5px)] [background-size:24px_24px]"></div>
+</div>
+<!-- Onboarding Navigation Shell (Suppressed based on rules for Transactional/Onboarding) -->
+<main class="relative z-10 flex-1 flex flex-col items-center justify-center px-margin-mobile md:px-margin-desktop py-stack-lg max-w-container-max mx-auto w-full">
+<!-- Header Text Section -->
+<div class="text-center mb-stack-lg animate-float">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-4">Discover the Divine.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto">
+                Browse curated collections of mantras and stotras dedicated to the sacred archetypes.
+            </p>
+</div>
+<!-- God Cards Mock-up: Asymmetric Bento Grid Style -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter w-full max-w-4xl">
+<!-- Card: Shiva -->
+<div class="group relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high serene-transition hover:scale-[1.02]">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent z-10"></div>
+<div class="absolute inset-0 serene-transition group-hover:scale-110" data-alt="A majestic and serene depiction of Lord Shiva meditating in a crystalline Himalayan cave. The atmosphere is filled with a soft golden glow and floating embers. The style is a high-end digital painting with rich textures, deep espresso shadows, and vibrant gold highlights. The lighting is ethereal and atmospheric, emphasizing a sense of ancient wisdom and cosmic tranquility in a dark-mode palette." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDsQm-QZaRXWngRsriOhJCmHJEAY6LARw8xQI243JT7qk7M_eD0PnPN52i8jtPSvf6_AeIwgft4Pa7O2-jI_UixjDdQQH_6xik6iJeIhmDb3LwGD366mGvnxCQPkGQIu00rxzUOhSOQ8MYQIlYfkH6qheisQ__oKKtG1pI-U6T5PbLCbq6MgyHOGv9AoAJnpzKMVcJCGAq324kt6Gzs1lkDZomVARaABO-edr3DD7a9z_HdQUsCtvpZrsvSrRfxKH2Mljcagwa6LvQ')">
+</div>
+<div class="absolute bottom-0 left-0 p-stack-md z-20 w-full">
+<span class="font-label-sm text-label-sm px-3 py-1 bg-primary/20 text-primary rounded-full mb-2 inline-block">Mantra • Tandava</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Shiva</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">The transformer and destroyer of ego. Seek stillness in motion.</p>
+</div>
+</div>
+<!-- Card: Ganesha -->
+<div class="group relative aspect-[4/5] rounded-xl overflow-hidden bg-surface-container-high md:mt-12 serene-transition hover:scale-[1.02]">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent z-10"></div>
+<div class="absolute inset-0 serene-transition group-hover:scale-110" data-alt="A detailed digital artwork of Lord Ganesha seated on an ornate throne made of obsidian and gold. Soft rays of morning light filter through a stone temple window, casting warm ivory light on the intricate details of his form. The background is a minimalist, deep charcoal expanse. The visual style is premium and tactile, with an emphasis on gold embroidery and sacred geometric patterns, reflecting a serene and prosperous mood." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAa4XI1k8jP09HVcICyKJoNPmwyb8vR8z3CgXsdyO_pOwCFGCyPHmrxdPaJVNY6BDbQ8VsZdgFWOXigdLxtd8H25CrIVgs61pbKOks-y8yzGUzDreBVF2Yw4mQKdLwOEyQFUBrKcoT313fYxLqABm_Bgt04AT3_FbPJvhm-8H7rXhe3q8VLDZ6nBuDLY4YcFxZM_Xuz4N_lNWBfUmZ13nOP4ICu5aGsS6TH43TMGfVWuW9hG_iVnIH1Uvxgd-DpbuNLvKLzkh_-F9g')">
+</div>
+<div class="absolute bottom-0 left-0 p-stack-md z-20 w-full">
+<span class="font-label-sm text-label-sm px-3 py-1 bg-secondary-container/20 text-secondary rounded-full mb-2 inline-block">Success • Wisdom</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Ganesha</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">The remover of obstacles. Gateway to new beginnings and clarity.</p>
+</div>
+</div>
+</div>
+<!-- Progress and Actions -->
+<div class="mt-stack-lg flex flex-col items-center gap-stack-md w-full">
+<!-- Pagination Dots -->
+<div class="flex gap-3">
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+<div class="w-8 h-2 rounded-full bg-primary shadow-[0_0_8px_rgba(212,168,75,0.4)]"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+</div>
+<!-- CTA Button -->
+<div class="relative group mt-4">
+<div class="absolute inset-0 bg-primary/20 blur-xl rounded-full group-hover:bg-primary/30 serene-transition"></div>
+<button class="relative px-12 py-4 bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-lg serene-transition hover:scale-105 active:scale-95" onclick="console.log('Next clicked')">
+                    Next
+                </button>
+</div>
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary serene-transition uppercase tracking-widest mt-2">
+                Skip Introduction
+            </button>
+</div>
+</main>
+<!-- Footer Decoration -->
+<footer class="relative z-10 py-stack-md text-center">
+<p class="font-label-sm text-label-sm text-outline-variant/40">SacredSpace © 2024 • Guided by Ancient Wisdom</p>
+</footer>
+<script>
+        // Micro-interaction: Subtle parallax on the cards based on mouse position
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.group');
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            cards.forEach((card, index) => {
+                const depth = index === 0 ? 10 : -10;
+                const moveX = (mouseX - 0.5) * depth;
+                const moveY = (mouseY - 0.5) * depth;
+                card.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+    </script>
+</body></html>

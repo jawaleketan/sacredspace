@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Deity Directory | SacredSpace</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@100..900&family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#1a1d06",
+                        "on-secondary-fixed": "#2a1800",
+                        "saffron": "#F59E3B",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#45492d",
+                        "surface-variant": "#e4e2e0",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#fbddc1",
+                        "on-secondary-fixed-variant": "#5a4223",
+                        "on-surface-variant": "#4e453d",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e4e2e0",
+                        "surface-dim": "#E0DDD8",
+                        "surface-tint": "#705a44",
+                        "outline": "#7A7874",
+                        "primary-fixed-dim": "#dec1a6",
+                        "on-secondary": "#ffffff",
+                        "gold": "#D4A84B",
+                        "on-primary-fixed-variant": "#57432e",
+                        "secondary-container": "#fedab0",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#e2e6bf",
+                        "inverse-primary": "#dec1a6",
+                        "tertiary": "#262a11",
+                        "on-background": "#1b1c1b",
+                        "background": "#fbf9f7",
+                        "outline-variant": "#d1c4ba",
+                        "on-error": "#ffffff",
+                        "surface-container": "#EFECE8",
+                        "on-surface": "#1b1c1b",
+                        "on-primary-container": "#bfa48a",
+                        "surface-bright": "#fbf9f7",
+                        "secondary-fixed": "#ffddb6",
+                        "surface-container-high": "#eae8e6",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f2f0ee",
+                        "tertiary-container": "#3c4025",
+                        "surface": "#fbf9f7",
+                        "secondary-fixed-dim": "#e3c198",
+                        "on-secondary-container": "#785e3c",
+                        "surface-container-low": "#f5f3f1",
+                        "primary": "#352512",
+                        "tertiary-fixed-dim": "#c6c9a5",
+                        "secondary": "#745a38",
+                        "on-primary-fixed": "#281807",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#a8ac89",
+                        "inverse-surface": "#30302f",
+                        "primary-container": "#4d3a26"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "section-gap": "64px",
+                        "reading-width": "720px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "48px",
+                        "gutter": "24px",
+                        "desktop": "48px",
+                        "base": "24px",
+                        "stack-md": "32px",
+                        "stack-lg": "64px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display-lg-mobile": ["Cormorant Garamond"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg": ["Cormorant Garamond"],
+                        "sanskrit": ["Noto Sans Devanagari"],
+                        "headline-md": ["Cormorant Garamond"],
+                        "headline-sm": ["Cormorant Garamond"],
+                        "display-lg": ["Cormorant Garamond"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                        "display-lg-mobile": ["36px", {"lineHeight": "1.15", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.7", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "sanskrit": ["20px", {"lineHeight": "2.0", "fontWeight": "400"}],
+                        "headline-md": ["26px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "headline-sm": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ambient-shadow {
+            box-shadow: 0 10px 30px -10px rgba(77, 58, 38, 0.08);
+        }
+        .god-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(77, 58, 38, 0.12);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-gold selection:text-white">
+<!-- TopNavBar -->
+<header class="w-full top-0 bg-surface dark:bg-surface-dim sticky z-50">
+<div class="flex justify-between items-center px-desktop py-base max-w-container-max mx-auto">
+<div class="font-headline-md text-headline-md text-primary dark:text-primary-fixed">SacredSpace</div>
+<nav class="hidden md:flex gap-8 items-center">
+<a class="font-body-md text-body-md text-primary dark:text-primary-fixed-dim border-b-2 border-primary pb-1 transition-all duration-400 ease-in-out" href="#">Collections</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-400 ease-in-out" href="#">Mantras</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-400 ease-in-out" href="#">Stotras</a>
+<a class="font-body-md text-body-md text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-400 ease-in-out" href="#">Rituals</a>
+</nav>
+<div class="flex items-center gap-6">
+<div class="relative hidden lg:block">
+<input class="bg-surface-container-low border-none rounded-full px-6 py-2 text-body-sm w-64 focus:ring-1 focus:ring-gold transition-all duration-400" placeholder="Search archetypes..." type="text"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+</div>
+<div class="flex items-center gap-4 text-primary">
+<button class="material-symbols-outlined hover:text-gold transition-colors">dark_mode</button>
+<button class="material-symbols-outlined hover:text-gold transition-colors">account_circle</button>
+</div>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="py-section-gap px-margin-mobile md:px-margin-desktop text-center bg-surface-container-low/30 overflow-hidden relative">
+<div class="max-w-reading-width mx-auto relative z-10">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-gold mb-4 block">The Divine Pantheon</span>
+<h1 class="font-display-lg text-display-lg text-primary mb-6">Browse by Deity</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant leading-relaxed">
+                    Explore the sacred archetypes of the Vedas and Puranas. Each deity represents a unique aspect of the universal consciousness, offering a specific path toward mindfulness, strength, and inner peace.
+                </p>
+</div>
+<!-- Ambient blurred circle for atmospheric depth -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[100px] pointer-events-none"></div>
+</section>
+<!-- Main Content: Deity Grid -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pb-section-gap">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Card: Ganesha -->
+<article class="god-card group bg-surface rounded-lg overflow-hidden border border-outline-variant/30 transition-all duration-400 ease-in-out cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A serene and atmospheric digital painting of Ganesha, the elephant-headed deity, seated in a meditative posture. The lighting is warm and ethereal, suggesting a sacred temple at dawn with soft dust motes dancing in golden light. The style is minimalist and editorial, using a palette of warm ivory, deep espresso, and shimmering gold accents. The mood is one of profound peace and cosmic wisdom." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqcMOmAexrj-pYAzuIUpjflo9p9ggp1w93KqOQwSUVYRo056CNHNaD5FYjs_mdp_bhnzwmvc5rq8vP-ezVdT3NasPmho_ICi3UnelsupzVE6TBZLH0IkeOwmc7cQyBkyKVe3FzXaenps8AyrKtmAXogfWoKR5Zru8T-jNBIK4BrKXD4FuDcweQbLzYwG6dvnlRKVPW_yUGtoYfESqoRO4I4cSI1TIMGyJ4-_7L2MYQ5VaEN2boUb4Jv9558_YpCkpAGgDCfKAefPc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+</div>
+<div class="p-6 text-center">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Ganesha</h3>
+<p class="font-label-sm text-label-sm text-gold italic mb-3">Vighnaharta</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The Remover of Obstacles and the patron of arts and sciences.</p>
+</div>
+</article>
+<!-- Card: Shiva -->
+<article class="god-card group bg-surface rounded-lg overflow-hidden border border-outline-variant/30 transition-all duration-400 ease-in-out cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A powerful, minimalist portrait of Lord Shiva in deep meditation amidst the snowy peaks of Mount Kailash. The scene is bathed in cool, ethereal moonlight with soft blue and silver tones, contrasted by a single glowing third eye. The aesthetic is clean and literary, focusing on the silhouette and serene expression. The color palette is composed of misty grays, deep blacks, and a touch of divine gold." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-ZsM29ks5HByRcV_T4cz3Z_G67CgHKTHy-xASFtHQcXYNfC1Ifgaa3o_OVOFPXajyVWV9w6Uk0AtWZLb_1OUbBcFX7SEoWC48RdLOeYjqh1SR3WeD0p_XEqiWC90InF__Co2uWLcFayk-enYgfdqKD-vOJXKYBFmDl6g6iG8ywB-qufwzOsxchyyUeaV_sXaIY8yktu-jgHS3jZKWdFh3U2R9vY3JbmPrUQ2RVuAswP6tM2pvV-VNXheDlPYYEqVaQmaFaHap1OY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+</div>
+<div class="p-6 text-center">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Shiva</h3>
+<p class="font-label-sm text-label-sm text-gold italic mb-3">Mahadeva</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The Transformer and Destroyer within the Trimurti, symbol of stillness.</p>
+</div>
+</article>
+<!-- Card: Vishnu -->
+<article class="god-card group bg-surface rounded-lg overflow-hidden border border-outline-variant/30 transition-all duration-400 ease-in-out cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A majestic digital illustration of Lord Vishnu reclining on the celestial serpent Shesha in the causal ocean. The water is deep indigo, reflecting a sky filled with infinite stars. The deity is adorned in radiant silks and golden ornaments that glow with a soft light-mode radiance. The visual style is sophisticated and elegant, maintaining a balance between divine grandeur and minimalist composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUTw4mi6ZBtUdbK3aH_IjDsK2bhjQf6mUSEeEFoW8FyPsOefQmGvnG4Qo3RaTeu5iliua4iCLIAnTMwmcYIkd2dwH3Mq7Fcyb8rMxDdhY_GuLz0WDjjyGh8yXEZfK8w097mo5_apdxARm5OcR4ba-er3JuLcJbkdP7SFiKSQBaqhR9QL5Ynwb4GM4AGwQ5S9D-J4IMm5zWpH7PZKsw19bnpuYlNezMu0e1hbY5dqpScdjHIct8z9fCF7TN5Q8nx3xMUaHglvTTAEE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+</div>
+<div class="p-6 text-center">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Vishnu</h3>
+<p class="font-label-sm text-label-sm text-gold italic mb-3">The Preserver</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The protector of the universe and the upholder of Dharma.</p>
+</div>
+</article>
+<!-- Card: Durga -->
+<article class="god-card group bg-surface rounded-lg overflow-hidden border border-outline-variant/30 transition-all duration-400 ease-in-out cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A fierce yet graceful representation of Goddess Durga, depicted with multiple arms holding symbolic weapons against a warm sunset sky. The lighting highlights her radiant countenance and the rich textures of her crimson and gold attire. The art style is high-end editorial, utilizing tonal layering to create depth without visual noise. The mood is one of protective strength and divine feminine power." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjax1M8hWxbxgSyDqOQoboah_mMcdkqbcTkOl71Ic7zMc0l2C1iCa-s2anUr5xClOBbn51iKhk-wTiyGONFRb7OQILno5OxHf9z4shICXlVNkGq9PcOplnGkDAi_ZPz_7berw9TGp8MpoHZVAjQvOUe05zDq_n7p5-qV-Bah8sM4ZFqihj0KRuTL-b_D5kmD2RbB9VQ78zDPbL8_5-7Z-V1KgDrOgJifrYI2StpQHIuy4Iwjgpi6R_PG97ZGN8dyh6atLJ79NnTQg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+</div>
+<div class="p-6 text-center">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Durga</h3>
+<p class="font-label-sm text-label-sm text-gold italic mb-3">Shakti</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The invincible warrior goddess, representing the power of truth.</p>
+</div>
+</article>
+<!-- Card: Lakshmi -->
+<article class="god-card group bg-surface rounded-lg overflow-hidden border border-outline-variant/30 transition-all duration-400 ease-in-out cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="An elegant and abundant scene showing Goddess Lakshmi emerging from a pink lotus floating on pristine water. Golden coins fall gently from her hands, captured in a freeze-frame of divine blessing. The environment is bright and airy, with soft high-key lighting that emphasizes a serene light-mode aesthetic. The composition is clean, centered, and balanced, using a palette of soft rose, ivory, and brilliant gold." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBx8l9YxrOquFKFWQe9iZzct0xfY76HZfUjJEJQfslmQCFlwGhmbTpaoOA3dWa9BMOmQrE2IApyKvPQ47vfUR6OUSmQWijBaqrjUP_hIuBc2rDfg8NNvu2QIBbE50Y76Iqn0wAuElOOOjgzAMsOI5SslbBSZ_aNsK0s62Hi8jeo79yjYpbnKicsdBwA2RMR7rjUJsluahc5OwKejhRduVMy0lNwkwak6pnw1J94yio8uw0HkamZyvow-WrIOOjXh3Y2oEIWr7Bqfg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+</div>
+<div class="p-6 text-center">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Lakshmi</h3>
+<p class="font-label-sm text-label-sm text-gold italic mb-3">The Abundant</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Goddess of wealth, fortune, and prosperity, both material and spiritual.</p>
+</div>
+</article>
+<!-- Card: Saraswati -->
+<article class="god-card group bg-surface rounded-lg overflow-hidden border border-outline-variant/30 transition-all duration-400 ease-in-out cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A minimalist and scholarly depiction of Goddess Saraswati playing the Veena. She is seated by a flowing river under a blossoming tree, with ancient scrolls nearby. The lighting is crisp and intellectual, suggesting a place of study and reflection. The style is inspired by literary journals, with a muted palette of sage greens, whites, and wood tones. The mood is quiet, focused, and deeply reverent." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAneKp8JS9Tgv6cqimoZW1WNxOJBPMS2yEhp1mNep0w1vNTLBBLs7oktWibWWWffLxC3_oX31pNTA_zMRYQTvKpUzeCXO20f01aGagrc1p4Z1K5p7qwX_rJlGNV7NIc34uP36n5qOk1iPthWcfp0BHmsQcjmbZ3LFgANBb4-2Tnj_4-bt4YrkZzFzQcbK63weDUeMg3dMtbgEPtJRFtr5g2bGRM53jcmZ4KAmRPqM_99xtU3Edp375cFG_0aV5qYhEV3BFZ42Ig2ss"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+</div>
+<div class="p-6 text-center">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Saraswati</h3>
+<p class="font-label-sm text-label-sm text-gold italic mb-3">Vani</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The goddess of knowledge, music, art, speech, wisdom, and learning.</p>
+</div>
+</article>
+<!-- Card: Krishna -->
+<article class="god-card group bg-surface rounded-lg overflow-hidden border border-outline-variant/30 transition-all duration-400 ease-in-out cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A charming and poetic digital painting of Krishna playing the flute in a lush, stylized forest glade. Peacocks dance in the background under a soft indigo sky. The lighting is magical and warm, casting long shadows that create a rhythmic, editorial feel. The colors are vibrant yet sophisticated, featuring rich teals, sunny yellows, and deep earthy browns. The atmosphere is one of divine playfulness and love." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp1C_L31ckzT9y-IgD6NISsbOClrMA5PCk6-rb41ihdg_bPlc7Vhx6vV08PAzLYDaMCZAiOuIX5HpD9faPz85C1M9eeDl6KoL5UL7hEjik2qezRW2aiJu3SyKJbshl-7LjxkgXc27vI8-O-I7dOLC67s79wpt46Mu1twJTQ8DuWl-9Gz1SCap8uskvHF57VrUmbGdxG8AkSnZXqnZ8-58XY3hfpfCjSdDioVDG6_xuPsmU1Fyz0-3-hjEwuEbnt2iGZG8G-RhaoUM"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+</div>
+<div class="p-6 text-center">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Krishna</h3>
+<p class="font-label-sm text-label-sm text-gold italic mb-3">The Divine Cowherd</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The god of compassion, tenderness, and love; the supreme teacher of the Gita.</p>
+</div>
+</article>
+<!-- Card: Hanuman -->
+<article class="god-card group bg-surface rounded-lg overflow-hidden border border-outline-variant/30 transition-all duration-400 ease-in-out cursor-pointer">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A powerful and humble portrait of Hanuman in a pose of devotion, his hands joined in Anjali Mudra. The background is a mountain landscape at twilight, with orange and purple hues reflecting off his muscular form. The visual style is focused and minimalist, emphasizing strength and surrender. The lighting is dramatic but soft, highlighting the textures of fur and stone. The mood is one of unwavering loyalty." src="https://lh3.googleusercontent.com/aida-public/AB6AXuANdSiC_72LNKl4Zt4TtzRhZK9JLY0VftLY8dG8X9hyJQAjRsuH3ecFFhK6HiUgbPx0mPQdeVKzmgzMLONvGl31PVWSFMZYGzaQu9pO6TB0DIU3m-5obmJsvavlh9-oAzPjiTcUpyI2HtsHrgqiTdCJpG8bvx0gLx-wZdeJ802vd70So9X91O2B9jC18FEJXIGn--jifh68op5mDL5C2IZQZYHTdYZFs1-_YxcaLt2lEb-HzHXzrIzxJVoygjHbXMQ8TwMyxcWEeQU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+</div>
+<div class="p-6 text-center">
+<h3 class="font-headline-sm text-headline-sm text-primary mb-1">Hanuman</h3>
+<p class="font-label-sm text-label-sm text-gold italic mb-3">Pavanputra</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">The symbol of strength, devotion, and selfless service.</p>
+</div>
+</article>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="bg-surface-container py-section-gap px-margin-mobile text-center">
+<div class="max-w-reading-width mx-auto">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-6">Deepen Your Connection</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-8">Select a deity to view curated mantras, stotras, and ritual guides specific to their energy.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-primary text-white px-8 py-3 rounded-lg font-label-md hover:bg-primary-container transition-colors shadow-lg shadow-primary/10">Browse All Mantras</button>
+<button class="border border-outline-variant text-primary px-8 py-3 rounded-lg font-label-md hover:bg-surface-bright transition-colors">Learn Rituals</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full bottom-0 bg-surface-container-lowest dark:bg-surface-dim">
+<div class="flex flex-col items-center py-stack-lg gap-base w-full max-w-container-max mx-auto px-margin-desktop">
+<div class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed">SacredSpace</div>
+<nav class="flex gap-8 flex-wrap justify-center">
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors duration-400" href="#">Philosophy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors duration-400" href="#">Terms of Ritual</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant hover:text-primary transition-colors duration-400" href="#">Contact Seeker Support</a>
+</nav>
+<div class="w-24 h-px bg-outline-variant opacity-30 my-4"></div>
+<p class="font-label-sm text-label-sm text-on-surface-variant dark:text-outline-variant opacity-70">
+                © 2024 SacredSpace. Crafted for Mindfulness.
+            </p>
+</div>
+</footer>
+<!-- Micro-interaction script -->
+<script>
+        // Simple scroll reveal for cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.god-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s cubic-bezier(0.22, 1, 0.36, 1)';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body></html>
