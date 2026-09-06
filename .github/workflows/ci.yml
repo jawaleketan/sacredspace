@@ -2,9 +2,15 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main]
+    paths:
+      - 'sacredspace/**'
+      - '.github/workflows/ci.yml'
   pull_request:
-    branches: [master]
+    branches: [main]
+    paths:
+      - 'sacredspace/**'
+      - '.github/workflows/ci.yml'
 
 jobs:
   quality:
