@@ -39,3 +39,35 @@ jobs:
       - name: Run tests
         working-directory: sacredspace
         run: npm test
+
+  smoke-production:
+    # Post-deploy smoke test against the live site. Runs only on main pushes
+    # (there is nothing to smoke-test on PRs), after a delay so the Vercel
+    # build triggered by the same push has time to finish.
+    name: Smoke test production
+    needs: quality
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for Vercel deploy to settle
+        run: sleep 120
+
+      - name: Homepage responds and renders
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" https://sacredspace.vercel.app/)
+          echo "homepage: HTTP $code"
+          [ "$code" = "200" ] || { echo "FAIL: homepage not 200"; exit 1; }
+          body=$(curl -s https://sacredspace.vercel.app/)
+          echo "$body" | grep -q "A sanctuary for sacred chants" \
+            || { echo "FAIL: hero content missing (DB render broken?)"; exit 1; }
+
+      - name: Search works (FTS path)
+        run: |
+          code=$(curl -s -L -o /dev/null -w "%{http_code}" "https://sacredspace.vercel.app/search?q=gayatri")
+          echo "search: HTTP $code"
+          [ "$code" = "200" ] || { echo "FAIL: search not 200 after redirect"; exit 1; }
+
+      - name: Health endpoint reports healthy database
+        run: |
+          body=$(curl -s https://sacredspace.vercel.app/api/health)
+          echo "$body" | grep -q "healthy" || { echo "FAIL: health not healthy: $body"; exit 1; }

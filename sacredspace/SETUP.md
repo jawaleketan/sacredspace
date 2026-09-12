@@ -35,15 +35,31 @@ VITE_CLERK_SIGN_UP_URL=/sign-up
 VITE_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/
 VITE_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/
 
-# Turso (optional — only for production remote DB)
-# TURSO_DATABASE_URL=libsql://sacredspace-xxx.turso.io
+# Turso (optional for local dev — remote dev DB instead of the SQLite file)
+# TURSO_DATABASE_URL=libsql://sacredspace-dev-xxx.turso.io
 # TURSO_AUTH_TOKEN=xxx
+#
+# Vercel Blob (optional locally — admin uploads need it in production)
+# BLOB_READ_WRITE_TOKEN=vercel_blob_rw_xxx
+#
+# Upstash Redis (optional — enables durable cross-instance rate limiting;
+# without these the in-memory limiter is used)
+# UPSTASH_REDIS_REST_URL=https://xxx.upstash.io
+# UPSTASH_REDIS_REST_TOKEN=xxx
 ```
 
 **How to get Clerk keys:**
 1. Go to https://dashboard.clerk.com
 2. Create an application
 3. Copy the Publishable Key and Secret Key from the API Keys page
+
+**Optional services (production env vars, set in the Vercel dashboard):**
+
+| Variable | Where to get it | Without it |
+|---|---|---|
+| `TURSO_DATABASE_URL` / `TURSO_AUTH_TOKEN` | app.turso.tech → database page → URL / Tokens | **Production fails fast by design** (local dev falls back to a SQLite file) |
+| `BLOB_READ_WRITE_TOKEN` | vercel.com → Storage → Create Blob store → connect to this project | Admin image/audio uploads error instead of persisting |
+| `UPSTASH_REDIS_REST_URL` / `UPSTASH_REDIS_REST_TOKEN` | console.upstash.com → Redis → REST API details | Rate limiting resets on every serverless cold start (fail-open) |
 
 ---
 
