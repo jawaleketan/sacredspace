@@ -87,8 +87,6 @@ function RootComponent() {
           signUpUrl="/sign-up"
           signInFallbackRedirectUrl="/"
           signUpFallbackRedirectUrl="/"
-          afterSignInUrl="/"
-          afterSignUpUrl="/"
         >
           <QueryClientProvider client={queryClient}>
             <AudioProvider>
