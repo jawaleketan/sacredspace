@@ -45,9 +45,22 @@ Handoff for the next session. All work below is complete and verified
 
 ## Action Items (pick up here)
 
-- [ ] **Turso setup (blocking next deploy)** — set `TURSO_DATABASE_URL` +
-      `TURSO_AUTH_TOKEN` in Vercel env vars **before the next deploy**
-      (deploys fail fast by design without them).
+- [x] **Turso setup (was blocking deploy)** — DONE 2026-09-12 late session:
+      `sacredspace-jawaleketan` created on Turso (aws-ap-south-1); both vars
+      live in Vercel Production. Production verified: homepage 200, deity
+      200, search 307→200 (FTS), /api/health reports healthy+database,
+      all 5 security headers present.
+      **⚠ ROTATE TURSO_AUTH_TOKEN** — it transited chat during setup.
+      After rotating: update the var in Vercel (any deploy picks it up;
+      a fresh push redeploys automatically).
+- [x] **Vercel Git integration repaired** (2026-09-12): the project's git
+      link was a detached legacy `sourceless` link pinned to
+      `productionBranch: master` — pushes to main built as previews with
+      an empty root directory. Deleted and recreated via API
+      (type=github, org/repo re-linked, productionBranch=main, and project
+      rootDirectory=sacredspace). Push-to-main now deploys production;
+      CLI `vercel --prod` remains blocked by the OAuth token (403
+      invalidToken on deployment create) — push-to-deploy is the path.
 - [ ] Set `BLOB_READ_WRITE_TOKEN` in Vercel (uploads then persist to Blob).
 - [ ] Set `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` in Vercel to
       activate durable rate limiting (optional — memory fallback works).
