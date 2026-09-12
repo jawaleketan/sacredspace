@@ -43,6 +43,7 @@ vi.mock("~/lib/upload", () => ({
 
 vi.mock("~/lib/storage", () => ({
   storeFile: vi.fn().mockResolvedValue({ url: "/uploads/deity-abc123.png", storage: "local" }),
+  deleteStoredFile: vi.fn().mockResolvedValue(undefined),
 }));
 
 const { updateDeityImage, updateDeity, removeDeityImage, deleteDeity, createDeity } = await import("../functions/deities");
@@ -172,8 +173,19 @@ describe("removeDeityImage", () => {
     vi.clearAllMocks();
   });
 
+  function mockNoExistingImage() {
+    mockDb.select.mockReturnValue({
+      from: () => ({
+        where: () => ({
+          get: vi.fn().mockResolvedValue(undefined),
+        }),
+      }),
+    });
+  }
+
   it("sets imageUrl to null", async () => {
     const run = vi.fn().mockResolvedValue(undefined);
+    mockNoExistingImage();
     mockDb.update.mockReturnValue({
       set: () => ({
         where: () => ({ run }),
@@ -203,6 +215,14 @@ describe("updateDeityImage", () => {
 
   it("saves image and returns imageUrl", async () => {
     const run = vi.fn().mockResolvedValue(undefined);
+    // Previous-image lookup (none found)
+    mockDb.select.mockReturnValue({
+      from: () => ({
+        where: () => ({
+          get: vi.fn().mockResolvedValue(undefined),
+        }),
+      }),
+    });
     mockDb.update.mockReturnValue({
       set: () => ({
         where: () => ({ run }),
@@ -236,13 +256,22 @@ describe("deleteDeity", () => {
 
   it("deletes deity with related contents and likes", async () => {
     const run = vi.fn().mockResolvedValue(undefined);
-    mockDb.select.mockReturnValue({
-      from: () => ({
-        where: () => ({
-          all: vi.fn().mockResolvedValue([{ id: 10 }, { id: 20 }]),
+    // First select: deity row; second: related contents
+    mockDb.select
+      .mockReturnValueOnce({
+        from: () => ({
+          where: () => ({
+            get: vi.fn().mockResolvedValue({ imageUrl: "/uploads/deity-abc123.png" }),
+          }),
         }),
-      }),
-    });
+      })
+      .mockReturnValueOnce({
+        from: () => ({
+          where: () => ({
+            all: vi.fn().mockResolvedValue([{ id: 10, audioUrl: null }, { id: 20, audioUrl: null }]),
+          }),
+        }),
+      });
     mockDb.delete.mockReturnValue({
       where: () => ({ run }),
     });
@@ -256,13 +285,21 @@ describe("deleteDeity", () => {
 
   it("deletes deity with no related contents", async () => {
     const run = vi.fn().mockResolvedValue(undefined);
-    mockDb.select.mockReturnValue({
-      from: () => ({
-        where: () => ({
-          all: vi.fn().mockResolvedValue([]),
+    mockDb.select
+      .mockReturnValueOnce({
+        from: () => ({
+          where: () => ({
+            get: vi.fn().mockResolvedValue(undefined),
+          }),
         }),
-      }),
-    });
+      })
+      .mockReturnValueOnce({
+        from: () => ({
+          where: () => ({
+            all: vi.fn().mockResolvedValue([]),
+          }),
+        }),
+      });
     mockDb.delete.mockReturnValue({
       where: () => ({ run }),
     });
