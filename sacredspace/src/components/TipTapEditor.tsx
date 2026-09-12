@@ -148,10 +148,12 @@ export function TipTapEditor({ content, onChange, placeholder }: TipTapEditorPro
           &mdash;
         </button>
       </div>
-      <EditorContent
-        editor={editor}
-        className="prose prose-sm max-w-none p-4 focus:outline-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[200px] [&_.ProseMirror_p]:my-1 [&_.ProseMirror]:font-devanagari [&_.ProseMirror]:text-lg [&_.ProseMirror]:leading-[2] [&_.ProseMirror_img]:max-w-full [&_.ProseMirror_img]:rounded-lg [&_.ProseMirror_img]:my-4"
-      />
+      <div lang="sa">
+        <EditorContent
+          editor={editor}
+          className="prose prose-sm max-w-none p-4 focus:outline-none [&_.ProseMirror]:outline-none [&_.ProseMirror]:min-h-[200px] [&_.ProseMirror_p]:my-1 [&_.ProseMirror]:font-devanagari [&_.ProseMirror]:text-lg [&_.ProseMirror]:leading-[2] [&_.ProseMirror_img]:max-w-full [&_.ProseMirror_img]:rounded-lg [&_.ProseMirror_img]:my-4"
+        />
+      </div>
       {showUrlPrompt && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" role="dialog" aria-modal="true" aria-label="Insert image URL" onClick={() => setShowUrlPrompt(false)} onKeyDown={(e) => { if (e.key === "Escape") setShowUrlPrompt(false); }}>
           <div ref={promptRef} className="rounded-xl bg-surface-container-lowest p-6 shadow-xl w-full max-w-sm mx-4" onClick={(e) => e.stopPropagation()}>

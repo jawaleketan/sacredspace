@@ -16,6 +16,7 @@ const mockDb = {
 
 vi.mock("../db", () => ({
   db: mockDb,
+  client: { execute: vi.fn().mockRejectedValue(new Error("no fts in tests")) },
   ensureSeeded: vi.fn().mockResolvedValue(undefined),
 }));
 
@@ -28,7 +29,26 @@ const {
   getSiblingContent,
   getDeityBySlug,
   getContentsByDeitySorted,
+  buildFtsQuery,
 } = await import("../functions/contents");
+
+describe("buildFtsQuery", () => {
+  it("quotes and prefix-wraps each term", () => {
+    expect(buildFtsQuery("gayatri mantra")).toBe('"gayatri"* "mantra"*');
+  });
+
+  it("collapses whitespace and ignores empty terms", () => {
+    expect(buildFtsQuery("  om   namah  ")).toBe('"om"* "namah"*');
+    expect(buildFtsQuery("   ")).toBe("");
+  });
+
+  it("strips embedded double quotes to block FTS syntax injection", () => {
+    // Terms keep their original case — inside double quotes FTS5 treats
+    // them as literal strings (case-folded by the tokenizer), so "NOT" is
+    // a search term, not the boolean operator.
+    expect(buildFtsQuery('gay"atri NOT shiva')).toBe('"gayatri"* "NOT"* "shiva"*');
+  });
+});
 
 describe("getAllDeities", () => {
   beforeEach(() => {

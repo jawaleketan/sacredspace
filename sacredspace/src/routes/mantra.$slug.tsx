@@ -328,7 +328,7 @@ function MantraPage() {
           lang={bodyLang}
         >
           {isHtml ? (
-            <ProseRenderer html={bodyText} className={bodyClass} />
+            <ProseRenderer html={bodyText} className={bodyClass} lang={bodyLang} />
           ) : (
             <div className={`${bodyClass} whitespace-pre-line`}>
               {bodyText || null}

@@ -8,7 +8,12 @@ import { validateEnv } from "~/lib/env";
 
 validateEnv();
 
-const isProduction = process.env.NODE_ENV === "production" || !!process.env.VERCEL;
+// `VERCEL=1` is also set by nitro's vercel-preset dev emulation locally, so it
+// alone is not proof of a real serverless deployment — check the working
+// directory, which on real Vercel lambdas lives under /var/task.
+const isProduction =
+  process.env.NODE_ENV === "production" ||
+  (!!process.env.VERCEL && process.cwd().startsWith("/var/task"));
 const url = process.env.TURSO_DATABASE_URL;
 
 if (!url) {
@@ -38,7 +43,7 @@ if (url && !authToken && !url.startsWith("file:")) {
   );
 }
 
-const client = createClient(
+export const client = createClient(
   authToken ? { url: dbUrl, authToken } : { url: dbUrl }
 );
 
@@ -85,7 +90,38 @@ let seeded: Promise<void> | null = null;
 
 const migrations = [
   "CREATE UNIQUE INDEX IF NOT EXISTS likes_content_id_session_id_unique ON likes (content_id, session_id)",
+  // FTS5 virtual table for content search. Kept in sync with the contents
+  // table by the triggers below; rebuilt from scratch at startup (cheap at
+  // current scale) so the index is always consistent with the source rows.
+  `CREATE VIRTUAL TABLE IF NOT EXISTS contents_fts USING fts5(
+    title, description, transliteration, translation,
+    content='contents', content_rowid='id'
+  )`,
+  // Trigger set copied from the SQLite FTS5 external-content docs.
+  `CREATE TRIGGER IF NOT EXISTS contents_fts_insert AFTER INSERT ON contents BEGIN
+    INSERT INTO contents_fts(rowid, title, description, transliteration, translation)
+    VALUES (new.id, new.title, new.description, new.transliteration, new.translation);
+  END`,
+  `CREATE TRIGGER IF NOT EXISTS contents_fts_delete AFTER DELETE ON contents BEGIN
+    INSERT INTO contents_fts(contents_fts, rowid, title, description, transliteration, translation)
+    VALUES ('delete', old.id, old.title, old.description, old.transliteration, old.translation);
+  END`,
+  `CREATE TRIGGER IF NOT EXISTS contents_fts_update AFTER UPDATE ON contents BEGIN
+    INSERT INTO contents_fts(contents_fts, rowid, title, description, transliteration, translation)
+    VALUES ('delete', old.id, old.title, old.description, old.transliteration, old.translation);
+    INSERT INTO contents_fts(rowid, title, description, transliteration, translation)
+    VALUES (new.id, new.title, new.description, new.transliteration, new.translation);
+  END`,
 ];
+
+/**
+ * Rebuild the FTS index from the contents table at startup. Triggers keep it
+ * in sync afterwards; the rebuild covers rows written before the index
+ * existed (or by tooling that bypasses the triggers).
+ */
+async function rebuildSearchIndex() {
+  await client.execute("INSERT INTO contents_fts(contents_fts) VALUES ('rebuild')");
+}
 
 async function runSeed() {
   const statements = migrationSQL.split(";").map(s => s.trim()).filter(Boolean);
@@ -95,6 +131,7 @@ async function runSeed() {
   for (const m of migrations) {
     try { await client.execute(m); } catch (e) { console.error("Migration failed", m, e); }
   }
+  try { await rebuildSearchIndex(); } catch (e) { console.error("FTS index rebuild failed (search falls back to LIKE)", e); }
 
   const row = await db.select({ c: count() }).from(deities).get();
   if (row && row.c > 0) {

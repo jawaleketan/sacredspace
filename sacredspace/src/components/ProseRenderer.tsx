@@ -5,6 +5,8 @@ interface ProseRendererProps {
   html: string;
   className?: string;
   style?: React.CSSProperties;
+  /** BCP-47 language of the content (e.g. "sa" for Sanskrit) — exposed to assistive tech. */
+  lang?: string;
 }
 
 const ALLOWED_TAGS = [
@@ -20,7 +22,7 @@ const ALLOWED_ATTR = [
   "class", "id", "target", "rel",
 ];
 
-export const ProseRenderer = memo(function ProseRenderer({ html, className = "", style }: ProseRendererProps) {
+export const ProseRenderer = memo(function ProseRenderer({ html, className = "", style, lang }: ProseRendererProps) {
   const sanitized = useMemo(() => {
     if (!html) return "";
     return DOMPurify.sanitize(html, {
@@ -34,6 +36,7 @@ export const ProseRenderer = memo(function ProseRenderer({ html, className = "",
     <div
       className={`prose prose-lg max-w-none prose-headings:font-serif prose-a:text-accent-gold prose-a:no-underline hover:prose-a:underline prose-blockquote:border-accent-gold prose-blockquote:bg-surface-container-low prose-blockquote:py-1 prose-blockquote:not-italic prose-img:rounded-xl prose-img:shadow-md ${className}`}
       style={style}
+      lang={lang}
       dangerouslySetInnerHTML={{ __html: sanitized }}
     />
   );
