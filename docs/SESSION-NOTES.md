@@ -64,6 +64,13 @@ Handoff for the next session. All work below is complete and verified
       rootDirectory=sacredspace). Push-to-main now deploys production;
       CLI `vercel --prod` remains blocked by the OAuth token (403
       invalidToken on deployment create) — push-to-deploy is the path.
+- [x] **Two-database setup** (2026-09-13): `sacredspace` stays production-only
+      (creds in Vercel); local dev now points at a separate throwaway dev
+      database via `.env.local` — local admin edits can no longer touch live
+      data. Dev DB auto-seeds on first `npm run dev`. Also fixed the
+      unconditional `PRAGMA journal_mode=WAL` (remote Turso rejects PRAGMA
+      over HTTP) — now gated to `file:` URLs.
+      Standing hygiene: revoke superseded Turso tokens in the dashboard.
 - [ ] Set `BLOB_READ_WRITE_TOKEN` in Vercel (uploads then persist to Blob).
 - [ ] Set `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` in Vercel to
       activate durable rate limiting (optional — memory fallback works).
