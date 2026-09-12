@@ -50,9 +50,12 @@ Handoff for the next session. All work below is complete and verified
       live in Vercel Production. Production verified: homepage 200, deity
       200, search 307→200 (FTS), /api/health reports healthy+database,
       all 5 security headers present.
-      **⚠ ROTATE TURSO_AUTH_TOKEN** — it transited chat during setup.
-      After rotating: update the var in Vercel (any deploy picks it up;
-      a fresh push redeploys automatically).
+- [x] **TURSO_AUTH_TOKEN rotated** (2026-09-13): replacement token minted,
+      validity-tested against the DB, installed in Vercel Production via API,
+      and verified live (homepage/search 200, health healthy). Residual:
+      tokens transited chat during setup — revoke the superseded token in
+      the Turso dashboard (Tokens page) and prefer minting future tokens
+      without pasting them.
 - [x] **Vercel Git integration repaired** (2026-09-12): the project's git
       link was a detached legacy `sourceless` link pinned to
       `productionBranch: master` — pushes to main built as previews with
