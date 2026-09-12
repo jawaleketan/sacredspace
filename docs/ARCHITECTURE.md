@@ -115,7 +115,9 @@ Two mechanisms, deliberately different:
 | **Likes** | `session_id` httpOnly cookie + DB rows | Countable, analyzable (admin analytics), deduped |
 | **Saved collection** | `localStorage` array of content IDs | Zero server cost, private to device |
 
-`getClientIp()` in `rate-limit.ts` reads `x-forwarded-for` via `getRequestHeader` from `@tanstack/react-start/server` (lazy ESM import, `"anonymous"` fallback outside request contexts) — note the in-memory limiter resets per Lambda instance (see [Known Gaps](#8-known-gaps--gotchas)).
+`getClientIp()` in `rate-limit.ts` reads `x-forwarded-for` via `getRequestHeader` from `@tanstack/react-start/server` (lazy ESM import, `"anonymous"` fallback outside request contexts).
+
+The limiter has two interchangeable backends: when `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` are set, counters live in Redis via Upstash's REST API (no SDK) and hold across Lambda instances; otherwise a per-process Map is used (best-effort bursts only). The durable backend **fails open** — on Redis errors or >1s timeouts it falls back to the in-memory counter for that request. `checkRateLimit`/`enforceRateLimit` are async; call sites await them.
 
 ---
 
@@ -155,10 +157,10 @@ Recently addressed (all tests passing, 72/72):
 6. ✅ **Theme** — shared `useTheme()` hook in `src/lib/hooks.ts`; `index.tsx` no longer duplicates the no-flash script logic.
 7. ✅ **`updateDeity`** — now bumps `updatedAt` like content updates.
 8. ✅ **`likes.ts`** — static imports instead of the dynamic `getDb()` indirection.
+9. ✅ **Blob orphan cleanup** (2026-09-12) — `deleteStoredFile()` in `src/lib/storage.ts` deletes the previous Vercel Blob object when an image/audio is replaced or removed, and `deleteDeity` also cleans up its contents' audio Blobs. Blob-only by design: seed images in `public/uploads/` (git-committed) are never touched, and failures are logged, never thrown. 6 unit tests.
 
 Remaining limitations:
 
-- **In-memory rate limiting** — per-Lambda-instance only; cold starts reset counters (prominently documented in `src/lib/rate-limit.ts`). For hard global caps, back `checkRateLimit` with Upstash Redis / Vercel KV — call sites stay unchanged.
-- **Old blob files aren't deleted** — replacing a deity image or audio file orphans the previous Blob object; add a `del()` call if storage costs matter.
+- **Rate limiting is durable only when configured** — set `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` for hard global caps; without them the per-instance memory limiter is best-effort (fail-open design, documented in `src/lib/rate-limit.ts`).
 - **Search uses `LIKE`** — fine at current scale, but consider FTS5 if the library grows large.
 </content>

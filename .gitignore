@@ -19,6 +19,11 @@ sacredspace/data/
 *.db-shm
 *.db-wal
 
+# ---------- Local dev junk (SQLite shards created by dev-server tooling) ----------
+sacredspace/auth
+sacredspace/auth-wal
+.freebuff/
+
 # ---------- Retired / legacy ----------
 **/.git_disabled/
 

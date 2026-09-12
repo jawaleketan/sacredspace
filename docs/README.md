@@ -24,6 +24,7 @@ agent-skill collections and the BMAD planning framework.
 - **[`planning/ux-designs/`](./planning/ux-designs)** — UX specifications.
 
 ### Tracking work
+- **[`analysis-2026-08-31.md`](./analysis-2026-08-31.md)** — Archived improvement audit (Aug–Sep 2026); most items now resolved.
 - **[`implementation/deferred-work.md`](./implementation/deferred-work.md)** — Feature backlog with split-out scopes and completion evidence.
 - **[`implementation/spec-sacredspace-scaffold.md`](./implementation/spec-sacredspace-scaffold.md)** — The original scaffold spec (completed).
 - **[`brainstorming/`](./brainstorming)** — Ideation session outputs.

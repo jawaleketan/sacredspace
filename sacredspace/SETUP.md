@@ -160,17 +160,23 @@ sacredspace/
 
 ---
 
-## 6. How the DB Works on Vercel
+## 6. How the DB Works
+
+At module load (`src/server/db/index.ts`): `validateEnv()` → `createClient()` →
+`ensureSeeded()` (memoized — creates tables, applies incremental migrations,
+seeds 8 deities + 17 contents once per cold start).
 
 ```
-Cold start → createClient("file:/tmp/sacredspace.db")
-           → runSeed() creates tables + seeds 8 deities + 17 contents
-           → first request serves data from /tmp/
-           → subsequent warm requests: DB already has data
-           → cold start: resets /tmp/ (seeded again)
-```
+Local dev (TURSO_DATABASE_URL unset):
+  createClient("file:./data/sacredspace.db") → seed → serve
 
-If `TURSO_DATABASE_URL` is set, the app connects to a remote Turso database instead (persistent across cold starts).
+Production (Vercel) with Turso:
+  createClient("libsql://...") → seed if empty → serve (persists across cold starts)
+
+Production (Vercel) without Turso:
+  THROWS at startup — there is no /tmp SQLite fallback, because serverless
+  filesystems are ephemeral and silently discard all admin-created data.
+```
 
 ---
 
@@ -178,7 +184,7 @@ If `TURSO_DATABASE_URL` is set, the app connects to a remote Turso database inst
 
 ### Automatic (GitHub — recommended)
 
-1. Push to `master` on GitHub
+1. Push to `main` on GitHub
 2. Go to https://vercel.com → Add New Project
 3. Import `jawaleketan/sacredspace`
 4. Framework is auto-detected as "TanStack Start"
@@ -189,6 +195,8 @@ If `TURSO_DATABASE_URL` is set, the app connects to a remote Turso database inst
    - `VITE_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL=/`
    - `VITE_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL=/`
    - `CLERK_SECRET_KEY` — Clerk secret key (server-side only, no prefix)
+   - `TURSO_DATABASE_URL` / `TURSO_AUTH_TOKEN` — required in production (see section 3)
+   - `BLOB_READ_WRITE_TOKEN` — optional, for persistent image/audio uploads
 6. Deploy
 7. Every `git push` triggers automatic redeploy
 
@@ -206,7 +214,7 @@ npx vercel --prod
 
 - Build command: `npm run build` (runs `vite build` — Nitro handles the rest)
 - Output directory: `.vercel/output` (Nitro Build Output API v3)
-- Node.js runtime: `nodejs24.x` (auto-detected by Nitro)
+- Node.js 22 (from `.nvmrc` and `engines.node`)
 - No `npm run db:seed` during build — DB is auto-seeded at runtime on Vercel
 
 ---
@@ -216,13 +224,13 @@ npx vercel --prod
 | Decision | Rationale |
 |----------|-----------|
 | `@libsql/client` over `better-sqlite3` | Prebuilt Linux binaries; works on Vercel Lambda |
-| `/tmp/sacredspace.db` on Vercel | Only writable path on Lambda; auto-seeded at cold start |
+| Turso required in production | Fail fast at startup without `TURSO_DATABASE_URL` — ephemeral `/tmp` silently loses data on cold starts |
 | `ensureSeeded()` guard | Lazy init pattern — seeds once, cached promise |
 | Inline server fns in routes | Avoids "Server function info not found" hash registration bug |
 | Clerk auth in server fns | `auth()` from `@clerk/tanstack-react-start/server` |
 | `localStorage` for saves | Anonymous users — no user accounts |
 | Session cookies for likes | Track likes per anonymous session in DB |
-| Base64 image uploads | Simple file storage in `public/uploads/` (git-committed) |
+| File uploads via `src/lib/storage.ts` | Vercel Blob in production (`BLOB_READ_WRITE_TOKEN`), local `public/uploads/` in dev |
 | Tailwind typography plugin | `@tailwindcss/typography` via `@plugin` in CSS |
 
 ---
@@ -252,7 +260,6 @@ npm run db:seed
 |---------|-----|
 | `Server function info not found` | Move inline server fn out of the route, or inline the logic |
 | `undefined cannot be passed as argument` | Add `await` before `.get() / .all() / .run()` |
-| `ENOENT: mkdir '/var/task/data'` | Switch to `@libsql/client` with `/tmp/` path |
-| Clerk auth fails on Vercel | Add `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` env vars |
-| Images not loading | Images in `public/uploads/` are committed to git — push them |
-| DB resets on cold start | Set up Turso remote DB (see section 3) |
+| `TURSO_DATABASE_URL is required in production` | Production fails fast by design — create a Turso DB and set the env vars (section 3) |
+| Clerk auth fails on Vercel | Add `VITE_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` env vars |
+| Images not loading | Set `BLOB_READ_WRITE_TOKEN` in Vercel so uploads persist to Vercel Blob (local dev writes `public/uploads/` on disk) |

@@ -1,0 +1,34 @@
+version: 2
+
+updates:
+  # SacredSpace app dependencies (all package management lives in sacredspace/)
+  - package-ecosystem: "npm"
+    directory: "/sacredspace"
+    schedule:
+      interval: "weekly"
+    groups:
+      # Minor + patch updates together; majors get individual PRs for review
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    labels:
+      - "dependencies"
+
+  # Keep CI actions current
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "ci"
+    labels:
+      - "dependencies"
