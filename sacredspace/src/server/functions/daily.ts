@@ -5,7 +5,7 @@ import { eq, and, count } from "drizzle-orm";
 import { enforceRateLimit, getClientIp } from "~/lib/rate-limit";
 
 export const getMantraOfDay = createServerFn({ method: "GET" }).handler(async () => {
-  enforceRateLimit(`public:${await getClientIp()}`, { maxRequests: 120, windowMs: 60_000 });
+  await enforceRateLimit(`public:${await getClientIp()}`, { maxRequests: 120, windowMs: 60_000 });
 
   // Only published content is eligible — drafts must never be featured.
   const total =

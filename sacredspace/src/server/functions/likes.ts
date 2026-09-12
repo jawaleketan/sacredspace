@@ -26,7 +26,7 @@ export const toggleLike = createServerFn({ method: "POST" })
     const sessionId = getSessionId();
 
     // Rate limit: 30 likes per minute per session
-    enforceRateLimit(`like:${sessionId}`, {
+    await enforceRateLimit(`like:${sessionId}`, {
       maxRequests: 30,
       windowMs: 60_000,
     });

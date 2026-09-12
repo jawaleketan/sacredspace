@@ -106,7 +106,7 @@ export const createContent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new UnauthorizedError();
-    enforceRateLimit(`admin:${userId}`, { maxRequests: 60, windowMs: 60_000 });
+    await enforceRateLimit(`admin:${userId}`, { maxRequests: 60, windowMs: 60_000 });
     await assertSlugAvailable(data.slug);
     const result = await db
       .insert(contents)
@@ -131,7 +131,7 @@ export const updateContent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new UnauthorizedError();
-    enforceRateLimit(`admin:${userId}`, { maxRequests: 60, windowMs: 60_000 });
+    await enforceRateLimit(`admin:${userId}`, { maxRequests: 60, windowMs: 60_000 });
     await assertSlugAvailable(data.slug, data.id);
     const result = await db
       .update(contents)
@@ -158,7 +158,7 @@ export const deleteContent = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new UnauthorizedError();
-    enforceRateLimit(`admin:${userId}`, { maxRequests: 30, windowMs: 60_000 });
+    await enforceRateLimit(`admin:${userId}`, { maxRequests: 30, windowMs: 60_000 });
     await db.delete(likes).where(eq(likes.contentId, data)).run();
     await db.delete(contents).where(eq(contents.id, data)).run();
     return { deleted: true };
@@ -169,7 +169,7 @@ export const toggleContentStatus = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { userId } = await auth();
     if (!userId) throw new UnauthorizedError();
-    enforceRateLimit(`admin:${userId}`, { maxRequests: 60, windowMs: 60_000 });
+    await enforceRateLimit(`admin:${userId}`, { maxRequests: 60, windowMs: 60_000 });
     const item = await db.select().from(contents).where(eq(contents.id, data)).get();
     if (!item) throw new NotFoundError("Content");
     const newStatus = item.status === "published" ? "draft" : "published";

@@ -11,7 +11,7 @@ vi.mock("@tanstack/react-start", () => ({
 }));
 
 vi.mock("~/lib/rate-limit", () => ({
-  enforceRateLimit: vi.fn(),
+  enforceRateLimit: vi.fn().mockResolvedValue(undefined),
   getClientIp: vi.fn().mockResolvedValue("127.0.0.1"),
 }));
 

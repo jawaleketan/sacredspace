@@ -8,7 +8,7 @@ import { savedIds } from "./validators";
 export const getSavedContents = createServerFn({ method: "POST" })
   .validator(savedIds)
   .handler(async ({ data }) => {
-    enforceRateLimit(`public:${await getClientIp()}`, { maxRequests: 120, windowMs: 60_000 });
+    await enforceRateLimit(`public:${await getClientIp()}`, { maxRequests: 120, windowMs: 60_000 });
     if (data.length === 0) return [];
     return await db
       .select({

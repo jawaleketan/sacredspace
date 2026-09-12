@@ -20,8 +20,8 @@ vi.mock("../db", () => ({
 }));
 
 vi.mock("~/lib/rate-limit", () => ({
-  enforceRateLimit: vi.fn(),
-  getClientIp: vi.fn().mockReturnValue("127.0.0.1"),
+  enforceRateLimit: vi.fn().mockResolvedValue(undefined),
+  getClientIp: vi.fn().mockResolvedValue("127.0.0.1"),
 }));
 
 const { getSavedContents } = await import("../functions/saved");
