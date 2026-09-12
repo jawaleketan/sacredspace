@@ -1,4 +1,76 @@
-# Session Notes — 2026-09-12 (docs drift, Blob cleanup, durable rate limiting, FTS5, a11y)
+# Session Notes
+
+## 2026-09-12 → 13 — Production deploy, Vercel git-link repair, dev/prod DB split, CI repair + smoke tests
+
+Handoff for the next session. All work below is complete and verified
+(typecheck ✅ · lint ✅ · 89/89 tests ✅ · CI green incl. smoke job ·
+production live on Turso).
+
+### Completed
+
+1. **Production is live and verified** — https://sacredspace.vercel.app on
+   Turso (`sacredspace-jawaleketan`, aws-ap-south-1). Homepage 200 with seed
+   content, deity page 200, search 307→200 (FTS5 ranking live),
+   `/api/health` reports healthy+connected, all 5 security headers present
+   (CSP, HSTS, nosniff, DENY, referrer-policy).
+2. **Vercel Git integration repaired** (root cause of the day's 404s):
+   the project had a detached legacy `sourceless` git link pinned to
+   `productionBranch: master` — pushes to main built as previews with an
+   empty root directory (6s builds serving 404s). Deleted and recreated
+   via API: type=github, productionBranch=main, rootDirectory=sacredspace.
+   Push-to-main now deploys production automatically (8+ consecutive clean
+   deploys). CLI `vercel --prod` remains blocked by the OAuth-login token
+   (403 on deployment create) — push-to-deploy is the workflow.
+3. **Turso credentials installed** — caught that `echo | vercel env add`
+   appends a trailing newline (runtime `Invalid URL` 500s); re-added via
+   REST API with clean values. Token rotated once already.
+4. **Two-database split** — local dev points at a throwaway dev database
+   via `.env.local`; production creds live only in Vercel. Local admin
+   edits can no longer touch live data; dev DB auto-seeds on first run.
+5. **WAL pragma gated to `file:` URLs** — remote Turso rejects PRAGMA over
+   HTTP (`SQL_PARSE_ERROR` noise on every startup); now file-DB only.
+6. **CI repaired — was red on every branch**: nitro's alpha unstorage
+   declares optional peer `lru-cache@^11.2.6`; npm 12 deduped it invalidly
+   to 5.1.1, producing a lockfile CI's npm rejects at `npm ci`. Fixed by
+   adding `lru-cache@11.5.2` as a root devDependency (0 invalid entries).
+7. **Post-deploy production smoke tests** — new `smoke-production` CI job
+   on main pushes: waits for the Vercel deploy, asserts homepage 200 +
+   hero content (catches DB breakage), search redirect resolves, health
+   reports healthy. Verified green on first run.
+8. **Clerk deprecated props removed** — dropped `afterSignInUrl`/
+   `afterSignUpUrl` (fallback-redirect props already in place).
+9. **Dependabot triage (9 PRs)** — #1 (actions v5) merged; #8 (TS 7)
+   closed (fails CI; batch with other majors later); #2 (22 minor/patch)
+   rebase re-nudged — merge when green; #3–#7/#9 (vitest 5, jest-dom 7,
+   eslint 10 ×2, clerk 1.x, @eslint/js 10) deliberately left for one
+   coordinated toolchain-majors session.
+10. **SETUP.md** — optional-services table: where each credential comes
+    from (Turso/Blob/Upstash) and what degrades without it.
+
+### Action Items (pick up here)
+
+- [ ] **Revoke superseded Turso tokens** (app.turso.tech → Tokens): the
+      first token (ending `0P307btb3`) is exposed and unused; the current
+      production token (ending `1ZE8Bg`) transited chat — replace via
+      `vercel env rm/add TURSO_AUTH_TOKEN production` locally, then revoke.
+- [ ] Merge Dependabot **#2** once its rebase lands green (22 safe updates).
+- [ ] Set `BLOB_READ_WRITE_TOKEN` in Vercel (uploads persist to Blob).
+- [ ] Optional: Upstash vars to activate durable rate limiting.
+- [ ] Toolchain majors batch: vitest 5, jest-dom 7, eslint 10 (+@eslint/js).
+- [ ] Before real launch: Clerk is on a **dev instance** (`pk_test_*`) —
+      create production keys and raise the strict usage limits.
+
+### Verification Log
+
+```bash
+cd sacredspace && npm run typecheck && npm run lint && npm test   # 89/89
+gh run list --branch main        # CI green incl. smoke-production
+curl -s https://sacredspace.vercel.app/api/health   # healthy
+```
+
+---
+
+## 2026-09-12 — docs drift, Blob cleanup, durable rate limiting, FTS5, a11y
 
 Handoff for the next session. All work below is complete and verified
 (typecheck ✅ · lint ✅ 0 problems · 86/86 tests ✅).
