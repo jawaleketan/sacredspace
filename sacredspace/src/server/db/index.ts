@@ -47,7 +47,11 @@ export const client = createClient(
   authToken ? { url: dbUrl, authToken } : { url: dbUrl }
 );
 
-client.execute("PRAGMA journal_mode = WAL").catch((e) => { console.error("WAL pragma failed", e); });
+// WAL only applies to local file databases; remote Turso rejects PRAGMA
+// statements over its HTTP API (SQL_PARSE_ERROR).
+if (dbUrl.startsWith("file:")) {
+  client.execute("PRAGMA journal_mode = WAL").catch((e) => { console.error("WAL pragma failed", e); });
+}
 
 export const db = drizzle(client, { schema });
 
