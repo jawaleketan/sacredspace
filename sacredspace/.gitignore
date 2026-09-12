@@ -6,3 +6,4 @@ dist/
 *.local
 .env.local
 data/
+.vercel
