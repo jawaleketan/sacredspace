@@ -6,8 +6,8 @@ import { Breadcrumbs } from "~/components/Breadcrumbs";
 import { ConfirmModal } from "~/components/ConfirmModal";
 import { RouteErrorFallback } from "~/components/RouteErrorFallback";
 
-function DashboardErrorComponent({ error, reset }: { error: Error; reset?: () => void }) {
-  // 401 Unauthorized → sign-in prompt; everything else → generic fallback
+function DashboardErrorComponent({ error, reset }: { error: unknown; reset?: () => void }) {
+  // errorComponent's `error` is unknown (router types) — narrow before use
   if (error instanceof AppError && error.statusCode === 401) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-bg">
@@ -21,7 +21,7 @@ function DashboardErrorComponent({ error, reset }: { error: Error; reset?: () =>
       </main>
     );
   }
-  return <RouteErrorFallback title="Dashboard Error" error={error} reset={reset} />;
+  return <RouteErrorFallback title="Dashboard Error" error={error instanceof Error ? error : undefined} reset={reset} />;
 }
 
 export const Route = createFileRoute("/admin/dashboard")({
