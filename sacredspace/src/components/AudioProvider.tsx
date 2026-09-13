@@ -137,7 +137,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     const el = audioRef.current;
     if (!el || !duration) return;
     const step = duration * 0.05; // 5% per keypress
-    let newTime = el.currentTime;
+    let newTime: number; // every switch arm assigns or returns before use
     switch (e.key) {
       case "ArrowRight":
         newTime = Math.min(duration, el.currentTime + step);
