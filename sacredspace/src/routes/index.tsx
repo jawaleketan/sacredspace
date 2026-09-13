@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/tanstack-react-start";
+import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/tanstack-react-start";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { DeityCard } from "~/components/DeityCard";
 import { HomeSkeleton } from "~/components/Skeleton";
@@ -74,7 +74,7 @@ function HomePage() {
             >
               {dark ? "\u2600" : "\u263E"}
             </button>
-            <SignedOut>
+            <Show when="signed-out">
               <SignInButton mode="modal">
                 <button className="rounded-md border border-outline-variant px-4 py-2 text-sm font-medium text-on-surface transition-colors hover:bg-surface-container">
                   Sign In
@@ -85,10 +85,11 @@ function HomePage() {
                   Sign Up
                 </button>
               </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton afterSignOutUrl="/" />
-            </SignedIn>
+            </Show>
+            <Show when="signed-in">
+              {/* Clerk 1.x: UserButton no longer takes redirect props; sign-out stays on the current page */}
+              <UserButton />
+            </Show>
           </div>
         </nav>
 
