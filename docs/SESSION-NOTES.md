@@ -1,5 +1,45 @@
 # Session Notes
 
+## 2026-09-13 — Toolchain majors: vitest 5, jest-dom 7, jsdom 30, eslint 10, Clerk 1.5
+
+All nine open Dependabot PRs from yesterday are now resolved. Every step
+CI-gated; verified (typecheck ✅ · lint ✅ under eslint 10 · 89/89 tests ✅
+under vitest 5 · CI + production smoke green · Clerk 1.5 live in prod).
+
+### Completed
+
+1. **Dependency-safe merge order**, each PR rebased onto current main and
+   CI-green before merge: vitest 5 (#3, needed zero test changes) →
+   jest-dom 7 (#4) → jsdom 30 (#7) → eslint 10 core (#6) → @eslint/js 10
+   (#9, must follow core — it peers on eslint ^10). The PRs' earlier red
+   CIs were the stale-main `errorComponent` typing fixed yesterday.
+2. **Clerk 1.5 migration** (#5 closed as superseded; direct commit
+   e10441f). Only two breaking changes for our small API surface:
+   `SignedIn`/`SignedOut` components removed → `<Show when="signed-in">
+   / <Show when="signed-out">`; `UserButton` no longer accepts redirect
+   props at all — sign-out stays on the current page (equivalent to the
+   old `afterSignOutUrl="/"` since the button lives on `/`). Runtime
+   smoke tested locally (Clerk SSR bootstrap, /sign-in 200, health
+   healthy, zero log errors) before push; CI + prod smoke green after.
+3. **ESLint 10 caught a real bug**: its new `no-useless-assignment` rule
+   flagged a dead `newTime` initializer in AudioProvider's keyboard
+   seek handler — every switch arm reassigned or returned first. Fixed
+   (fad2dff); now the codebase lints clean under the strict core.
+4. **Final PR ledger** — merged: #1, #3, #4, #6, #7, #9, #11. Closed:
+   #5 (superseded by the migration commit), #8 (TS 7 — deliberate later
+   batch), #10 (superseded by #11).
+
+### Notes for next session
+
+- **TypeScript major is the last toolchain bump** (#8 closed as
+  premature) — plan a dedicated session for TS 6/7.
+- Clerk auth is migrated but only the unauthenticated surface is
+  automated — click through sign-in → admin → sign-out once in prod.
+- Carry-overs below (Turso token revocation, Blob/Upstash vars, Clerk
+  production keys) still stand.
+
+---
+
 ## 2026-09-12 → 13 — Production deploy, Vercel git-link repair, dev/prod DB split, CI repair + smoke tests
 
 Handoff for the next session. All work below is complete and verified
@@ -53,10 +93,11 @@ production live on Turso).
       first token (ending `0P307btb3`) is exposed and unused; the current
       production token (ending `1ZE8Bg`) transited chat — replace via
       `vercel env rm/add TURSO_AUTH_TOKEN production` locally, then revoke.
-- [ ] Merge Dependabot **#2** once its rebase lands green (22 safe updates).
+- [x] Merge Dependabot minor/patch group — superseded by **#11**, merged 2026-09-13.
 - [ ] Set `BLOB_READ_WRITE_TOKEN` in Vercel (uploads persist to Blob).
 - [ ] Optional: Upstash vars to activate durable rate limiting.
-- [ ] Toolchain majors batch: vitest 5, jest-dom 7, eslint 10 (+@eslint/js).
+- [x] Toolchain majors batch — done 2026-09-13 (vitest 5, jest-dom 7,
+      jsdom 30, eslint 10 +@eslint/js, Clerk 1.5). TypeScript major remains.
 - [ ] Before real launch: Clerk is on a **dev instance** (`pk_test_*`) —
       create production keys and raise the strict usage limits.
 
