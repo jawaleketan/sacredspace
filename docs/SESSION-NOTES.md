@@ -1,5 +1,51 @@
 # Session Notes
 
+## 2026-09-16 — TypeScript 7 (native port): closed PR #8 revisited
+
+The deliberately-deferred major is done. **Zero source changes** — the
+entire migration is a package.json/lockfile swap. Verified: typecheck
+identical results at **80.8s → 4.6s (18×)**, lint clean, 89/89 tests,
+CI green on Linux (2m43s) including the production smoke job, prod
+200 / health healthy.
+
+### What breaks in TS 7, and what did (and didn't) hit us
+
+1. **TS 7.0 ships no compiler API** (7.1 will, with a new shape). Tools
+   that import the API — typescript-eslint — must stay on TS 6. The
+   official answer is the side-by-side alias layout.
+2. **7.0 adopts 6.0's defaults** (strict on, module esnext,
+   moduleResolution nodenext/bundler only, es5/downlevelIteration are
+   hard errors, new rootDir/types defaults) and promotes 6.0
+   deprecations to hard errors. We were already on 6.0.3 with a
+   7.0-clean tsconfig (strict, Bundler resolution, ESNext) — nothing
+   to change.
+3. **typescript-eslint@8.70 peers on typescript <6.1** — satisfied via
+   the alias without touching the plugin.
+
+### The migration (package.json)
+
+- `"typescript": "npm:@typescript/typescript6@^6.0.2"` — the API that
+  typescript-eslint resolves; also provides the `tsc6` binary.
+- `"@typescript/native": "npm:typescript@^7.0.2"` — TS 7, which owns
+  the `tsc` binary.
+
+`"typecheck": "tsc --noEmit"` needed no change. CI passing on Linux
+proves the platform-specific native binaries
+(`@typescript/native-linux-x64-gnu` etc.) resolve from the lockfile
+cross-platform.
+
+### Notes for next session
+
+- Known transient: first `npm test` after a lockfile change shows
+  8 files/56 tests (vite cache warming race); a direct rerun is the
+  true 11 files/89 tests. Third occurrence — worth a look someday.
+- When **TS 7.1** ships its API and typescript-eslint peers with 7.x,
+  consolidate: drop the typescript6 alias, keep only typescript@7.
+- Carry-overs below (Turso token revocation, Blob/Upstash vars, Clerk
+  production keys, authenticated-flow click-through) still stand.
+
+---
+
 ## 2026-09-13 — Toolchain majors: vitest 5, jest-dom 7, jsdom 30, eslint 10, Clerk 1.5
 
 All nine open Dependabot PRs from yesterday are now resolved. Every step
@@ -31,8 +77,7 @@ under vitest 5 · CI + production smoke green · Clerk 1.5 live in prod).
 
 ### Notes for next session
 
-- **TypeScript major is the last toolchain bump** (#8 closed as
-  premature) — plan a dedicated session for TS 6/7.
+- ~~TypeScript major~~ — done 2026-09-16; see the session above.
 - Clerk auth is migrated but only the unauthenticated surface is
   automated — click through sign-in → admin → sign-out once in prod.
 - Carry-overs below (Turso token revocation, Blob/Upstash vars, Clerk
