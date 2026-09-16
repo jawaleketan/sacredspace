@@ -34,6 +34,32 @@ proves the platform-specific native binaries
 (`@typescript/native-linux-x64-gnu` etc.) resolve from the lockfile
 cross-platform.
 
+### Addendum 2 (2026-09-16): Playwright e2e for the Clerk auth flow
+
+The manual "click through sign-in → admin → sign-out" item is now
+automated (commit 7da9f28). Two layers in `sacredspace/e2e/`:
+
+1. **Unauthenticated canaries** (always run): homepage renders the app
+   shell with signed-out chrome; `/admin/dashboard` shows Access Denied
+   signed out.
+2. **Authenticated flow** (sign-in → admin dashboard → sign-out) via
+   `@clerk/testing` Testing Tokens (bypasses Clerk bot protection).
+   Skips itself unless `CLERK_PUBLISHABLE_KEY`/`CLERK_SECRET_KEY` and
+   `E2E_CLERK_EMAIL`/`E2E_CLERK_PASSWORD` exist (CI secrets / local
+   exports), so the job is green today. If Clerk shows its
+   bot-protection challenge (Testing Tokens are dev-instance-only), the
+   test fails with an explanatory `fixme` marker instead of a selector
+   timeout.
+
+The `smoke-production` CI job checks out, installs deps + chromium, and
+runs the suite with `E2E_BASE_URL` pointed at production after the
+curl checks. All four secrets are optional. **To activate the auth
+flow:** create a dedicated test user in the Clerk dashboard, then
+`gh secret set E2E_CLERK_PUBLISHABLE_KEY` / `E2E_CLERK_SECRET_KEY` /
+`E2E_CLERK_EMAIL` / `E2E_CLERK_PASSWORD`. Clerk setup uses a
+project-based setup dependency per Clerk's docs (function-style
+globalSetup drops env vars in workers).
+
 ### Notes for next session
 
 - ~~Known transient: first `npm test` after a lockfile change shows
@@ -105,8 +131,8 @@ under vitest 5 · CI + production smoke green · Clerk 1.5 live in prod).
 ### Notes for next session
 
 - ~~TypeScript major~~ — done 2026-09-16; see the session above.
-- Clerk auth is migrated but only the unauthenticated surface is
-  automated — click through sign-in → admin → sign-out once in prod.
+- ~~Clerk auth only unauthenticated surface automated~~ — e2e now covers
+  the full flow (see Addendum 2); the four CI secrets activate it.
 - Carry-overs below (Turso token revocation, Blob/Upstash vars, Clerk
   production keys) still stand.
 
