@@ -58,7 +58,22 @@ script): runs vitest with a JSON reporter, compares executed files
 against `*.test.{ts,tsx}` on disk, exits 1 naming any dropped file.
 Also catches silent discovery regressions (glob typos, renamed files).
 Verified both ways: normal run green; a deliberately narrowed include
-glob fails with all 4 dropped files named. — Toolchain majors: vitest 5, jest-dom 7, jsdom 30, eslint 10, Clerk 1.5
+glob fails with all 4 dropped files named.
+
+**Follow-up perf session (2026-09-16):** vitest reported jsdom environment
+creation at 61% of suite time. Split into two projects — the two DOM
+component suites run on `pool: "vmThreads"` (one jsdom per worker,
+per-file module isolation kept); the nine node-env server/lib suites run
+on the default threads pool with `environment: "node"`. Suite time:
+~22s → ~12.4s locally, stable; CI green incl. production smoke. Pure
+vmThreads everywhere was tried first and fails on Linux CI: admin.test.ts
+→ sanitize-html → htmlparser2 ships ESM inside a CJS package, crashing
+native vm loading ("Cannot use import statement outside a module");
+`server.deps.inline` did not rescue it, hence the project split (the
+subgraph never enters vmThreads now; verified no component imports it).
+`isolate: false` was slower (~8s) and strictly less isolated — rejected.
+
+## 2026-09-13 — Toolchain majors: vitest 5, jest-dom 7, jsdom 30, eslint 10, Clerk 1.5
 
 All nine open Dependabot PRs from yesterday are now resolved. Every step
 CI-gated; verified (typecheck ✅ · lint ✅ under eslint 10 · 89/89 tests ✅
