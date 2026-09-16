@@ -14,16 +14,31 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     globals: true,
-    pool: "vmThreads",
-    // vmThreads can't natively load ESM-inside-CJS packages (htmlparser2, via
-    // sanitize-html, fails on Linux CI with "Cannot use import statement
-    // outside a module"); inline them so vite transforms them instead.
-    server: {
-      deps: {
-        inline: ["sanitize-html", "htmlparser2"],
-      },
-    },
     setupFiles: ["./src/test-setup.ts"],
-    include: ["src/**/*.test.{ts,tsx}"],
+    // Split projects: the DOM tests are the expensive ones (each jsdom
+    // environment creation dominated suite time), so they run on vmThreads
+    // to share one environment per worker. The node-env server/lib tests
+    // stay on the default threads pool — admin.test.ts pulls in
+    // sanitize-html → htmlparser2, which ships ESM inside a CJS package
+    // and hard-crashes native vm loading on Linux CI ("Cannot use import
+    // statement outside a module"); that subgraph never enters vmThreads.
+    projects: [
+      {
+        extends: true,
+        test: {
+          name: "dom",
+          include: ["src/components/**/*.test.{ts,tsx}"],
+          pool: "vmThreads",
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: "node",
+          include: ["src/{lib,server}/**/*.test.{ts,tsx}"],
+          environment: "node",
+        },
+      },
+    ],
   },
 });
