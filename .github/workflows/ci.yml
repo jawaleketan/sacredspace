@@ -48,7 +48,31 @@ jobs:
     needs: quality
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     runs-on: ubuntu-latest
+    env:
+      E2E_BASE_URL: https://sacredspace.vercel.app
+      # All optional: without them the Playwright canaries still run and the
+      # authenticated Clerk flow skips itself, keeping the job green.
+      CLERK_PUBLISHABLE_KEY: ${{ secrets.E2E_CLERK_PUBLISHABLE_KEY }}
+      CLERK_SECRET_KEY: ${{ secrets.E2E_CLERK_SECRET_KEY }}
+      E2E_CLERK_EMAIL: ${{ secrets.E2E_CLERK_EMAIL }}
+      E2E_CLERK_PASSWORD: ${{ secrets.E2E_CLERK_PASSWORD }}
     steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: sacredspace/package-lock.json
+
+      - name: Install dependencies
+        working-directory: sacredspace
+        run: npm ci
+
+      - name: Install Playwright browser
+        working-directory: sacredspace
+        run: npx playwright install --with-deps chromium
+
       - name: Wait for Vercel deploy to settle
         run: sleep 120
 
@@ -71,3 +95,7 @@ jobs:
         run: |
           body=$(curl -s https://sacredspace.vercel.app/api/health)
           echo "$body" | grep -q "healthy" || { echo "FAIL: health not healthy: $body"; exit 1; }
+
+      - name: E2E canaries + authenticated Clerk flow
+        working-directory: sacredspace
+        run: npx playwright test
