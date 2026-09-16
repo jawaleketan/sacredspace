@@ -36,9 +36,9 @@ cross-platform.
 
 ### Notes for next session
 
-- Known transient: first `npm test` after a lockfile change shows
-  8 files/56 tests (vite cache warming race); a direct rerun is the
-  true 11 files/89 tests. Third occurrence — worth a look someday.
+- ~~Known transient: first `npm test` after a lockfile change shows
+  8 files/56 tests~~ — investigated and fixed same day (see below):
+  `scripts/test.cjs` discovery guard now fails any partial suite.
 - When **TS 7.1** ships its API and typescript-eslint peers with 7.x,
   consolidate: drop the typescript6 alias, keep only typescript@7.
 - Carry-overs below (Turso token revocation, Blob/Upstash vars, Clerk
@@ -46,7 +46,19 @@ cross-platform.
 
 ---
 
-## 2026-09-13 — Toolchain majors: vitest 5, jest-dom 7, jsdom 30, eslint 10, Clerk 1.5
+### Addendum (later same day): the 8/56 test-discovery transient
+
+Never actually reproduced deliberately (cold-cache ×1, full reify ×2 —
+all 11/89; CI logs show it never hit CI at all). Evidence-based
+conclusion: both sightings followed installs that blew past the tool
+timeout, so npm was still reifying node_modules while vitest collected,
+and the piped grep output kept only the `passed` line — a partial suite
+read as green. Fix is a wrapper, `scripts/test.cjs` (now the `test`
+script): runs vitest with a JSON reporter, compares executed files
+against `*.test.{ts,tsx}` on disk, exits 1 naming any dropped file.
+Also catches silent discovery regressions (glob typos, renamed files).
+Verified both ways: normal run green; a deliberately narrowed include
+glob fails with all 4 dropped files named. — Toolchain majors: vitest 5, jest-dom 7, jsdom 30, eslint 10, Clerk 1.5
 
 All nine open Dependabot PRs from yesterday are now resolved. Every step
 CI-gated; verified (typecheck ✅ · lint ✅ under eslint 10 · 89/89 tests ✅
