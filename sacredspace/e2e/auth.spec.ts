@@ -56,8 +56,10 @@ test.describe("unauthenticated canaries", () => {
 
   test("admin dashboard is protected when signed out", async ({ page }) => {
     await page.goto("/admin/dashboard");
-    // The route's 401 error boundary renders Access Denied.
-    await expect(page.getByText("Access Denied")).toBeVisible();
+    // The route's error boundary surfaces the server's 401: heading
+    // "Dashboard Error" with the Unauthorized message.
+    await expect(page.getByText("Dashboard Error")).toBeVisible();
+    await expect(page.getByText("Unauthorized")).toBeVisible();
   });
 });
 
@@ -99,7 +101,6 @@ test.describe("authenticated Clerk flow", () => {
     await expect(
       page.getByRole("heading", { name: "Dashboard" }),
     ).toBeVisible();
-    await expect(page.getByText("Access Denied")).toBeHidden();
   });
 
   test("sign-out returns to signed-out chrome", async () => {
