@@ -63,7 +63,9 @@ test.describe("authenticated Clerk flow", () => {
     await expect(page.getByRole("button", { name: "Sign In" })).toBeHidden({
       timeout: 20_000,
     });
-    await expect(page.locator(".cl-userButtonRoot")).toBeVisible();
+    await expect(page.locator("[data-testid=user-button]")).toBeVisible({
+      timeout: 20_000,
+    });
   });
 
   test("admin dashboard is accessible when signed in", async ({ page }) => {
@@ -75,17 +77,14 @@ test.describe("authenticated Clerk flow", () => {
   });
 
   test("sign-out returns to signed-out chrome", async ({ page }) => {
-    // UserButton is a portal-owned custom element; drive it through its
-    // internal button rather than CSS classes, which Clerk may change.
-    await page.locator(".cl-userButtonRoot button").first().click();
+    // UserButton's portal content is opaque; sign out through the menu's
+    // "Sign out" action, opening the popover from our stable wrapper first.
+    const wb = page.locator("[data-testid=user-button]");
+    await wb.click();
     const signOut = page.getByRole("button", { name: "Sign out" });
-    if (!(await signOut.isVisible().catch(() => false))) {
-      // Some account-portal variants nest the action one level deeper.
-      await page.locator(".cl-userButtonRoot button").nth(1).click();
-    }
     await signOut.click();
 
-    await expect(page.locator(".cl-userButtonRoot")).toBeHidden({
+    await expect(wb).toBeHidden({
       timeout: 20_000,
     });
     await expect(page.getByRole("button", { name: "Sign In" })).toBeVisible();

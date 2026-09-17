@@ -88,7 +88,10 @@ function HomePage() {
             </Show>
             <Show when="signed-in">
               {/* Clerk 1.x: UserButton no longer takes redirect props; sign-out stays on the current page */}
-              <UserButton />
+              {/* App-owned wrapper gives e2e tests a stable handle (Clerk internals may change) */}
+              <div data-testid="user-button">
+                <UserButton />
+              </div>
             </Show>
           </div>
         </nav>
