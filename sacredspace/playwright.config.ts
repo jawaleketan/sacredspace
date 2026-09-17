@@ -11,6 +11,8 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? "line" : "list",
   timeout: 60_000,
+  // Prod cold starts are slow; a 5s default expect timeout flaked a canary.
+  expect: { timeout: 15_000 },
   use: {
     baseURL: BASE_URL,
     trace: "retain-on-failure",

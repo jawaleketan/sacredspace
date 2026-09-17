@@ -1,5 +1,39 @@
 # Session Notes
 
+## 2026-09-17 — E2E auth flow: root-caused the sign-in blocker, redesign on token-based session
+
+The authenticated e2e flow (sign-in → admin → sign-out) is now **running
+against production and passing** (4 passed in the smoke job; canary flake
+fixed in the follow-up commit). Why it took a redesign:
+
+- **Root cause:** Clerk's *new-device protection* emails a verification
+  code on first sign-in from a fresh browser profile
+  (`/sign-in/client-trust` — "Check your email"). No automation can read
+  that mailbox, so the form-driven flow (original design, `@clerk/testing`)
+  could never complete — in CI or locally. The prior "wrong locator" theory
+  was wrong; the page was simply never signed-in.
+- **Fix:** mint a one-time **sign-in token** via the Clerk Backend API
+  (user looked up by `E2E_CLERK_EMAIL`) and let the app's
+  `/sign-in?__clerk_ticket=…` route consume it — the documented
+  non-interactive session mechanism. Still exercises real client session,
+  middleware, and app auth UI.
+- **Serial flow needs a shared context:** Playwright gives each test a
+  fresh browser context, so the session cookie silently vanished between
+  steps (`beforeAll`-created shared context now carries it).
+- **Don't navigate mid-handshake:** after the ticket redirect, assert on
+  the redirected page itself — an immediate `goto("/")` aborts the session
+  token exchange and the homepage renders signed-out.
+- **Passwordless:** `E2E_CLERK_PASSWORD` deleted everywhere (spec, CI
+  mapping, GitHub secret, .env.local); the flow needs only
+  `E2E_CLERK_EMAIL` + `CLERK_SECRET_KEY`. Test user: `e2e-smoke@example.com`
+  in the `intent-redbird-12` dev instance (email verified at creation via
+  `created_from_migration`; password rotated once, then became irrelevant).
+- **Debuggability:** CI now uploads `test-results/` (traces + error
+  contexts) on smoke-job failure — no more blind failures.
+- Also repaired last session: production `CLERK_SECRET_KEY` was **empty**
+  in Vercel (both environments) — repopulated and redeployed, which the
+  passing server-side auth now proves.
+
 ## 2026-09-16 — TypeScript 7 (native port): closed PR #8 revisited
 
 The deliberately-deferred major is done. **Zero source changes** — the
