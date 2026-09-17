@@ -12,6 +12,9 @@ vi.mock("@tanstack/react-start", () => ({
 
 vi.mock("@clerk/tanstack-react-start/server", () => ({
   auth: vi.fn().mockResolvedValue({ userId: "user_test123" }),
+  clerkClient: vi.fn(() => ({
+    users: { getUser: vi.fn().mockResolvedValue({ publicMetadata: { role: "admin" } }) },
+  })),
 }));
 
 const mockDb = {
@@ -81,6 +84,15 @@ describe("getAllContents", () => {
     await expect(getAllContents({ data: { page: 1 } })).rejects.toThrow("Unauthorized");
 
     (auth as any).mockResolvedValue({ userId: "user_test123" });
+  });
+
+  it("throws ForbiddenError when signed in without the admin role", async () => {
+    const { clerkClient } = await import("@clerk/tanstack-react-start/server");
+    (clerkClient as any).mockReturnValueOnce({
+      users: { getUser: vi.fn().mockResolvedValue({ publicMetadata: {} }) },
+    });
+
+    await expect(getAllContents({ data: { page: 1 } })).rejects.toThrow("Admin access required");
   });
 });
 

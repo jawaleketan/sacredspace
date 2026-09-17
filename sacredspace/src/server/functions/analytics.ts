@@ -2,12 +2,9 @@ import { createServerFn } from "@tanstack/react-start";
 import { db } from "../db";
 import { contents, deities, likes } from "../db/schema";
 import { eq, sql, count } from "drizzle-orm";
-import { auth } from "@clerk/tanstack-react-start/server";
-import { UnauthorizedError } from "~/lib/errors";
+import { requireAdmin } from "./admin-auth";
 
-export const getAnalytics = createServerFn({ method: "GET" }).handler(async () => {
-  const { userId } = await auth();
-  if (!userId) throw new UnauthorizedError();
+export const getAnalytics = createServerFn({ method: "GET" }).handler(async () => {    await requireAdmin();
 
   const totalItems = (await db.select({ count: count() }).from(contents).get())?.count ?? 0;
   const totalLikes = (await db.select({ count: count() }).from(likes).get())?.count ?? 0;

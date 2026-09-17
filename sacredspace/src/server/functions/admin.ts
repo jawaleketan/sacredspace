@@ -2,10 +2,10 @@ import { createServerFn } from "@tanstack/react-start";
 import { db } from "../db";
 import { contents, deities, likes } from "../db/schema";
 import { eq, and, ne, desc, count } from "drizzle-orm";
-import { auth } from "@clerk/tanstack-react-start/server";
 import sanitizeHtml from "sanitize-html";
 import { enforceRateLimit } from "~/lib/rate-limit";
-import { UnauthorizedError, NotFoundError, ConflictError } from "~/lib/errors";
+import { NotFoundError, ConflictError } from "~/lib/errors";
+import { requireAdmin } from "./admin-auth";
 import { contentInput, contentInputWithId, idParam } from "./validators";
 
 const ADMIN_PAGE_SIZE = 50;
@@ -53,8 +53,7 @@ export interface AdminContentPage {
 export const getAllContents = createServerFn({ method: "GET" })
   .validator((input: { page?: number }) => input)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    await requireAdmin();
 
     const page = Math.max(1, Math.floor(data?.page ?? 1));
     const total =
@@ -85,8 +84,7 @@ export const getAllContents = createServerFn({ method: "GET" })
   });
 
 export const getAllDeitiesForSelect = createServerFn({ method: "GET" }).handler(async () => {
-  const { userId } = await auth();
-  if (!userId) throw new UnauthorizedError();
+  await requireAdmin();
   return await db.select().from(deities).orderBy(deities.name).all();
 });
 
@@ -104,8 +102,7 @@ async function assertSlugAvailable(slug: string, excludeId?: number): Promise<vo
 export const createContent = createServerFn({ method: "POST" })
   .validator(contentInput)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    const userId = await requireAdmin();
     await enforceRateLimit(`admin:${userId}`, { maxRequests: 60, windowMs: 60_000 });
     await assertSlugAvailable(data.slug);
     const result = await db
@@ -129,8 +126,7 @@ export const createContent = createServerFn({ method: "POST" })
 export const updateContent = createServerFn({ method: "POST" })
   .validator(contentInputWithId)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    const userId = await requireAdmin();
     await enforceRateLimit(`admin:${userId}`, { maxRequests: 60, windowMs: 60_000 });
     await assertSlugAvailable(data.slug, data.id);
     const result = await db
@@ -156,8 +152,7 @@ export const updateContent = createServerFn({ method: "POST" })
 export const deleteContent = createServerFn({ method: "POST" })
   .validator(idParam)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    const userId = await requireAdmin();
     await enforceRateLimit(`admin:${userId}`, { maxRequests: 30, windowMs: 60_000 });
     await db.delete(likes).where(eq(likes.contentId, data)).run();
     await db.delete(contents).where(eq(contents.id, data)).run();
@@ -167,8 +162,7 @@ export const deleteContent = createServerFn({ method: "POST" })
 export const toggleContentStatus = createServerFn({ method: "POST" })
   .validator(idParam)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    const userId = await requireAdmin();
     await enforceRateLimit(`admin:${userId}`, { maxRequests: 60, windowMs: 60_000 });
     const item = await db.select().from(contents).where(eq(contents.id, data)).get();
     if (!item) throw new NotFoundError("Content");

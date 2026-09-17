@@ -2,17 +2,16 @@ import { createServerFn } from "@tanstack/react-start";
 import { db } from "../db";
 import { deities, contents, likes } from "../db/schema";
 import { eq, inArray } from "drizzle-orm";
-import { auth } from "@clerk/tanstack-react-start/server";
 import { validateImageUpload, generateUploadName } from "~/lib/upload";
 import { storeFile, deleteStoredFile } from "~/lib/storage";
-import { UnauthorizedError, ConflictError } from "~/lib/errors";
+import { ConflictError } from "~/lib/errors";
+import { requireAdmin } from "./admin-auth";
 import { idParam, deityCreate, deityUpdate, imageUpload } from "./validators";
 
 export const updateDeityImage = createServerFn({ method: "POST" })
   .validator(imageUpload)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    await requireAdmin();
 
     const { buffer, ext, mime } = validateImageUpload(data.imageBase64);
     const name = generateUploadName("deity", ext);
@@ -29,8 +28,7 @@ export const updateDeityImage = createServerFn({ method: "POST" })
 export const updateDeity = createServerFn({ method: "POST" })
   .validator(deityUpdate)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    await requireAdmin();
 
     // Slug is unique at the DB level — pre-check so the user gets a
     // friendly 409 instead of a raw constraint-error 500. If the row
@@ -55,8 +53,7 @@ export const updateDeity = createServerFn({ method: "POST" })
 export const removeDeityImage = createServerFn({ method: "POST" })
   .validator(idParam)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    await requireAdmin();
 
     // Delete the uploaded Blob file (if any) before clearing the reference.
     const existing = await db.select({ imageUrl: deities.imageUrl }).from(deities).where(eq(deities.id, data)).get();
@@ -69,8 +66,7 @@ export const removeDeityImage = createServerFn({ method: "POST" })
 export const deleteDeity = createServerFn({ method: "POST" })
   .validator(idParam)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    await requireAdmin();
 
     const deity = await db.select({ imageUrl: deities.imageUrl }).from(deities).where(eq(deities.id, data)).get();
     const related = await db.select({ id: contents.id, audioUrl: contents.audioUrl }).from(contents).where(eq(contents.deityId, data)).all();
@@ -92,8 +88,7 @@ export const deleteDeity = createServerFn({ method: "POST" })
 export const createDeity = createServerFn({ method: "POST" })
   .validator(deityCreate)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    await requireAdmin();
 
     // Slug is unique at the DB level — pre-check for a friendly 409.
     const clash = await db.select({ id: deities.id }).from(deities).where(eq(deities.slug, data.slug)).get();

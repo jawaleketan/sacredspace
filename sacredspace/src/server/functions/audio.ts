@@ -2,17 +2,15 @@ import { createServerFn } from "@tanstack/react-start";
 import { db } from "../db";
 import { contents } from "../db/schema";
 import { eq } from "drizzle-orm";
-import { auth } from "@clerk/tanstack-react-start/server";
 import { validateAudioUpload, generateUploadName } from "~/lib/upload";
 import { storeFile, deleteStoredFile } from "~/lib/storage";
-import { UnauthorizedError } from "~/lib/errors";
+import { requireAdmin } from "./admin-auth";
 import { audioUpload, slugParam } from "./validators";
 
 export const uploadContentAudio = createServerFn({ method: "POST" })
   .validator(audioUpload)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    await requireAdmin();
 
     const { buffer, ext, mime } = validateAudioUpload(data.audioBase64);
     const name = generateUploadName("audio", ext);
@@ -29,8 +27,7 @@ export const uploadContentAudio = createServerFn({ method: "POST" })
 export const removeContentAudio = createServerFn({ method: "POST" })
   .validator(slugParam)
   .handler(async ({ data }) => {
-    const { userId } = await auth();
-    if (!userId) throw new UnauthorizedError();
+    await requireAdmin();
 
     // Delete the uploaded audio file (if any) before clearing the reference.
     const existing = await db.select({ audioUrl: contents.audioUrl }).from(contents).where(eq(contents.slug, data)).get();
