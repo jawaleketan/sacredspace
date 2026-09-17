@@ -1,5 +1,20 @@
 # Session Notes
 
+## 2026-09-17 — Admin authorization: role-based lockdown of all admin server functions
+
+The standing "any signed-in user is an admin" gap is closed.
+`requireAdmin()` (src/server/functions/admin-auth.ts) now guards all 14
+admin-surface functions (admin.ts ×6, deities.ts ×5, audio.ts ×2,
+analytics.ts ×1): **401** when signed out, **403**
+(ForbiddenError, errors.ts) when signed in without
+`publicMetadata.role === "admin"`. Role is read via the Backend API
+(`clerkClient().users.getUser`) so metadata edits apply immediately —
+no stale-token window. Unit tests cover the 403 path per module
+(92 total); the e2e test user holds the role (set via
+PATCH /v1/users/{id}/metadata — note: `public_metadata` form param on
+the user endpoint is deprecated in Clerk's API), and the authenticated
+smoke flow passes against prod with enforcement live (5 passed).
+
 ## 2026-09-17 — E2E auth flow: root-caused the sign-in blocker, redesign on token-based session
 
 The authenticated e2e flow (sign-in → admin → sign-out) now runs
