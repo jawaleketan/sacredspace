@@ -1,18 +1,49 @@
-import { setupClerkTestingToken } from "@clerk/testing/playwright";
-import { expect, test } from "@playwright/test";
+import { expect, test, type BrowserContext } from "@playwright/test";
 
 // E2E smoke tests for SacredSpace. Targets the local dev server by default;
 // CI sets E2E_BASE_URL to the production deployment.
 //
 // Two layers:
 //  1. Unauthenticated canaries — always run (no secrets needed).
-//  2. Authenticated flow (sign-in → admin → sign-out) — runs only when Clerk
-//     dev-instance keys + a test account are provided (CI secrets or local
-//     exports); otherwise the test skips itself and the job stays green.
+//  2. Authenticated flow (sign-in → admin → sign-out) — runs only when the
+//     Clerk test-user email + secret key are provided (CI secrets or local
+//     exports); otherwise the tests skip themselves and the job stays green.
+//
+// Why the sign-in is token-based rather than driving the form: Clerk's
+// new-device protection sends an email verification code on first sign-in
+// from any fresh browser profile, which no automation can read. Instead we
+// create a one-time sign-in token via the Clerk Backend API and let the
+// app's /sign-in?__clerk_ticket=... route consume it — the documented
+// mechanism for establishing a session non-interactively. This still
+// exercises the real client session, middleware, and app auth UI.
 
 const EMAIL = process.env.E2E_CLERK_EMAIL;
-const PASSWORD = process.env.E2E_CLERK_PASSWORD;
-const HAS_CREDENTIALS = !!EMAIL && !!PASSWORD;
+const SECRET_KEY = process.env.CLERK_SECRET_KEY;
+const HAS_CREDENTIALS = !!EMAIL && !!SECRET_KEY;
+const BASE = process.env.E2E_BASE_URL ?? "http://localhost:3000";
+
+async function createSignInToken(): Promise<string> {
+  const lookup = await fetch(
+    `https://api.clerk.com/v1/users?email_address=${encodeURIComponent(EMAIL!)}`,
+    { headers: { Authorization: `Bearer ${SECRET_KEY}` } },
+  );
+  if (!lookup.ok) throw new Error(`Clerk user lookup failed: HTTP ${lookup.status}`);
+  const users = (await lookup.json()) as Array<{ id: string }>;
+  if (!users.length) throw new Error(`No Clerk user found for ${EMAIL}`);
+  const userId = users[0].id;
+
+  const created = await fetch("https://api.clerk.com/v1/sign_in_tokens", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${SECRET_KEY}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({ user_id: userId, expires_in_seconds: "300" }),
+  });
+  if (!created.ok) throw new Error(`Sign-in token creation failed: HTTP ${created.status}`);
+  const token = (await created.json()) as { token: string };
+  return token.token;
+}
 
 test.describe("unauthenticated canaries", () => {
   test("homepage renders the app shell", async ({ page }) => {
@@ -31,44 +62,39 @@ test.describe("unauthenticated canaries", () => {
 });
 
 test.describe("authenticated Clerk flow", () => {
-  // Serial on purpose: sign-in state carries across the three steps.
+  // Serial on purpose: the three steps share one browser context so the
+  // session cookie carries (Playwright gives each test a fresh context by
+  // default, which would silently sign the flow out between steps).
   test.describe.configure({ mode: "serial" });
 
-  test.skip(!HAS_CREDENTIALS, "E2E_CLERK_EMAIL / E2E_CLERK_PASSWORD not set");
+  test.skip(!HAS_CREDENTIALS, "E2E_CLERK_EMAIL / CLERK_SECRET_KEY not set");
 
-  test("sign-in renders and authenticates", async ({ page }) => {
-    // Testing Token bypasses Clerk's bot protection (requires a dev
-    // instance — production instances reject testing tokens, by design).
-    await setupClerkTestingToken({ page });
-    await page.goto("/sign-in");
+  let ctx: BrowserContext;
 
-    // If Clerk shows its bot-protection challenge instead of the form,
-    // fail with instructions instead of timing out on a missing selector.
-    const botBlock = page.getByText(/verify you are human/i);
-    try {
-      await botBlock.waitFor({ state: "visible", timeout: 5_000 });
-      test.info().fixme(true, "Clerk bot-protection challenge blocked the test (Testing Tokens only work on dev instances)");
-      return;
-    } catch {
-      // No challenge — the sign-in form rendered as expected.
-    }
-
-    await page.locator("input[name=identifier]").fill(EMAIL!);
-    await page.getByRole("button", { name: /continue/i }).click();
-    await page.locator("input[name=password]").fill(PASSWORD!);
-    await page.getByRole("button", { name: /continue/i }).click();
-
-    // Redirected back to the app, signed in: the homepage swaps the
-    // Sign In button for the Clerk UserButton.
-    await expect(page.getByRole("button", { name: "Sign In" })).toBeHidden({
-      timeout: 20_000,
-    });
-    await expect(page.locator("[data-testid=user-button]")).toBeVisible({
-      timeout: 20_000,
-    });
+  test.beforeAll(async ({ browser }) => {
+    ctx = await browser.newContext({ baseURL: BASE });
   });
 
-  test("admin dashboard is accessible when signed in", async ({ page }) => {
+  test.afterAll(async () => {
+    await ctx?.close();
+  });
+
+  test("sign-in establishes an authenticated session", async () => {
+    const page = await ctx.newPage();
+    const token = await createSignInToken();
+
+    // The app's clerkMiddleware consumes the ticket and lands on /.
+    // Assert signed-in chrome directly on the redirected page — navigating
+    // away mid-handshake aborts the session-token exchange.
+    await page.goto(`/sign-in?__clerk_ticket=${token}`);
+    await expect(page.locator("[data-testid=user-button]")).toBeVisible({
+      timeout: 30_000,
+    });
+    await expect(page.getByRole("button", { name: "Sign In" })).toBeHidden();
+  });
+
+  test("admin dashboard is accessible when signed in", async () => {
+    const page = await ctx.newPage();
     await page.goto("/admin/dashboard");
     await expect(
       page.getByRole("heading", { name: "Dashboard" }),
@@ -76,13 +102,14 @@ test.describe("authenticated Clerk flow", () => {
     await expect(page.getByText("Access Denied")).toBeHidden();
   });
 
-  test("sign-out returns to signed-out chrome", async ({ page }) => {
+  test("sign-out returns to signed-out chrome", async () => {
+    const page = await ctx.newPage();
     // UserButton's portal content is opaque; sign out through the menu's
     // "Sign out" action, opening the popover from our stable wrapper first.
     const wb = page.locator("[data-testid=user-button]");
+    await page.goto("/");
     await wb.click();
-    const signOut = page.getByRole("button", { name: "Sign out" });
-    await signOut.click();
+    await page.getByRole("button", { name: "Sign out" }).click();
 
     await expect(wb).toBeHidden({
       timeout: 20_000,
