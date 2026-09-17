@@ -2,9 +2,9 @@
 
 ## 2026-09-17 — E2E auth flow: root-caused the sign-in blocker, redesign on token-based session
 
-The authenticated e2e flow (sign-in → admin → sign-out) is now **running
-against production and passing** (4 passed in the smoke job; canary flake
-fixed in the follow-up commit). Why it took a redesign:
+The authenticated e2e flow (sign-in → admin → sign-out) now runs
+**against production on every push: 5 passed / 0 skipped / 0 flaky**.
+Why it took a redesign:
 
 - **Root cause:** Clerk's *new-device protection* emails a verification
   code on first sign-in from a fresh browser profile
@@ -29,7 +29,12 @@ fixed in the follow-up commit). Why it took a redesign:
   in the `intent-redbird-12` dev instance (email verified at creation via
   `created_from_migration`; password rotated once, then became irrelevant).
 - **Debuggability:** CI now uploads `test-results/` (traces + error
-  contexts) on smoke-job failure — no more blind failures.
+  contexts) on smoke-job failure — no more blind failures. The very first
+  artifact batch solved the last mystery: the signed-out admin canary
+  expected "Access Denied", but prod's error boundary actually renders
+  "Dashboard Error"/"Unauthorized" — the old assertion had only passed
+  while prod's `CLERK_SECRET_KEY` was empty (pre-repair), when the
+  server 401'd differently. The canary now asserts the real boundary.
 - Also repaired last session: production `CLERK_SECRET_KEY` was **empty**
   in Vercel (both environments) — repopulated and redeployed, which the
   passing server-side auth now proves.
