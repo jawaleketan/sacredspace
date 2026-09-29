@@ -22,7 +22,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 9 | Saved collection | Foundation | existing |
 | 10 | CI pipeline & preview gates | Foundation | existing |
 | 11 | Auth hardening & e2e canary | Foundation | existing |
-| 12 | FTS5 full-text search | Slice 1 | planned |
+| 12 | FTS5 full-text search | Slice 1 | in-progress |
 | 13 | Content authoring at scale | Slice 1 | planned |
 | 14 | Offline reading & sync | Slice 1 | planned |
 | 15 | Notification & reminder surfaces | Slice 2 | planned |
@@ -68,10 +68,17 @@ Role-based admin authorization on all admin server functions, signed-in/out e2e 
 
 ## Slice 1: Content depth
 
-### 12. FTS5 full-text search · needs a decision
+### 12. FTS5 full-text search · in-progress
 Replace `LIKE` search with SQLite FTS5 so transliterations, translations, and Sanskrit text match as the library grows.
 **Done when:** searching a partial or transliterated term returns ranked results across title, transliteration, and translation; draft content stays excluded.
-- [ ] Design it (spec): `/architect FTS5 full-text search`
+- [x] Design it (spec): `/architect FTS5 full-text search`
+- [x] Build it: `/develop FTS5 full-text search`
+   - [x] Filter drafts from the FTS MATCH query (AC-3)
+   - [x] Filter drafts from the listing and LIKE fallback, guard the whitespace only query (AC-3, AC-6)
+   - [x] Tests: draft exclusion, filter and sort combinations, MATCH metacharacters, whitespace input (AC-3, AC-4, AC-6)
+- [ ] Verify it: `/check verify FTS5 full-text search`
+- [ ] Test it: `/test FTS5 full-text search`
+Spec [0001](../specs/0001-fts5-content-search/index.md) · code in `sacredspace/src/server/functions/contents.ts`
 
 ### 13. Content authoring at scale · needs a decision
 Bulk import (CSV or markdown) and bulk status changes in the admin panel, so the library can grow past hand entry.

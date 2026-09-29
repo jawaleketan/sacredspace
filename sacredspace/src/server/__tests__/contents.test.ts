@@ -14,9 +14,15 @@ const mockDb = {
   select: vi.fn(),
 };
 
+// Hoisted so tests can reach the FTS client mock. Defaults to rejecting, so
+// unmocked searches exercise the LIKE fallback (the real "no fts" behavior).
+const ftsMocks = vi.hoisted(() => ({
+  execute: vi.fn().mockRejectedValue(new Error("no fts in tests")),
+}));
+
 vi.mock("../db", () => ({
   db: mockDb,
-  client: { execute: vi.fn().mockRejectedValue(new Error("no fts in tests")) },
+  client: { execute: ftsMocks.execute },
   ensureSeeded: vi.fn().mockResolvedValue(undefined),
 }));
 
@@ -47,6 +53,13 @@ describe("buildFtsQuery", () => {
     // them as literal strings (case-folded by the tokenizer), so "NOT" is
     // a search term, not the boolean operator.
     expect(buildFtsQuery('gay"atri NOT shiva')).toBe('"gayatri"* "NOT"* "shiva"*');
+  });
+
+  it("treats FTS boolean operators as literal terms", () => {
+    // NOT, OR, NEAR, and column filters must arrive quoted so they can
+    // never act as MATCH query syntax (spec 0001, AC-4).
+    expect(buildFtsQuery("NOT OR NEAR")).toBe('"NOT"* "OR"* "NEAR"*');
+    expect(buildFtsQuery("title:om")).toBe('"title:om"*');
   });
 });
 
@@ -271,6 +284,92 @@ describe("searchContents", () => {
     });
 
     expect(result).toEqual([]);
+  });
+});
+
+describe("searchContents FTS query path", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    ftsMocks.execute.mockRejectedValue(new Error("no fts in tests"));
+  });
+
+  function mockJoin(results: any[]) {
+    mockDb.select.mockReturnValue({
+      from: () => ({
+        innerJoin: () => ({
+          where: () => ({
+            orderBy: () => ({
+              all: vi.fn().mockResolvedValue(results),
+            }),
+          }),
+        }),
+      }),
+    });
+  }
+
+  it("sends the FTS match with the published filter and BM25 ordering", async () => {
+    ftsMocks.execute.mockResolvedValueOnce({
+      rows: [
+        { id: 1, title: "Ganesha Gayatri", slug: "ganesha-gayatri", type: "mantra", description: null, deityId: 1, deityName: "Ganesha", deitySlug: "ganesha" },
+      ],
+    });
+
+    const result = await searchContents({ data: { query: "gayatri", sortBy: "alpha" } });
+
+    expect(ftsMocks.execute).toHaveBeenCalledTimes(1);
+    const call = ftsMocks.execute.mock.calls[0][0] as { sql: string; args: unknown[] };
+    expect(call.sql).toContain("contents_fts MATCH ?");
+    expect(call.sql).toContain("AND c.status = 'published'");
+    expect(call.sql).toContain("rank, c.title COLLATE NOCASE");
+    // The match string is the only arg when no filters are applied.
+    expect(call.args).toEqual(['"gayatri"*']);
+    expect(result).toHaveLength(1);
+    expect(result[0]).toMatchObject({ slug: "ganesha-gayatri", deityName: "Ganesha" });
+  });
+
+  it("composes type and deity filters as bound args after the match", async () => {
+    mockDb.select.mockReturnValueOnce({
+      from: () => ({
+        where: () => ({
+          get: vi.fn().mockResolvedValue({ id: 7, slug: "shiva" }),
+        }),
+      }),
+    });
+    ftsMocks.execute.mockResolvedValueOnce({ rows: [] });
+
+    await searchContents({ data: { query: "om", type: "mantra", deitySlug: "shiva", sortBy: "newest" } });
+
+    const call = ftsMocks.execute.mock.calls[0][0] as { sql: string; args: unknown[] };
+    expect(call.sql).toContain("AND c.status = 'published'");
+    expect(call.sql).toContain("AND c.type = ?");
+    expect(call.sql).toContain("AND c.deity_id = ?");
+    expect(call.sql).toContain("c.created_at DESC");
+    expect(call.args).toEqual(['"om"*', "mantra", 7]);
+  });
+
+  it("treats a whitespace only query as the no query listing", async () => {
+    const rows = [
+      { id: 2, title: "Shiva Tandava", slug: "shiva-tandava", type: "stotra", deityName: "Shiva" },
+    ];
+    mockJoin(rows);
+
+    const result = await searchContents({ data: { query: "   ", sortBy: "alpha" } });
+
+    // Never reaches the FTS machinery with an empty match string.
+    expect(ftsMocks.execute).not.toHaveBeenCalled();
+    expect(result).toEqual(rows);
+  });
+
+  it("falls back to LIKE with the same row shape when the FTS machinery fails", async () => {
+    const rows = [
+      { id: 1, title: "Ganesha Gayatri", slug: "ganesha-gayatri", type: "mantra", deityName: "Ganesha" },
+    ];
+    mockJoin(rows);
+
+    const result = await searchContents({ data: { query: "ganesha", sortBy: "alpha" } });
+
+    expect(ftsMocks.execute).toHaveBeenCalledTimes(1);
+    expect(result).toEqual(rows);
   });
 });
 

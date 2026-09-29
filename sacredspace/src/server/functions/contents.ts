@@ -83,12 +83,13 @@ export const searchContents = createServerFn({ method: "GET" })
 
     const typeCondition = data.type ? eq(contents.type, data.type) : undefined;
     const deityCondition = deityId ? eq(contents.deityId, deityId) : undefined;
-    const where =
-      typeCondition && deityCondition ? and(typeCondition, deityCondition)
-      : typeCondition ?? deityCondition;
+    // Public search shows published rows only, on every path (spec 0001, AC-3).
+    const statusCondition = eq(contents.status, "published");
+    const where = and(statusCondition, typeCondition, deityCondition);
 
-    // No text query — plain listing ordered by title.
-    if (!data.query) {
+    // A query that trims to empty is the no query listing, never MATCH "".
+    const query = data.query?.trim() ?? "";
+    if (!query) {
       return await db
         .select({
           id: contents.id,
@@ -111,8 +112,10 @@ export const searchContents = createServerFn({ method: "GET" })
     // transliteration, and translation via the contents_fts index,
     // BM25-ranked for multi-term queries. Falls back to LIKE if the FTS
     // machinery is unavailable.
-    const ftsQuery = buildFtsQuery(data.query);
-    const filterSql: string[] = [];
+    const ftsQuery = buildFtsQuery(query);
+    // Published rows only (spec 0001, AC-3). A constant, so no placeholder
+    // and no arg; it stays first so optional filter args keep their order.
+    const filterSql: string[] = ["AND c.status = 'published'"];
     const args: (string | number)[] = [ftsQuery];
     if (data.type) {
       filterSql.push("AND c.type = ?");
@@ -151,11 +154,10 @@ export const searchContents = createServerFn({ method: "GET" })
 
     // LIKE fallback: same shape as the original implementation.
     const likeCondition = or(
-      like(contents.title, `%${data.query}%`),
-      like(contents.description ?? "", `%${data.query}%`),
+      like(contents.title, `%${query}%`),
+      like(contents.description ?? "", `%${query}%`),
     );
-    const fallbackWhere =
-      where && likeCondition ? and(where, likeCondition) : likeCondition;
+    const fallbackWhere = and(where, likeCondition);
     const orderBy = data.sortBy === "newest" ? contents.createdAt : contents.title;
     return await db
       .select({
