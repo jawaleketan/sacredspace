@@ -9,6 +9,7 @@ agent-skill collections and the BMAD planning framework.
 |--------|-----------|
 | [`sacredspace/`](../sacredspace) | **The app** — a TanStack Start directory of Hindu mantras & stotras with a Clerk-gated admin panel, TipTap editor, likes, saved collections, audio recitations, and dynamic OG images. Deploys to Vercel. |
 | [`skills/`](../skills) | Unified collection of **74 Agent Skills** (Anthropic examples, Vercel Labs engineering skills, marketing skills) with a Claude Code marketplace manifest. |
+| [`.claude/skills/`](../.claude/skills) | Also carries the **JSMastery workflow skills** (`scope`, `audit`, `architect`, `develop`, `check`, `test`, `document`, `sync`, `debug`) installed from [`jsmastery-pro/skills`](https://github.com/jsmastery-pro/skills). |
 | `_bmad/` | BMAD framework config. Writes planning/implementation artifacts into this `docs/` folder (see `_bmad/custom/config.toml`). |
 | `docs/` | This folder — project documentation + BMAD artifacts. |
 
@@ -19,11 +20,18 @@ agent-skill collections and the BMAD planning framework.
 
 ### Understanding the system
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)** — Tech stack, data model, server-function patterns, cold-start DB bootstrap, anonymous identity design, deployment topology, and known gaps.
+
+### Living workflow state (JSMastery workflow)
+The workflow's durable state lives in files, not chat sessions. Skills write these; keep them current (or run `/sync` around merges):
+- **[AGENTS.md](../AGENTS.md)** — Project-wide context (stack, commands, rules) that every AI tool reads. [`sacredspace/AGENTS.md`](../sacredspace/AGENTS.md) holds app-specific conventions. `CLAUDE.md` files are pointers into these.
+- **[`scope/scope.md`](./scope/scope.md)** — The living plan: shipped features enrolled as `existing`, next slices as `planned`.
+- **`docs/specs/`** — Build specs written by `/architect` (none yet; created when the first planned feature is designed).
 - **[`planning/prds/`](./planning/prds)** — Product requirements (BMAD artifacts).
 - **[`planning/architecture/`](./planning/architecture)** — Architecture spine from the planning phase.
 - **[`planning/ux-designs/`](./planning/ux-designs)** — UX specifications.
 
 ### Tracking work
+- **[`scope/scope.md`](./scope/scope.md)** — The ordered feature plan (build order, statuses, next steps).
 - **[`analysis-2026-08-31.md`](./analysis-2026-08-31.md)** — Archived improvement audit (Aug–Sep 2026); most items now resolved.
 - **[`implementation/deferred-work.md`](./implementation/deferred-work.md)** — Feature backlog with split-out scopes and completion evidence.
 - **[`implementation/spec-sacredspace-scaffold.md`](./implementation/spec-sacredspace-scaffold.md)** — The original scaffold spec (completed).
