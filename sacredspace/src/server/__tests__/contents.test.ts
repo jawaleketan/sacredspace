@@ -1,4 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
+import type { SQL } from "drizzle-orm";
+import { SQLiteSyncDialect } from "drizzle-orm/sqlite-core";
+import * as schema from "../db/schema";
 
 vi.mock("@tanstack/react-start", () => ({
   createServerFn: () => {
@@ -38,7 +41,37 @@ const {
   buildFtsQuery,
 } = await import("../functions/contents");
 
+// The chainable mocks discard their arguments, so the draft visibility and
+// ordering tests capture the where and orderBy arguments the code passes and
+// render them through drizzle's own dialect. That pins the SQL text and the
+// bound params, not just whatever the mock returns.
+const dialect = new SQLiteSyncDialect();
+
+interface CapturedJoinQuery {
+  where?: SQL;
+  orderBy?: unknown;
+}
+
+function mockJoinCapture(results: unknown[], captured: CapturedJoinQuery) {
+  mockDb.select.mockReturnValue({
+    from: () => ({
+      innerJoin: () => ({
+        where: (condition: SQL) => {
+          captured.where = condition;
+          return {
+            orderBy: (order: unknown) => {
+              captured.orderBy = order;
+              return { all: vi.fn().mockResolvedValue(results) };
+            },
+          };
+        },
+      }),
+    }),
+  });
+}
+
 describe("buildFtsQuery", () => {
+  // covers spec 0001, AC-2: the star suffix is prefix matching.
   it("quotes and prefix-wraps each term", () => {
     expect(buildFtsQuery("gayatri mantra")).toBe('"gayatri"* "mantra"*');
   });
@@ -48,6 +81,7 @@ describe("buildFtsQuery", () => {
     expect(buildFtsQuery("   ")).toBe("");
   });
 
+  // covers spec 0001, AC-4.
   it("strips embedded double quotes to block FTS syntax injection", () => {
     // Terms keep their original case — inside double quotes FTS5 treats
     // them as literal strings (case-folded by the tokenizer), so "NOT" is
@@ -285,6 +319,29 @@ describe("searchContents", () => {
 
     expect(result).toEqual([]);
   });
+
+  it("excludes drafts from the no query listing", async () => {
+    // covers spec 0001, AC-3: the shared where clause carries the published filter.
+    const captured: CapturedJoinQuery = {};
+    mockJoinCapture([], captured);
+
+    await searchContents({ data: { query: "", sortBy: "alpha" } });
+
+    expect(captured.where).toBeDefined();
+    const rendered = dialect.sqlToQuery(captured.where as SQL);
+    expect(rendered.sql).toContain('"contents"."status"');
+    expect(rendered.params).toEqual(["published"]);
+  });
+
+  it("keeps the no query listing title ordered even when newest is requested", async () => {
+    // covers spec 0001, AC-6: the sort param never applies without a query.
+    const captured: CapturedJoinQuery = {};
+    mockJoinCapture([], captured);
+
+    await searchContents({ data: { query: "", sortBy: "newest" } });
+
+    expect(captured.orderBy).toBe(schema.contents.title);
+  });
 });
 
 describe("searchContents FTS query path", () => {
@@ -307,6 +364,7 @@ describe("searchContents FTS query path", () => {
     });
   }
 
+  // covers spec 0001, AC-1 (rank order) and AC-3 (published filter in the FTS SQL).
   it("sends the FTS match with the published filter and BM25 ordering", async () => {
     ftsMocks.execute.mockResolvedValueOnce({
       rows: [
@@ -327,6 +385,7 @@ describe("searchContents FTS query path", () => {
     expect(result[0]).toMatchObject({ slug: "ganesha-gayatri", deityName: "Ganesha" });
   });
 
+  // covers spec 0001, AC-6.
   it("composes type and deity filters as bound args after the match", async () => {
     mockDb.select.mockReturnValueOnce({
       from: () => ({
@@ -347,6 +406,7 @@ describe("searchContents FTS query path", () => {
     expect(call.args).toEqual(['"om"*', "mantra", 7]);
   });
 
+  // covers spec 0001, AC-6: a whitespace query routes to the listing path.
   it("treats a whitespace only query as the no query listing", async () => {
     const rows = [
       { id: 2, title: "Shiva Tandava", slug: "shiva-tandava", type: "stotra", deityName: "Shiva" },
@@ -360,6 +420,7 @@ describe("searchContents FTS query path", () => {
     expect(result).toEqual(rows);
   });
 
+  // covers spec 0001, AC-5.
   it("falls back to LIKE with the same row shape when the FTS machinery fails", async () => {
     const rows = [
       { id: 1, title: "Ganesha Gayatri", slug: "ganesha-gayatri", type: "mantra", deityName: "Ganesha" },
@@ -370,6 +431,20 @@ describe("searchContents FTS query path", () => {
 
     expect(ftsMocks.execute).toHaveBeenCalledTimes(1);
     expect(result).toEqual(rows);
+  });
+
+  it("excludes drafts from the LIKE fallback when FTS fails", async () => {
+    // covers spec 0001, AC-3: the fallback where keeps the published filter.
+    const captured: CapturedJoinQuery = {};
+    mockJoinCapture([], captured);
+
+    await searchContents({ data: { query: "ganesha", sortBy: "alpha" } });
+
+    expect(captured.where).toBeDefined();
+    const rendered = dialect.sqlToQuery(captured.where as SQL);
+    expect(rendered.sql).toContain('"contents"."status"');
+    expect(rendered.params[0]).toBe("published");
+    expect(rendered.params).toContain("%ganesha%");
   });
 });
 

@@ -97,7 +97,7 @@ The feature shipped on 2026-09-12; the published filter work below landed on 202
 - [x] Add the published filter to the FTS path in `searchContents`: append `AND c.status = 'published'` to the filter SQL built for the MATCH query, satisfies **AC-3**
 - [x] Add the published filter to the no query listing and the LIKE fallback: extend the Drizzle where clause with `eq(contents.status, 'published')`, and guard the whitespace only query (a query that trims to empty takes the listing path), satisfies **AC-3**, **AC-6**
 - [x] Extend the contents test suite: the published filter in the FTS SQL, filter and sort combinations over the FTS path, MATCH metacharacter inputs through `buildFtsQuery`, and whitespace only query routing, satisfies **AC-3**, **AC-4**, **AC-6** (a behavioral draft row test needs a real database, covered by the verify step below)
-- [ ] Verify on the running app: search a partial and a full term, apply deity and type filters, confirm drafts stay hidden and the fallback path answers when the index is unavailable, satisfies **AC-1**, **AC-2**, **AC-5**
+- [x] Verify on the running app: search a partial and a full term, apply deity and type filters, confirm drafts stay hidden and the fallback path answers when the index is unavailable, satisfies **AC-1**, **AC-2**, **AC-5** (verified 2026-09-30 against the live app and its Turso database; the optional dropped index drill was not run, AC-5 is covered by the fallback suite)
 
 ## Consequences
 

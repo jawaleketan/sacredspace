@@ -4,19 +4,19 @@ _Steps derived from spec 0001 acceptance criteria. `/check verify` runs these; `
 
 ## UI / manual
 
-- [ ] Search `gayatri` on the running app → matching published results appear, ranked; no draft rows → AC-1, AC-3
-- [ ] Search a partial word (`gan`) → prefix matches (Ganesha titles) → AC-2
-- [ ] In admin, set one content row to draft, then search its exact title → it stays hidden; publish it → it appears → AC-3
-- [ ] Apply a deity chip and a type chip with a query → results narrow, the count line updates → AC-6
-- [ ] Sort Newest with a query → order flips to newest first; without a query the listing stays title ordered → AC-6
-- [ ] Search only spaces (`   `) → behaves as the browse listing, no error → whitespace invariant
-- [ ] Search `NOT OR NEAR` and `title:om` → treated as literal terms, no syntax error surfaced → AC-4
+- [x] Search `gayatri` on the running app → 7 ranked published results (BM25 order, not alphabetical), no draft rows → AC-1, AC-3 (verified 2026-09-30, dev server against Turso)
+- [x] Search a partial word (`gan`) → prefix matches (Ganesha titles) → AC-2 (verified 2026-09-30)
+- [x] Set one real row to draft, search its marker → hidden (raw index shows it, app returns 0); publish it → appears (browser and SSR agree); delete it → gone from index → AC-3 (verified 2026-09-30 via a probe row toggled at the data layer against Turso, the DB the app serves from; the Clerk-gated admin UI click through itself remains for a future e2e)
+- [x] Apply a type chip and deity chips with a query → results narrow, count line updates (0 for gayatri+stotra, 1 for gayatri+Ganesha, 0 for gayatri+Shiva) → AC-6 (verified 2026-09-30 via the same URL search params the chips set)
+- [x] Sort Newest with a query → order flips to newest first (matched the DB's expected order); without a query the listing stays title ordered → AC-6 (verified 2026-09-30)
+- [x] Search only spaces (`   `) → behaves as the browse listing, 17 title ordered results, no error → whitespace invariant (verified 2026-09-30)
+- [x] Search `NOT OR NEAR` and `title:om` → treated as literal terms, clean 0 result empty states, no syntax error; a quote/semicolon payload also returns 200 → AC-4 (verified 2026-09-30)
 
 ## Commands
 
-- [ ] `cd sacredspace && npm run typecheck` → clean → all ACs (build health)
-- [ ] `cd sacredspace && npm test` → all pass, including the `searchContents FTS query path` suite: the published filter in the FTS SQL, filter/sort arg composition, whitespace routing, fallback shape → AC-3, AC-4, AC-5, AC-6
-- [ ] Optional, local only: copy the dev DB, drop its `contents_fts` table, point the dev server at the copy, search → LIKE fallback answers with the same row shape, no 500 → AC-5
+- [x] `cd sacredspace && npm run typecheck` → clean (verified 2026-09-30 during the build)
+- [x] `cd sacredspace && npm test` → 97/97 across 11 files, including the `searchContents FTS query path` suite: the published filter in the FTS SQL, filter/sort arg composition, whitespace routing, fallback shape → AC-3, AC-4, AC-6; AC-5's fallback branch is executed by the suite with a rejecting DB client mock (the dropped index drill below was not run)
+- [ ] Optional, local only: copy the dev DB, drop its `contents_fts` table, point the dev server at the copy, search → LIKE fallback answers with the same row shape, no 500 → AC-5 (not run; it needs a throwaway copy since the dev server points at the shared Turso database)
 
 ## Acceptance-criteria coverage
 
