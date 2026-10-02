@@ -29,7 +29,7 @@ npx playwright test    # e2e tests
 
 ## Specs
 
-Stored in `docs/specs/`. Format: `docs/specs/NNNN-title.md`.
+Stored in `docs/specs/`. Format: `docs/specs/NNNN-title/`, a folder with `index.md`, plus `rationale.md` and `verify.md` beside it.
 
 ## Rules
 

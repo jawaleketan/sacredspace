@@ -53,5 +53,6 @@ npm run db:seed        # Manual seed (also auto-seeds on boot)
 ## Related specs
 
 - `docs/implementation/spec-sacredspace-scaffold.md` (original scaffold spec, completed)
+- `docs/specs/0001-fts5-content-search/` (FTS5 public search over the `contents_fts` index, LIKE fallback, drafts excluded on every path; Accepted)
 
 _Drafted by /audit from the repo, worth a quick human pass. Edit freely: once a line stops matching this draft, later runs treat it as curated and will flag rather than overwrite it._
