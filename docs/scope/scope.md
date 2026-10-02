@@ -23,7 +23,7 @@ _These are recommendations to keep your build orderly, not requirements. Skip an
 | 10 | CI pipeline & preview gates | Foundation | existing |
 | 11 | Auth hardening & e2e canary | Foundation | existing |
 | 12 | FTS5 full-text search | Slice 1 | done |
-| 13 | Content authoring at scale | Slice 1 | planned |
+| 13 | Content authoring at scale | Slice 1 | in-progress |
 | 14 | Offline reading & sync | Slice 1 | planned |
 | 15 | Notification & reminder surfaces | Slice 2 | planned |
 | 16 | Collections & sharing | Slice 2 | planned |
@@ -80,10 +80,18 @@ Replace `LIKE` search with SQLite FTS5 so transliterations, translations, and Sa
 - [x] Test it: `/test FTS5 full-text search`
 Spec [0001](../specs/0001-fts5-content-search/index.md) · code in `sacredspace/src/server/functions/contents.ts`
 
-### 13. Content authoring at scale · needs a decision
+### 13. Content authoring at scale · in-progress
 Bulk import (CSV or markdown) and bulk status changes in the admin panel, so the library can grow past hand entry.
 **Done when:** an admin can import a batch of mantras with deities set, review them as drafts, and publish in bulk without the editor.
-- [ ] Design it (spec): `/architect content authoring at scale`
+- [x] Design it (spec): `/architect content authoring at scale`
+- [ ] Build it: `/develop content authoring at scale`
+   - [ ] Server core: CSV parse and validation module, `previewImport` and transactional `confirmImport` with skip and report, with tests (AC-1 to AC-4, AC-7)
+   - [ ] Importer UI: the `admin.import` route with paste box, file input, preview table, and confirm (AC-1, AC-2)
+   - [ ] Bulk actions: dashboard checkboxes, bulk bar, and `bulkSetStatus` capped at 100, with tests (AC-6, AC-7)
+   - [ ] End to end loop on the running app: import a probe batch, review as drafts, bulk publish (AC-5, AC-6)
+- [ ] Verify it: `/check verify content authoring at scale`
+- [ ] Test it: `/test content authoring at scale`
+Spec [0002](../specs/0002-bulk-content-authoring/index.md) · decision settled 2026-10-03 (CSV, stateless preview then confirm, drafts on insert, checkbox bulk status)
 
 ### 14. Offline reading & sync · needs a decision
 The app is a PWA; make saved mantras readable offline and sync likes/saves made offline.
